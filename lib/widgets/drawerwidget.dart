@@ -116,7 +116,7 @@ class DrawerWidget {
             ),
             buildMenuItem(
               text: 'Strona główna',
-              icon: Icons.home,
+              icon: Icons.home_outlined,
               index: 0,
             ),
             const SizedBox(height: 6),
@@ -134,7 +134,7 @@ class DrawerWidget {
             const SizedBox(height: 6),
             buildMenuItem(
               text: 'Kontakt',
-              icon: Icons.contact_page,
+              icon: Icons.contact_page_outlined,
               index: 3,
             ),
             Divider(

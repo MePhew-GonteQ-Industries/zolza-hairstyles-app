@@ -139,7 +139,7 @@ class _HomeState extends State<HomeScreen> {
                             color: Colors.white,
                           )),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/appointments');
+                        Navigator.pushNamed(context, '/services');
                       },
                     ),
                   ],
