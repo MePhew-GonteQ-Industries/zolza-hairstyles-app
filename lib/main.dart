@@ -11,8 +11,8 @@ import 'screens/profilescreen.dart';
 import 'screens/servicesscreen.dart';
 import 'screens/homescreen.dart';
 import 'screens/registrationscreen.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_core/firebase_core.dart';
 
 // FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -88,7 +88,8 @@ class _MyAppState extends State {
       ),
       debugShowCheckedModeBanner: false,
       // initialRoute: '/checkForLoggedIn',
-      initialRoute: '/home',
+      // initialRoute: '/home',
+      initialRoute: '/appointments',
       routes: {
         '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-// import 'package:syncfusion_flutter_calendar/calendar.dart';
-// import 'package:syncfusion_flutter_core/theme.dart';
 
 class AppointmentsScreen extends StatefulWidget {
   const AppointmentsScreen({Key? key}) : super(key: key);
@@ -12,23 +10,56 @@ class AppointmentsScreen extends StatefulWidget {
 }
 
 class _AppointmentsState extends State<AppointmentsScreen> {
+  bool hourIsChoosen = false;
+  @override
+  void initState() {
+    super.initState();
+    hourIsChoosen = false;
+  }
+
+  buildSubmitButton() {
+    if (hourIsChoosen) {
+      return Padding(
+        padding: const EdgeInsets.only(
+          left: 60,
+          right: 60,
+          top: 20,
+          bottom: 20,
+        ),
+        child: SizedBox(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              elevation: 4,
+              padding: const EdgeInsets.all(10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              primary: Theme.of(context).primaryColorDark,
+              shadowColor: const Color(0xCC007AF3),
+            ),
+            onPressed: () async {},
+            child: const Text(
+              'Zapisz zmiany',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      );
+    } else {
+      return const SizedBox(
+        width: double.infinity,
+      );
+    }
+  }
+
   final minTime = DateTime.now();
-  // final maxTime = minTime.add(const Duration(days: 70));
-  // var currentTime = DateTime.now().toString();
-  // String now = DateFormat("yyyy-MM-dd").format(DateTime.now());
   String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
   @override
   Widget build(BuildContext context) {
-    // var brightness = MediaQuery.of(context).platformBrightness;
-    // bool isDarkMode = brightness == Brightness.dark;
-    // var mode = Brightness.light;
-    // switch (isDarkMode) {
-    //   case true:
-    //     mode = Brightness.dark;
-    //     break;
-    //   default:
-    //     mode = Brightness.light;
-    // }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -40,117 +71,74 @@ class _AppointmentsState extends State<AppointmentsScreen> {
               color: Theme.of(context).backgroundColor,
             )),
       ),
-      // drawer: DrawerWidget().drawer(context),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              now,
-              style: TextStyle(
-                fontSize: 24,
-                color: Theme.of(context).primaryColor,
-              ),
+      body: Column(
+        children: [
+          const Expanded(
+            flex: 1,
+            child: Padding(
+              padding: EdgeInsets.only(top: 15),
             ),
-            Padding(
-              padding: const EdgeInsets.all(30),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColorDark,
-                      elevation: 5,
-                      padding: const EdgeInsets.all(15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    onPressed: () {
-                      DatePicker.showDatePicker(context,
-                          showTitleActions: true,
-                          minTime: minTime,
-                          maxTime: minTime.add(const Duration(days: 70)),
-                          onChanged: (date) {
-                        print('change $date');
-                      }, onConfirm: (date) {
-                        print('confirm $date');
-                        Navigator.pushNamed(context, '/selectHour');
-                        setState(() {
-                          // now = date.toString().substring(0, 10);
-                          now = DateFormat('dd-MM-yyyy').format(date);
-                        });
-                      }, currentTime: DateTime.now(), locale: LocaleType.pl);
-                    },
-                    child: const Text(
-                      'Wybierz dzień',
-                      style: TextStyle(color: Colors.white),
-                    )),
-              ),
-            ),
-            // SfCalendarTheme(
-            //   data: SfCalendarThemeData(
-            //     brightness: mode,
-            //     timeTextStyle: TextStyle(
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     headerTextStyle: TextStyle(
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     todayTextStyle: TextStyle(
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     agendaDayTextStyle: TextStyle(
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     agendaDateTextStyle: TextStyle(
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     weekNumberTextStyle: TextStyle(
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     activeDatesTextStyle: TextStyle(
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     displayNameTextStyle: TextStyle(
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     viewHeaderDayTextStyle: TextStyle(
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     viewHeaderDateTextStyle: TextStyle(
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //   ),
-            //   child: SfCalendar(
-            //     view: CalendarView.month,
-            //     showDatePickerButton: true,
-            //     monthViewSettings: const MonthViewSettings(
-            //       showAgenda: true,
-            //       dayFormat: 'EEE',
-            //     ),
-            //     allowedViews: const [
-            //       CalendarView.day,
-            //       CalendarView.month,
-            //     ],
-            //     timeSlotViewSettings: TimeSlotViewSettings(
-            //       timeInterval: const Duration(
-            //         minutes: 30,
-            //       ),
-            //       startHour: 6,
-            //       endHour: 22,
-            //       timeFormat: 'hh:mm',
-            //       timeTextStyle: TextStyle(
-            //         color: Theme.of(context).primaryColor,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            Text(
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(
               'Maksymalnie trzy miesiące do przodu',
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
-          ],
-        ),
+          ),
+          const Padding(padding: EdgeInsets.only(top: 15)),
+          Row(
+            children: [
+              const Padding(padding: EdgeInsets.only(left: 15)),
+              Expanded(
+                flex: 1,
+                child: Text(
+                  now,
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                child: Icon(
+                  Icons.calendar_month_outlined,
+                  color: Theme.of(context).primaryColor,
+                ),
+                onTap: () {
+                  DatePicker.showDatePicker(context,
+                      showTitleActions: true,
+                      minTime: minTime,
+                      maxTime: minTime.add(const Duration(days: 70)),
+                      onChanged: (date) {}, onConfirm: (date) {
+                    setState(() {
+                      hourIsChoosen = true;
+                      buildSubmitButton();
+                    });
+                    setState(() {
+                      now = DateFormat('dd-MM-yyyy').format(date);
+                    });
+                  }, currentTime: DateTime.now(), locale: LocaleType.pl);
+                },
+              ),
+              const Padding(padding: EdgeInsets.only(right: 15)),
+            ],
+          ),
+          const Expanded(
+            flex: 30,
+            child: Align(
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            ),
+          ),
+          Expanded(
+            child: buildSubmitButton(),
+            flex: 5,
+          ),
+          const Padding(padding: EdgeInsets.only(bottom: 15)),
+        ],
       ),
     );
   }
