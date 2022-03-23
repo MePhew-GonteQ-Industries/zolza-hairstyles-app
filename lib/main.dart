@@ -87,9 +87,9 @@ class _MyAppState extends State {
         scaffoldBackgroundColor: darkBackgroundColor,
       ),
       debugShowCheckedModeBanner: false,
-      // initialRoute: '/checkForLoggedIn',
+      initialRoute: '/checkForLoggedIn',
       // initialRoute: '/home',
-      initialRoute: '/appointments',
+      // initialRoute: '/appointments',
       routes: {
         '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),
