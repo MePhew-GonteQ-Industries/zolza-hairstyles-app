@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 Future<http.Response> loginUser(String email, String password) async {
   return http.post(
-    Uri.parse('https://mephew.ddns.net/api/auth/login'),
+    Uri.parse('https://zolza-hairstyles.pl/api/auth/login'),
     body: {
       'grant_type': 'password',
       'username': email,
@@ -24,7 +24,7 @@ Future<http.Response> loginUser(String email, String password) async {
 
 Future<http.Response> sendRefreshToken(String refreshToken) async {
   return http.post(
-    Uri.parse('https://mephew.ddns.net/api/auth/refresh-token'),
+    Uri.parse('https://zolza-hairstyles.pl/api/auth/refresh-token'),
     body: {
       'grant_type': 'refresh_token',
       'refresh_token': refreshToken,
@@ -41,7 +41,7 @@ Future<http.Response> sendRefreshToken(String refreshToken) async {
 
 Future<http.Response> getInfoRequest(String accessToken) async {
   return http.get(
-    Uri.parse('https://mephew.ddns.net/api/users/me'),
+    Uri.parse('https://zolza-hairstyles.pl/api/users/me'),
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $accessToken',

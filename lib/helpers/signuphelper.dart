@@ -18,7 +18,7 @@ Future<http.Response> signUpUser(String name, String surname, String email,
 
   return http
       .post(
-    Uri.parse('https://mephew.ddns.net/api/users/register'),
+    Uri.parse('https://zolza-hairstyles.pl/api/users/register'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'content-language': 'pl',

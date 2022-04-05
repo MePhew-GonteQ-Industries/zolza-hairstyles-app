@@ -20,7 +20,7 @@ Future<http.Response> updateUserDetails(
   }
   return http
       .put(
-        Uri.parse('https://mephew.ddns.net/api/users/me/update-details'),
+        Uri.parse('https://zolza-hairstyles.pl/api/users/me/update-details'),
         headers: {
           'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
           'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ Future<http.Response> updateUserDetails(
 
 Future<http.Response> enterSudoMode(String password) {
   return http.post(
-    Uri.parse('https://mephew.ddns.net/api/auth/enter-sudo-mode'),
+    Uri.parse('https://zolza-hairstyles.pl/api/auth/enter-sudo-mode'),
     headers: {
       'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
     },
@@ -58,7 +58,7 @@ Future<http.Response> changeUserPassword(
     String oldPassword, String newPassword) {
   return http
       .post(
-        Uri.parse('https://mephew.ddns.net/api/auth/change-password'),
+        Uri.parse('https://zolza-hairstyles.pl/api/auth/change-password'),
         headers: {
           'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
           'Content-Type': 'application/json',

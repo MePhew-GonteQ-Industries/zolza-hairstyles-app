@@ -9,7 +9,7 @@ Map<String, String> headers = {
 Future<http.Response> logOutUser() async {
   return http
       .post(
-        Uri.parse('https://mephew.ddns.net/api/auth/logout'),
+        Uri.parse('https://zolza-hairstyles.pl/api/auth/logout'),
         headers: headers,
       )
       .timeout(
