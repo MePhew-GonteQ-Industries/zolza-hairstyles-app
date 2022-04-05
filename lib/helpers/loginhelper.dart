@@ -14,7 +14,7 @@ Future<http.Response> loginUser(String email, String password) async {
       'password': password,
     },
   ).timeout(
-    const Duration(seconds: 4),
+    const Duration(seconds: 10),
     onTimeout: () {
       // Time has run out, do what you wanted to do.
 
@@ -31,7 +31,7 @@ Future<http.Response> sendRefreshToken(String refreshToken) async {
       'refresh_token': refreshToken,
     },
   ).timeout(
-    const Duration(seconds: 4),
+    const Duration(seconds: 10),
     onTimeout: () {
       // Time has run out, do what you wanted to do.
 
@@ -48,7 +48,7 @@ Future<http.Response> getInfoRequest(String accessToken) async {
       'Authorization': 'Bearer $accessToken',
     },
   ).timeout(
-    const Duration(seconds: 4),
+    const Duration(seconds: 10),
     onTimeout: () => http.Response('Error', 408),
   );
 }

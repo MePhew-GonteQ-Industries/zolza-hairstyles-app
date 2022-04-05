@@ -13,7 +13,7 @@ Future<http.Response> logOutUser() async {
         headers: headers,
       )
       .timeout(
-        const Duration(seconds: 4),
+        const Duration(seconds: 10),
         onTimeout: () => http.Response('Error', 408),
       );
 }

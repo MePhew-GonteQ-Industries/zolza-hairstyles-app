@@ -11,7 +11,7 @@ Future<http.Response> forgotPassword(String email) async {
         body: jsonEncode({'email': email}),
       )
       .timeout(
-        const Duration(seconds: 4),
+        const Duration(seconds: 10),
         onTimeout: () => http.Response('Error', 408),
       );
 }

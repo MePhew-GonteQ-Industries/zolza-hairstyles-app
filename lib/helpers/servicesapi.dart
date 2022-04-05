@@ -14,7 +14,7 @@ class ServicesApi {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $TemporaryStorage.accessToken',
         }).timeout(
-      const Duration(seconds: 4),
+      const Duration(seconds: 10),
       onTimeout: () => http.Response('Error', 408),
     );
     final body = jsonDecode(utf8.decode(response.bodyBytes));

@@ -34,7 +34,7 @@ Future<http.Response> updateUserDetails(
         ),
       )
       .timeout(
-        const Duration(seconds: 4),
+        const Duration(seconds: 10),
         onTimeout: () => http.Response('Error', 408),
       );
 }
@@ -49,7 +49,7 @@ Future<http.Response> enterSudoMode(String password) {
       'password': password,
     },
   ).timeout(
-    const Duration(seconds: 4),
+    const Duration(seconds: 10),
     onTimeout: () => http.Response('Error', 408),
   );
 }
@@ -71,7 +71,7 @@ Future<http.Response> changeUserPassword(
         ),
       )
       .timeout(
-        const Duration(seconds: 4),
+        const Duration(seconds: 10),
         onTimeout: () => http.Response('Error', 408),
       );
 }

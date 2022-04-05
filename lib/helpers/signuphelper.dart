@@ -36,7 +36,7 @@ Future<http.Response> signUpUser(String name, String surname, String email,
     ),
   )
       .timeout(
-    const Duration(seconds: 4),
+    const Duration(seconds: 10),
     onTimeout: () {
       // Time has run out, do what you wanted to do.
 
