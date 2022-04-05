@@ -5,4 +5,5 @@ class TemporaryStorage {
   static String email = 'email@email.email';
   static String gender = 'Płeć';
   static String service = 'Usługa';
+  static String apiUrl = 'https://zolza-hairstyles.pl/api';
 }

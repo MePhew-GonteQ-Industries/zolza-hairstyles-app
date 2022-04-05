@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:http/http.dart' as http;
 
 Future<http.Response> signUpUser(String name, String surname, String email,
@@ -18,7 +19,7 @@ Future<http.Response> signUpUser(String name, String surname, String email,
 
   return http
       .post(
-    Uri.parse('https://zolza-hairstyles.pl/api/users/register'),
+    Uri.parse(TemporaryStorage.apiUrl + '/users/register'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'content-language': 'pl',

@@ -8,7 +8,7 @@ class ServicesApi {
   static Future<List<Service>> getServices(BuildContext context) async {
     final response = await http.get(
         Uri.parse(
-          'https://zolza-hairstyles.pl/api/services',
+          TemporaryStorage.apiUrl + '/services',
         ),
         headers: {
           'Content-Type': 'application/json',
