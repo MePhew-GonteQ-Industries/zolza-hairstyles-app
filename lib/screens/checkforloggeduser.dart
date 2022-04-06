@@ -37,9 +37,7 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
           false);
     } else {
       var _refreshToken = await UserSecureStorage.getRefreshToken();
-      if (_refreshToken == 'null') {
-        Navigator.pushNamed(context, '/login');
-      } else {
+      if (_refreshToken != 'null') {
         Response refreshToken = await sendRefreshToken(_refreshToken);
         if (refreshToken.statusCode == 200) {
           final parsedJson = jsonDecode(refreshToken.body);
@@ -72,6 +70,8 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
         } else {
           loginLoop(context);
         }
+      } else {
+        Navigator.pushNamed(context, '/login');
       }
     }
   }
