@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
               TemporaryStorage.accessToken = parsedJson['access_token'];
               Response getInfo =
                   await getInfoRequest(TemporaryStorage.accessToken);
-              final parsedInfo = jsonDecode(getInfo.body);
+              final parsedInfo = jsonDecode(utf8.decode(getInfo.bodyBytes));
               TemporaryStorage.name = parsedInfo['name'];
               TemporaryStorage.surName = parsedInfo['surname'];
               TemporaryStorage.email = parsedInfo['email'];
