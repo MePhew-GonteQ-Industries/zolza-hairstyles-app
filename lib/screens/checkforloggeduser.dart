@@ -44,7 +44,7 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
           await UserSecureStorage.setRefreshToken(parsedJson['refresh_token']);
           TemporaryStorage.accessToken = parsedJson['access_token'];
           Response getInfo = await getInfoRequest(TemporaryStorage.accessToken);
-          final parsedInfo = jsonDecode(getInfo.body);
+          final parsedInfo = jsonDecode(utf8.decode(getInfo.bodyBytes));
           TemporaryStorage.name = parsedInfo['name'];
           TemporaryStorage.surName = parsedInfo['surname'];
           TemporaryStorage.email = parsedInfo['email'];
@@ -114,7 +114,7 @@ void loginLoop(BuildContext context) async {
       await UserSecureStorage.setRefreshToken(parsedJson['refresh_token']);
       TemporaryStorage.accessToken = parsedJson['access_token'];
       Response getInfo = await getInfoRequest(TemporaryStorage.accessToken);
-      final parsedInfo = jsonDecode(getInfo.body);
+      final parsedInfo = jsonDecode(utf8.decode(getInfo.bodyBytes));
       TemporaryStorage.name = parsedInfo['name'];
       Navigator.pushAndRemoveUntil(
           context,

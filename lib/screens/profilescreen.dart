@@ -139,7 +139,7 @@ class _ProfileState extends State<ProfileScreen> {
                 var responseBody = jsonDecode(response.body);
                 if (response.statusCode == 403 &&
                     responseBody['detail'] ==
-                        'Additional authentication required; Authenticate using https://mephew.ddns.net/api/auth/enter-sudo-mode') {
+                        'Additional authentication required; Authenticate using https://zolza-hairstyles.pl/api/auth/enter-sudo-mode') {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
