@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: TextButton(
         onPressed: () => Navigator.pushNamed(context, '/forgotPassword'),
         style: TextButton.styleFrom(
-          padding: const EdgeInsets.only(right: 0),
+          padding: const EdgeInsets.only(right: 0), 
         ),
         child: Text(
           'Nie pamiętasz hasła?',

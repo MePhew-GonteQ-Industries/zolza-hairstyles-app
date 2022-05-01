@@ -1,33 +1,45 @@
 import 'dart:convert';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hairdressing_salon_app/widgets/drawerwidget.dart';
 import 'package:http/http.dart' as http;
+import '../helpers/temporarystorage.dart';
 
-Future<Post> fetchPost() async {
-  final response =
-      await http.get(Uri.parse('https://mephew.ddns.net/api/appointments/'));
-  if (response.statusCode == 200) {
-    return Post.fromJson(jsonDecode(response.body));
+Future<Appointment> fetchPost() async {
+  final response = await http.get(
+    Uri.parse('https://zolza-hairstyles.pl/api/appointments/mine'),
+    headers: {
+      'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
+      'Content-Type': 'application/json',
+    },
+  );
+  print(response.body);
+  print(response.statusCode);
+  final body = jsonDecode(response.body);
+  print(body['appointments']);
+  if (response.statusCode == 200 && body['appointments'] == '') {
+    print('mam cos dla ciebie');
+    return Appointment.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Nie udało się załadować postu');
   }
 }
 
-class Post {
+class Appointment {
   final int userId;
   final int id;
   final String title;
   final String body;
 
-  Post({
+  Appointment({
     required this.userId,
     required this.id,
     required this.title,
     required this.body,
   });
 
-  factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(
+  factory Appointment.fromJson(Map<String, dynamic> json) {
+    return Appointment(
       userId: json['userId'],
       id: json['id'],
       title: json['title'],
@@ -44,12 +56,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeScreen> {
-  late Future<Post> futurePost;
+  bool connected = false;
+  late Future<Appointment> futurePost;
 
   @override
   void initState() {
     super.initState();
+    checkForInternetConnection();
     futurePost = fetchPost();
+  }
+
+  void checkForInternetConnection() async {
+    final ConnectivityResult result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      setState(() {
+        connected = false;
+      });
+    } else {
+      setState(() {
+        connected = true;
+      });
+    }
   }
 
   @override
@@ -78,15 +105,54 @@ class _HomeState extends State<HomeScreen> {
       ),
       drawer: DrawerWidget().drawer(context),
       body: Center(
-        child: FutureBuilder<Post>(
+        child: FutureBuilder<Appointment>(
           future: futurePost,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(
-                'Title: \n${snapshot.data!.title}\n\n Body: \n${snapshot.data!.body}\n\n userId: \n${snapshot.data!.userId}\n\n id: \n${snapshot.data!.id}',
-                style: TextStyle(color: Theme.of(context).bottomAppBarColor),
-              );
-            } else if (snapshot.hasError) {
+            if (connected) {
+              if (snapshot.hasData) {
+                return Text(
+                  'Title: \n${snapshot.data!.title}\n\n Body: \n${snapshot.data!.body}\n\n userId: \n${snapshot.data!.userId}\n\n id: \n${snapshot.data!.id}',
+                  style: TextStyle(color: Theme.of(context).bottomAppBarColor),
+                );
+              } else {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Wygląda na to\nże nie masz umówionej wizyty,\nkliknij przycisk aby to zrobić',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 5,
+                          padding: const EdgeInsets.all(13),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          primary: Theme.of(context).primaryColorDark,
+                          shadowColor: const Color(0xCC007AF3),
+                        ),
+                        child: const Text('Umów wizytę',
+                            style: TextStyle(
+                              color: Colors.white,
+                            )),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/services');
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+            } else {
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -104,43 +170,6 @@ class _HomeState extends State<HomeScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Wygląda na to\nże nie masz umówionej wizyty,\nkliknij przycisk aby to zrobić',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        elevation: 5,
-                        padding: const EdgeInsets.all(13),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        primary: Theme.of(context).primaryColorDark,
-                        shadowColor: const Color(0xCC007AF3),
-                      ),
-                      child: const Text('Umów wizytę',
-                          style: TextStyle(
-                            color: Colors.white,
-                          )),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/services');
-                      },
                     ),
                   ],
                 ),

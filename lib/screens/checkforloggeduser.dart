@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hairdressing_salon_app/helpers/loginhelper.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
@@ -6,7 +7,6 @@ import 'package:hairdressing_salon_app/widgets/allerts.dart';
 import 'package:http/http.dart';
 import 'homescreen.dart';
 import 'dart:convert';
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 class CheckForLoggedUserScreen extends StatefulWidget {
   const CheckForLoggedUserScreen({Key? key}) : super(key: key);
