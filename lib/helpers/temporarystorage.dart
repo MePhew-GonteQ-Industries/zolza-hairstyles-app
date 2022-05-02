@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class TemporaryStorage {
   static String accessToken = 'AccessToken';
   static String name = 'Imię';
@@ -6,4 +8,8 @@ class TemporaryStorage {
   static String gender = 'Płeć';
   static String service = 'Usługa';
   static String apiUrl = 'https://zolza-hairstyles.pl/api';
+  static String serviceID = 'serviceID';
+  static String date = DateFormat("yyyy-MM-dd").format(DateTime.now());
+  static String appointmentID = 'appointmentID';
+  static String startHour = 'hour';
 }

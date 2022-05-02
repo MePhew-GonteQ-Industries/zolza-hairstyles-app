@@ -14,10 +14,12 @@ Future<Appointment> fetchPost() async {
     },
   );
   final body = jsonDecode(response.body);
+  print((body['appointments']));
   if (response.statusCode == 200 && body['appointments'] == '') {
+    print('pusta tablica');
     return Appointment.fromJson(jsonDecode(response.body));
   } else {
-    throw Exception('Nie udało się załadować postu');
+    throw Exception('Brak umówionych wizyt');
   }
 }
 

@@ -60,9 +60,13 @@ class _ServicesState extends State<ServicesScreen> {
               );
             default:
               if (snapshot.hasError) {
-                return const Center(
+                print(snapshot.error);
+                return Center(
                   child: Text(
-                      'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.'),
+                      'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      )),
                 );
               } else {
                 return buildServices(services!);
@@ -99,6 +103,9 @@ Widget buildServices(List<Service> services) => ListView.builder(
             ),
             onTap: () {
               TemporaryStorage.service = service.name;
+              TemporaryStorage.serviceID = service.id;
+              print(service.id);
+              print(service.name);
               Navigator.pushNamed(context, '/appointments');
             },
           );

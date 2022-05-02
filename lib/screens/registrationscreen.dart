@@ -120,6 +120,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   false,
                   false);
             } else {
+              print(response.statusCode);
               Allerts().allert(context, 'Podano błędne dane rejestracji',
                   'Spróbuj jeszcze raz', 'OK', false, false, false);
             }

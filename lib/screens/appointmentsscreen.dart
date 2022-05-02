@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
+import '../helpers/appointments.dart';
+import '../helpers/appointmentsapi.dart';
+import '../helpers/temporarystorage.dart';
 
 class AppointmentsScreen extends StatefulWidget {
   const AppointmentsScreen({Key? key}) : super(key: key);
@@ -10,54 +13,14 @@ class AppointmentsScreen extends StatefulWidget {
 }
 
 class _AppointmentsState extends State<AppointmentsScreen> {
-  bool hourIsChoosen = false;
   @override
   void initState() {
     super.initState();
-    hourIsChoosen = false;
-  }
-
-  buildSubmitButton() {
-    if (hourIsChoosen) {
-      return Padding(
-        padding: const EdgeInsets.only(
-          left: 60,
-          right: 60,
-          top: 20,
-          bottom: 20,
-        ),
-        child: SizedBox(
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              elevation: 4,
-              padding: const EdgeInsets.all(10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25),
-              ),
-              primary: Theme.of(context).primaryColorDark,
-              shadowColor: const Color(0xCC007AF3),
-            ),
-            onPressed: () async {},
-            child: const Text(
-              'Zapisz zmiany',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      );
-    } else {
-      return const SizedBox(
-        width: double.infinity,
-      );
-    }
   }
 
   final minTime = DateTime.now();
   String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
+  String choosenDate = DateFormat("dd-MM-yyyy").format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,13 +72,16 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                   DatePicker.showDatePicker(context,
                       showTitleActions: true,
                       minTime: minTime,
-                      maxTime: minTime.add(const Duration(days: 70)),
+                      maxTime: minTime.add(const Duration(days: 90)),
                       onChanged: (date) {}, onConfirm: (date) {
+                    print(DateFormat('yyyy-MM-dd').format(date));
+                    choosenDate = DateFormat('yyyy-MM-dd').format(date);
+                    print(choosenDate);
+                    TemporaryStorage.date = choosenDate;
+                    print(TemporaryStorage.date);
                     setState(() {
-                      hourIsChoosen = true;
-                      buildSubmitButton();
-                    });
-                    setState(() {
+                      // hourIsChoosen = true;
+                      // buildSubmitButton();
                       now = DateFormat('dd-MM-yyyy').format(date);
                     });
                   }, currentTime: DateTime.now(), locale: LocaleType.pl);
@@ -124,18 +90,40 @@ class _AppointmentsState extends State<AppointmentsScreen> {
               const Padding(padding: EdgeInsets.only(right: 15)),
             ],
           ),
-          const Expanded(
+          Expanded(
             flex: 30,
             child: Align(
               alignment: Alignment.center,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              child: FutureBuilder<List<Appointment>>(
+                future: AppointmentsApi.getAppointments(
+                    context, TemporaryStorage.date),
+                builder: (context, snapshot) {
+                  final appointments = snapshot.data;
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.blue),
+                        ),
+                      );
+                    default:
+                      if (snapshot.hasError) {
+                        print(snapshot.error);
+                        return Center(
+                          child: Text(
+                              'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              )),
+                        );
+                      } else {
+                        return buildAppointments(appointments!);
+                      }
+                  }
+                },
               ),
             ),
-          ),
-          Expanded(
-            child: buildSubmitButton(),
-            flex: 5,
           ),
           const Padding(padding: EdgeInsets.only(bottom: 15)),
         ],
@@ -143,3 +131,74 @@ class _AppointmentsState extends State<AppointmentsScreen> {
     );
   }
 }
+
+Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      itemCount: appointments.length,
+      itemBuilder: (context, index) {
+        final appointment = appointments[index];
+        if (!appointment.occupied &&
+            !appointment.reserved &&
+            !appointment.holiday &&
+            !appointment.sunday) {
+          return ListTile(
+            leading: Icon(
+              Icons.access_time,
+              color: Theme.of(context).primaryColor,
+            ),
+            title: Text(
+              (appointment.startTime).substring(11, 16) +
+                  ' - ' +
+                  (appointment.endTime).substring(11, 16),
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+            onTap: () {
+              TemporaryStorage.appointmentID = appointment.id;
+              TemporaryStorage.startHour =
+                  (appointment.startTime).substring(11, 16);
+              Navigator.pushNamed(context, '/confirmAppointment');
+            },
+          );
+        } else if (appointment.reserved) {
+          return ListTile(
+            leading: Icon(
+              Icons.miscellaneous_services,
+              color: Theme.of(context).primaryColor,
+            ),
+            title: Text(
+              appointment.reservedReason,
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+          );
+        } else if (appointment.holiday) {
+          return ListTile(
+            leading: Icon(
+              Icons.holiday_village,
+              color: Theme.of(context).primaryColor,
+            ),
+            title: Text(
+              appointment.holidayName,
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+          );
+        } else if (appointment.sunday) {
+          return ListTile(
+            leading: Icon(
+              Icons.free_cancellation,
+              color: Theme.of(context).primaryColor,
+            ),
+            title: Text(
+              'Niedziela',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+          );
+        } else {
+          return Text(
+            'Wystąpił problem, spróbuj ponownie później',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+          );
+        }
+      },
+    );
