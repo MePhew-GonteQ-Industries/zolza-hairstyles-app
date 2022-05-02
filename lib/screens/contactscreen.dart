@@ -118,7 +118,7 @@ class _ContactState extends State<ContactScreen> {
                 ),
               ),
               onTap: () async {
-                launch('https://mephew.ddns.net');
+                launch('https://zolza-hairstyles.pl');
               },
             ), //webpage
             ListTile(

@@ -13,12 +13,8 @@ Future<Appointment> fetchPost() async {
       'Content-Type': 'application/json',
     },
   );
-  print(response.body);
-  print(response.statusCode);
   final body = jsonDecode(response.body);
-  print(body['appointments']);
   if (response.statusCode == 200 && body['appointments'] == '') {
-    print('mam cos dla ciebie');
     return Appointment.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Nie udało się załadować postu');
