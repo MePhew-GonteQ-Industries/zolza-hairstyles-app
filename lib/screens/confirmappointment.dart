@@ -28,39 +28,128 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
         ),
       ),
       body: Center(
-        child: Column(
-          children: [
-            Text(
-              TemporaryStorage.date + ' ' + TemporaryStorage.startHour,
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor, fontSize: 24),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                  padding: const EdgeInsets.all(10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  primary: Theme.of(context).primaryColorDark,
-                  shadowColor: const Color(0xCC007aF3),
+        child: Align(
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            // physics: const NeverScrollableScrollPhysics(),
+            children: [
+              ListTile(
+                leading: Icon(
+                  Icons.calendar_month,
+                  color: Theme.of(context).primaryColor,
                 ),
-                child: Text(
-                  'Potwierdź wizyę',
+                title: Text(
+                  'Data:',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
+                    fontSize: 24,
                   ),
                 ),
-                onPressed: () async {
-                  Response response = await createAppointment();
-                  print(response.statusCode);
-                  print(response.body);
-                },
+                subtitle: Text(
+                  TemporaryStorage.date,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 24,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.check,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
-            ),
-          ],
+              ListTile(
+                leading: Icon(
+                  Icons.access_time,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(
+                  'Godzina:',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 24,
+                  ),
+                ),
+                subtitle: Text(
+                  TemporaryStorage.startHour,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 24,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.check,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.design_services_rounded,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(
+                  'Usługa:',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 24,
+                  ),
+                ),
+                subtitle: Text(
+                  TemporaryStorage.service,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 24,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.check,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 60,
+                  right: 60,
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 45,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      Response response = await createAppointment();
+                      print(response.statusCode);
+                      print(response.body);
+                    },
+                    child: Text(
+                      'Potwierdz wizytę',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 24,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColorDark,
+                      shadowColor: const Color(0xCC007AF3),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

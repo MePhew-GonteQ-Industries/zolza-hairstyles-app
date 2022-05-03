@@ -13,16 +13,25 @@ class AppointmentsScreen extends StatefulWidget {
 }
 
 class _AppointmentsState extends State<AppointmentsScreen> {
+  String now = '';
+  String choosenDate = '';
   @override
   void initState() {
     super.initState();
+    now = DateFormat("dd-MM-yyyy").format(DateTime.now());
+    choosenDate = now;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    TemporaryStorage.date = DateFormat("yyyy-MM-dd").format(DateTime.now());
   }
 
   final minTime = DateTime.now();
-  String now = DateFormat("dd-MM-yyyy").format(DateTime.now());
-  String choosenDate = DateFormat("dd-MM-yyyy").format(DateTime.now());
   @override
   Widget build(BuildContext context) {
+    // TemporaryStorage.date = choosenDate;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -43,10 +52,13 @@ class _AppointmentsState extends State<AppointmentsScreen> {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 3,
             child: Text(
               'Maksymalnie trzy miesiące do przodu',
-              style: TextStyle(color: Theme.of(context).primaryColor),
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontSize: 20,
+              ),
             ),
           ),
           const Padding(padding: EdgeInsets.only(top: 15)),
@@ -56,7 +68,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  now,
+                  choosenDate,
                   style: TextStyle(
                     fontSize: 24,
                     color: Theme.of(context).primaryColor,
@@ -74,15 +86,12 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                       minTime: minTime,
                       maxTime: minTime.add(const Duration(days: 90)),
                       onChanged: (date) {}, onConfirm: (date) {
-                    print(DateFormat('yyyy-MM-dd').format(date));
-                    choosenDate = DateFormat('yyyy-MM-dd').format(date);
-                    print(choosenDate);
-                    TemporaryStorage.date = choosenDate;
-                    print(TemporaryStorage.date);
                     setState(() {
-                      // hourIsChoosen = true;
-                      // buildSubmitButton();
-                      now = DateFormat('dd-MM-yyyy').format(date);
+                      choosenDate = DateFormat('yyyy-MM-dd').format(date);
+                      print(choosenDate);
+                      TemporaryStorage.date = choosenDate;
+                      // choosenDate = now;
+                      print(TemporaryStorage.date);
                     });
                   }, currentTime: DateTime.now(), locale: LocaleType.pl);
                 },
@@ -95,8 +104,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
             child: Align(
               alignment: Alignment.center,
               child: FutureBuilder<List<Appointment>>(
-                future: AppointmentsApi.getAppointments(
-                    context, TemporaryStorage.date),
+                future: AppointmentsApi.getAppointments(context, choosenDate),
                 builder: (context, snapshot) {
                   final appointments = snapshot.data;
                   switch (snapshot.connectionState) {
@@ -147,15 +155,26 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
               color: Theme.of(context).primaryColor,
             ),
             title: Text(
-              (appointment.startTime).substring(11, 16) +
+              DateFormat("yyyy-MM-ddTHH:mm:ss")
+                      .parse(appointment.startTime, true)
+                      .toLocal()
+                      .toString()
+                      .substring(11, 16) +
                   ' - ' +
-                  (appointment.endTime).substring(11, 16),
+                  DateFormat("yyyy-MM-ddTHH:mm:ss")
+                      .parse(appointment.endTime, true)
+                      .toLocal()
+                      .toString()
+                      .substring(11, 16),
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             onTap: () {
               TemporaryStorage.appointmentID = appointment.id;
-              TemporaryStorage.startHour =
-                  (appointment.startTime).substring(11, 16);
+              TemporaryStorage.startHour = DateFormat("yyyy-MM-ddTHH:mm:ss")
+                  .parse(appointment.endTime, true)
+                  .toLocal()
+                  .toString()
+                  .substring(11, 16);
               Navigator.pushNamed(context, '/confirmAppointment');
             },
           );
@@ -173,7 +192,7 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
         } else if (appointment.holiday) {
           return ListTile(
             leading: Icon(
-              Icons.holiday_village,
+              Icons.free_cancellation,
               color: Theme.of(context).primaryColor,
             ),
             title: Text(

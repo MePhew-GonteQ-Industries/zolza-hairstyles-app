@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hairdressing_salon_app/helpers/services.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/widgets/drawerwidget.dart';
+import 'package:intl/intl.dart';
 import '../helpers/servicesapi.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -12,6 +13,16 @@ class ServicesScreen extends StatefulWidget {
 }
 
 class _ServicesState extends State<ServicesScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   buildServicesItem({
     required String text,
     required IconData icon,
