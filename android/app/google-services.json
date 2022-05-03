@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "436999151575",
+    "project_id": "zolza-hairstyles",
+    "storage_bucket": "zolza-hairstyles.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436999151575:android:4545dd45cf3b06d4c33592",
+        "android_client_info": {
+          "package_name": "pl.zolza_hairstyles.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436999151575-f8u39s03als9j6ps38pei525qb1ko5rp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.zolza_hairstyles.app",
+            "certificate_hash": "7f51d7d365e18b5108105471e192556402acb779"
+          }
+        },
+        {
+          "client_id": "436999151575-i7sgop2mg5l8g51pbtp7omb773f8t7da.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgPkVDeZtWnDgAcXMTC8_BLXyrp58L9xg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436999151575-i7sgop2mg5l8g51pbtp7omb773f8t7da.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "436999151575-kbhikikua8rqavkgftu0932da2jug59e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "pl.zolza-hairstyles.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
