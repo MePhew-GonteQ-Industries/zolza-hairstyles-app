@@ -108,6 +108,9 @@ Widget buildServices(List<Service> services) => ListView.builder(
               'Czas trwania: ' +
                   service.averageTime.toString() +
                   ' minut | Cena: ' +
+                  service.minPrice.toString() +
+                  'zł' +
+                  '-' +
                   service.maxPrice.toString() +
                   'zł',
               style: TextStyle(color: Theme.of(context).primaryColor),

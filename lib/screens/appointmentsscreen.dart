@@ -180,35 +180,54 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
           );
         } else if (appointment.reserved) {
           return ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.miscellaneous_services,
-              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).primaryColor,
+              color: Colors.red,
             ),
             title: Text(
-              appointment.reservedReason,
-              style: TextStyle(color: Theme.of(context).primaryColor),
+              appointment.reservedReason
+                  ? 'Zarezerwowane: ${appointment.reservedReason}'
+                  : 'Zarezerwowane',
+              style: const TextStyle(
+                  // color: Theme.of(context).primaryColor,
+                  color: Colors.red),
             ),
           );
         } else if (appointment.holiday) {
           return ListTile(
             leading: Icon(
               Icons.free_cancellation,
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).primaryColorDark,
             ),
             title: Text(
               appointment.holidayName,
-              style: TextStyle(color: Theme.of(context).primaryColor),
+              style: TextStyle(color: Theme.of(context).primaryColorDark),
             ),
           );
         } else if (appointment.sunday) {
           return ListTile(
             leading: Icon(
               Icons.free_cancellation,
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).primaryColorDark,
             ),
             title: Text(
               'Niedziela',
-              style: TextStyle(color: Theme.of(context).primaryColor),
+              style: TextStyle(color: Theme.of(context).primaryColorDark),
+            ),
+          );
+        } else if (appointment.occupied) {
+          return const ListTile(
+            leading: Icon(
+              Icons.free_cancellation,
+              // color: Theme.of(context).primaryColorDark,
+              color: Colors.red,
+            ),
+            title: Text(
+              'Zajęte',
+              style: TextStyle(
+                  // color: Theme.of(context).primaryColorDark,
+                  color: Colors.red),
             ),
           );
         } else {

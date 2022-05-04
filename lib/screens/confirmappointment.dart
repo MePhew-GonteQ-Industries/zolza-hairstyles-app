@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hairdressing_salon_app/helpers/createappointmenthelper.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
+import 'package:hairdressing_salon_app/widgets/allerts.dart';
 import 'package:http/http.dart';
 
 class ConfirmAppointment extends StatefulWidget {
@@ -129,6 +130,25 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                       Response response = await createAppointment();
                       print(response.statusCode);
                       print(response.body);
+                      if (response.statusCode == 400) {
+                        Allerts().allert(
+                            context,
+                            'Nie udało się',
+                            'Wybrano godzinę z niewystarczającą ilością czasu',
+                            'OK',
+                            false,
+                            false,
+                            false);
+                      } else if (response.statusCode == 200) {
+                        Allerts().allert(
+                            context,
+                            'Udało się',
+                            'Pomyślnie umówiono wizy†ę',
+                            'OK',
+                            false,
+                            false,
+                            false);
+                      }
                     },
                     child: Text(
                       'Potwierdz wizytę',

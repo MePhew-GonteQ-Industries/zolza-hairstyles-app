@@ -89,6 +89,7 @@ class _MyAppState extends State {
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/checkForLoggedIn',
+      // initialRoute: '/login',
       // initialRoute: '/home',
       // initialRoute: '/appointments',
       routes: {
