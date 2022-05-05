@@ -115,6 +115,7 @@ Widget buildServices(List<Service> services) => ListView.builder(
                   'zł',
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
+            // isThreeLine: true,
             onTap: () {
               TemporaryStorage.service = service.name;
               TemporaryStorage.serviceID = service.id;
