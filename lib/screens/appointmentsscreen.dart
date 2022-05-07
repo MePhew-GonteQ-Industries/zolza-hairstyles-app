@@ -144,40 +144,86 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: appointments.length,
       itemBuilder: (context, index) {
+        print(TemporaryStorage.serviceAverageDuration);
+        print((TemporaryStorage.serviceAverageDuration / 15).round());
         final appointment = appointments[index];
         if (!appointment.occupied &&
             !appointment.reserved &&
             !appointment.holiday &&
             !appointment.sunday) {
-          return ListTile(
-            leading: Icon(
-              Icons.access_time,
-              color: Theme.of(context).primaryColor,
-            ),
-            title: Text(
-              DateFormat("yyyy-MM-ddTHH:mm:ss")
-                      .parse(appointment.startTime, true)
-                      .toLocal()
-                      .toString()
-                      .substring(11, 16) +
-                  ' - ' +
-                  DateFormat("yyyy-MM-ddTHH:mm:ss")
-                      .parse(appointment.endTime, true)
-                      .toLocal()
-                      .toString()
-                      .substring(11, 16),
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            onTap: () {
-              TemporaryStorage.appointmentID = appointment.id;
-              TemporaryStorage.startHour = DateFormat("yyyy-MM-ddTHH:mm:ss")
+          print(int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
                   .parse(appointment.endTime, true)
                   .toLocal()
                   .toString()
-                  .substring(11, 16);
-              Navigator.pushNamed(context, '/confirmAppointment');
-            },
-          );
+                  .substring(11, 16)
+                  .split(':')
+                  .join()) -
+              int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
+                  .parse(appointment.startTime, true)
+                  .toLocal()
+                  .toString()
+                  .substring(11, 16)
+                  .split(':')
+                  .join()));
+          if (int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
+                      .parse(appointment.endTime, true)
+                      .toLocal()
+                      .toString()
+                      .substring(11, 16)
+                      .split(':')
+                      .join()) -
+                  int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
+                      .parse(appointment.startTime, true)
+                      .toLocal()
+                      .toString()
+                      .substring(11, 16)
+                      .split(':')
+                      .join()) <
+              TemporaryStorage.serviceAverageDuration) {
+            return ListTile(
+              leading: Icon(
+                Icons.access_time,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text(
+                DateFormat("yyyy-MM-ddTHH:mm:ss")
+                        .parse(appointment.startTime, true)
+                        .toLocal()
+                        .toString()
+                        .substring(11, 16) +
+                    ' - ' +
+                    DateFormat("yyyy-MM-ddTHH:mm:ss")
+                        .parse(appointment.endTime, true)
+                        .toLocal()
+                        .toString()
+                        .substring(11, 16),
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+              onTap: () {
+                TemporaryStorage.appointmentID = appointment.id;
+                TemporaryStorage.startHour = DateFormat("yyyy-MM-ddTHH:mm:ss")
+                    .parse(appointment.startTime, true)
+                    .toLocal()
+                    .toString()
+                    .substring(11, 16);
+                Navigator.pushNamed(context, '/confirmAppointment');
+              },
+            );
+          } else {
+            return const ListTile(
+              leading: Icon(
+                Icons.free_cancellation,
+                // color: Theme.of(context).primaryColorDark,
+                color: Colors.red,
+              ),
+              title: Text(
+                'Zajęte',
+                style: TextStyle(
+                    // color: Theme.of(context).primaryColorDark,
+                    color: Colors.red),
+              ),
+            );
+          }
         } else if (appointment.reserved) {
           return ListTile(
             leading: const Icon(

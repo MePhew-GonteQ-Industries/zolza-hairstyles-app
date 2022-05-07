@@ -9,6 +9,7 @@ class TemporaryStorage {
   static String service = 'Usługa';
   static String apiUrl = 'https://zolza-hairstyles.pl/api';
   static String serviceID = 'serviceID';
+  static int serviceAverageDuration = 30;
   static String date = DateFormat("yyyy-MM-dd").format(DateTime.now());
   static String appointmentID = 'appointmentID';
   static String startHour = 'hour';

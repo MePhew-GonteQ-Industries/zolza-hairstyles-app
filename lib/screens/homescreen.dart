@@ -5,7 +5,7 @@ import 'package:hairdressing_salon_app/widgets/drawerwidget.dart';
 import 'package:http/http.dart' as http;
 import '../helpers/temporarystorage.dart';
 
-Future<Appointment> fetchPost() async {
+Future<Appointment> fetchAppointment() async {
   final response = await http.get(
     Uri.parse('https://zolza-hairstyles.pl/api/appointments/mine'),
     headers: {
@@ -55,13 +55,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeState extends State<HomeScreen> {
   bool connected = false;
-  late Future<Appointment> futurePost;
+  late Future<Appointment> futureAppointment;
 
   @override
   void initState() {
     super.initState();
     checkForInternetConnection();
-    futurePost = fetchPost();
+    futureAppointment = fetchAppointment();
   }
 
   void checkForInternetConnection() async {
@@ -104,7 +104,7 @@ class _HomeState extends State<HomeScreen> {
       drawer: DrawerWidget().drawer(context),
       body: Center(
         child: FutureBuilder<Appointment>(
-          future: futurePost,
+          future: futureAppointment,
           builder: (context, snapshot) {
             if (connected) {
               if (snapshot.hasData) {

@@ -148,6 +148,15 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                             false,
                             false,
                             false);
+                      } else if (response.statusCode == 403) {
+                        Allerts().allert(
+                            context,
+                            'Użytkownik niezweryfikowany',
+                            'Kliknij w link wysłany na adres E-mail aby zweryfikować konto',
+                            'OK',
+                            false,
+                            false,
+                            false);
                       }
                     },
                     child: Text(

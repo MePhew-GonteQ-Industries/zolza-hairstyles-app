@@ -119,8 +119,10 @@ Widget buildServices(List<Service> services) => ListView.builder(
             onTap: () {
               TemporaryStorage.service = service.name;
               TemporaryStorage.serviceID = service.id;
+              TemporaryStorage.serviceAverageDuration = service.averageTime;
               print(service.id);
               print(service.name);
+              print(TemporaryStorage.serviceAverageDuration);
               Navigator.pushNamed(context, '/appointments');
             },
           );

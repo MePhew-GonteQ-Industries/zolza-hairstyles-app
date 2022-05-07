@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Appointment {
   final String id;
   final bool occupied;
