@@ -101,4 +101,34 @@ class Allerts {
       ],
     ).show();
   }
+
+  void allertNotEnoughTime(BuildContext context) {
+    Alert(
+      context: context,
+      style: const AlertStyle(
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        titleStyle: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      title: 'Nie udało się',
+      desc: 'Wybrano slot z niewystarczającą ilością czasu',
+      buttons: [
+        DialogButton(
+          child: Text(
+            'OK',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/appointments');
+          },
+          color: Theme.of(context).primaryColorDark,
+        ),
+      ],
+    ).show();
+  }
 }

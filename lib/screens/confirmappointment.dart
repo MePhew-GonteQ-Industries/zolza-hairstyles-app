@@ -131,14 +131,7 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                       print(response.statusCode);
                       print(response.body);
                       if (response.statusCode == 400) {
-                        Allerts().allert(
-                            context,
-                            'Nie udało się',
-                            'Wybrano godzinę z niewystarczającą ilością czasu',
-                            'OK',
-                            false,
-                            false,
-                            false);
+                        Allerts().allertNotEnoughTime(context);
                       } else if (response.statusCode == 200) {
                         Allerts().allertAppointmentCreated(context);
                       } else if (response.statusCode == 403) {
