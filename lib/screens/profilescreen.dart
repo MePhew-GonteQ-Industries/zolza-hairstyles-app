@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/helpers/updateuserdetailshelper.dart';
 import 'package:http/http.dart';
+import '../helpers/verifyuser.dart';
 import '../widgets/allerts.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -629,6 +630,49 @@ class _ProfileState extends State<ProfileScreen> {
               ),
             ),
             trailing: buildDropDown(),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.email,
+              color: Theme.of(context).primaryColor,
+            ),
+            title: Text(
+              'Ponów weryfikację',
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            subtitle: Text(
+              'Kliknij aby wysłać E-mail do ponownej weryfikacji konta',
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            isThreeLine: true,
+            onTap: () async {
+              Response verification = await verifyUser();
+              if (verification.statusCode == 202) {
+                Allerts().allert(
+                    context,
+                    'Wysłano E-mail',
+                    'Wiadmość z linkiem weryfikacyjnym została wysłana',
+                    'OK',
+                    false,
+                    false,
+                    false);
+              } else if (verification.statusCode == 500) {
+                Allerts().allert(
+                    context,
+                    'Błąd połączenia',
+                    'Nie udało się nawiązać połączenia z serwerem',
+                    'OK',
+                    false,
+                    false,
+                    false);
+              }
+              print(TemporaryStorage.email);
+              print(verification.statusCode);
+            },
           ),
           const SizedBox(
             height: 30,
