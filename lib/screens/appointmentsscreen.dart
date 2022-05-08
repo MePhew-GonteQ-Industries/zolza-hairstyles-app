@@ -5,6 +5,8 @@ import '../helpers/appointments.dart';
 import '../helpers/appointmentsapi.dart';
 import '../helpers/temporarystorage.dart';
 
+var slots = 0;
+
 class AppointmentsScreen extends StatefulWidget {
   const AppointmentsScreen({Key? key}) : super(key: key);
 
@@ -144,42 +146,30 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: appointments.length,
       itemBuilder: (context, index) {
-        print(TemporaryStorage.serviceAverageDuration);
-        print((TemporaryStorage.serviceAverageDuration / 15).round());
+        // print(TemporaryStorage.serviceAverageDuration);
+        // print((TemporaryStorage.serviceAverageDuration / 15).round());
         final appointment = appointments[index];
+        print(slots);
         if (!appointment.occupied &&
             !appointment.reserved &&
             !appointment.holiday &&
             !appointment.sunday) {
-          print(int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
-                  .parse(appointment.endTime, true)
-                  .toLocal()
-                  .toString()
-                  .substring(11, 16)
-                  .split(':')
-                  .join()) -
-              int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
-                  .parse(appointment.startTime, true)
-                  .toLocal()
-                  .toString()
-                  .substring(11, 16)
-                  .split(':')
-                  .join()));
-          if (int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
-                      .parse(appointment.endTime, true)
-                      .toLocal()
-                      .toString()
-                      .substring(11, 16)
-                      .split(':')
-                      .join()) -
-                  int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
-                      .parse(appointment.startTime, true)
-                      .toLocal()
-                      .toString()
-                      .substring(11, 16)
-                      .split(':')
-                      .join()) <
-              TemporaryStorage.serviceAverageDuration) {
+          // print(int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
+          //         .parse(appointment.endTime, true)
+          //         .toLocal()
+          //         .toString()
+          //         .substring(11, 16)
+          //         .split(':')
+          //         .join()) -
+          //     int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
+          //         .parse(appointment.startTime, true)
+          //         .toLocal()
+          //         .toString()
+          //         .substring(11, 16)
+          //         .split(':')
+          //         .join()));
+          if (slots < (TemporaryStorage.serviceAverageDuration / 15)) {
+            slots++;
             return ListTile(
               leading: Icon(
                 Icons.access_time,
@@ -210,6 +200,7 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
               },
             );
           } else {
+            slots = 0;
             return const ListTile(
               leading: Icon(
                 Icons.free_cancellation,
@@ -225,6 +216,7 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             );
           }
         } else if (appointment.reserved) {
+          slots = 0;
           return ListTile(
             leading: const Icon(
               Icons.miscellaneous_services,
@@ -241,6 +233,7 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             ),
           );
         } else if (appointment.holiday) {
+          slots = 0;
           return ListTile(
             leading: Icon(
               Icons.free_cancellation,
@@ -252,6 +245,7 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             ),
           );
         } else if (appointment.sunday) {
+          slots = 0;
           return ListTile(
             leading: Icon(
               Icons.free_cancellation,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hairdressing_salon_app/helpers/verifyuser.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../screens/checkforloggeduser.dart';
 
@@ -33,6 +34,67 @@ class Allerts {
             } else if (isPoppedSecondTime) {
               Navigator.pop(context);
             }
+          },
+          color: Theme.of(context).primaryColorDark,
+        ),
+      ],
+    ).show();
+  }
+
+  void allertEmailVerification(BuildContext context) {
+    Alert(
+      context: context,
+      style: const AlertStyle(
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        titleStyle: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      title: 'Użytkownik niezweryfikowany',
+      desc: 'Kliknij w aby przesłać E-mail do weryfikacji konta',
+      buttons: [
+        DialogButton(
+          child: Text(
+            'OK',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+            await verifyUser();
+            Navigator.pushNamed(context, '/home');
+          },
+          color: Theme.of(context).primaryColorDark,
+        ),
+      ],
+    ).show();
+  }
+
+  void allertAppointmentCreated(BuildContext context) {
+    Alert(
+      context: context,
+      style: const AlertStyle(
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        titleStyle: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      title: 'Udało się',
+      desc: 'Pomyślnie umówiono wizytę',
+      buttons: [
+        DialogButton(
+          child: Text(
+            'OK',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/home');
           },
           color: Theme.of(context).primaryColorDark,
         ),

@@ -140,23 +140,9 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                             false,
                             false);
                       } else if (response.statusCode == 200) {
-                        Allerts().allert(
-                            context,
-                            'Udało się',
-                            'Pomyślnie umówiono wizy†ę',
-                            'OK',
-                            false,
-                            false,
-                            false);
+                        Allerts().allertAppointmentCreated(context);
                       } else if (response.statusCode == 403) {
-                        Allerts().allert(
-                            context,
-                            'Użytkownik niezweryfikowany',
-                            'Kliknij w link wysłany na adres E-mail aby zweryfikować konto',
-                            'OK',
-                            false,
-                            false,
-                            false);
+                        Allerts().allertEmailVerification(context);
                       }
                     },
                     child: Text(
