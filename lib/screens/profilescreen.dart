@@ -669,6 +669,9 @@ class _ProfileState extends State<ProfileScreen> {
                     false,
                     false,
                     false);
+              } else if (verification.statusCode == 408) {
+                Allerts().allert(context, 'Błąd połączenia',
+                    'Spróbuj ponownie za chwile', 'OK', false, false, false);
               }
               print(TemporaryStorage.email);
               print(verification.statusCode);
