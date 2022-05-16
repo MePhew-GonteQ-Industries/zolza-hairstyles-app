@@ -36,12 +36,13 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
             crossAxisAlignment: CrossAxisAlignment.center,
             // physics: const NeverScrollableScrollPhysics(),
             children: [
-              ListTile(
+              const ListTile(
                 title: Text(
                   'Umówioną wizytę może anulować tylko administrator!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      // color: Theme.of(context).primaryColor,
+                      color: Colors.red,
                       fontSize: 24,
                       fontWeight: FontWeight.bold),
                 ),

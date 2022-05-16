@@ -33,7 +33,6 @@ class _AppointmentsState extends State<AppointmentsScreen> {
   final minTime = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    // TemporaryStorage.date = choosenDate;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -148,28 +147,12 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: appointments.length,
       itemBuilder: (context, index) {
-        // print(TemporaryStorage.serviceAverageDuration);
-        // print((TemporaryStorage.serviceAverageDuration / 15).round());
         final appointment = appointments[index];
         print(slots);
         if (!appointment.occupied &&
             !appointment.reserved &&
             !appointment.holiday &&
             !appointment.sunday) {
-          // print(int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
-          //         .parse(appointment.endTime, true)
-          //         .toLocal()
-          //         .toString()
-          //         .substring(11, 16)
-          //         .split(':')
-          //         .join()) -
-          //     int.parse(DateFormat("yyyy-MM-ddTHH:mm:ss")
-          //         .parse(appointment.startTime, true)
-          //         .toLocal()
-          //         .toString()
-          //         .substring(11, 16)
-          //         .split(':')
-          //         .join()));
           if (slots < (TemporaryStorage.serviceAverageDuration / 15)) {
             slots++;
             return ListTile(
@@ -206,14 +189,11 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             return const ListTile(
               leading: Icon(
                 Icons.free_cancellation,
-                // color: Theme.of(context).primaryColorDark,
                 color: Colors.red,
               ),
               title: Text(
                 'Zajęte',
-                style: TextStyle(
-                    // color: Theme.of(context).primaryColorDark,
-                    color: Colors.red),
+                style: TextStyle(color: Colors.red),
               ),
             );
           }
@@ -222,16 +202,13 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
           return ListTile(
             leading: const Icon(
               Icons.miscellaneous_services,
-              // color: Theme.of(context).primaryColor,
               color: Colors.red,
             ),
             title: Text(
               appointment.reservedReason
                   ? 'Zarezerwowane: ${appointment.reservedReason}'
                   : 'Zarezerwowane',
-              style: const TextStyle(
-                  // color: Theme.of(context).primaryColor,
-                  color: Colors.red),
+              style: const TextStyle(color: Colors.red),
             ),
           );
         } else if (appointment.holiday) {
@@ -262,14 +239,11 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
           return const ListTile(
             leading: Icon(
               Icons.free_cancellation,
-              // color: Theme.of(context).primaryColorDark,
               color: Colors.red,
             ),
             title: Text(
               'Zajęte',
-              style: TextStyle(
-                  // color: Theme.of(context).primaryColorDark,
-                  color: Colors.red),
+              style: TextStyle(color: Colors.red),
             ),
           );
         } else {
