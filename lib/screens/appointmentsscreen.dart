@@ -56,7 +56,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
           Expanded(
             flex: 3,
             child: Text(
-              'Maksymalnie trzy miesiące do przodu',
+              'Maksymalnie trzy miesiące do przodu:',
               style: TextStyle(
                 color: Theme.of(context).primaryColor,
                 fontSize: 20,
@@ -86,7 +86,9 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                   DatePicker.showDatePicker(context,
                       showTitleActions: true,
                       minTime: minTime,
-                      maxTime: minTime.add(const Duration(days: 90)),
+                      maxTime: minTime.add(
+                        const Duration(days: 90),
+                      ),
                       onChanged: (date) {}, onConfirm: (date) {
                     setState(() {
                       choosenDate = DateFormat('yyyy-MM-dd').format(date);

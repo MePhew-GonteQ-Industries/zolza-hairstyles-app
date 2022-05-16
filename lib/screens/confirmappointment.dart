@@ -37,6 +37,19 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
             // physics: const NeverScrollableScrollPhysics(),
             children: [
               ListTile(
+                title: Text(
+                  'Umówioną wizytę może anulować tylko administrator!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              ListTile(
                 leading: Icon(
                   Icons.calendar_month,
                   color: Theme.of(context).primaryColor,
@@ -132,7 +145,7 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                       print(response.body);
                       if (response.statusCode == 400) {
                         Allerts().allertNotEnoughTime(context);
-                      } else if (response.statusCode == 200) {
+                      } else if (response.statusCode == 201) {
                         Allerts().allertAppointmentCreated(context);
                       } else if (response.statusCode == 403) {
                         Allerts().allertEmailVerification(context);
