@@ -99,13 +99,16 @@ class _HomeState extends State<HomeScreen> {
               textAlign: TextAlign.center,
             ),
           ),
-          ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: fetchedAppointments.length,
-              itemBuilder: (context, index) {
-                return getTile(fetchedAppointments[index]);
-              }),
+          Expanded(
+            child: ListView.builder(
+                shrinkWrap: true,
+                // physics: const NeverScrollableScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
+                itemCount: fetchedAppointments.length,
+                itemBuilder: (context, index) {
+                  return getTile(fetchedAppointments[index]);
+                }),
+          )
         ],
       );
     }
