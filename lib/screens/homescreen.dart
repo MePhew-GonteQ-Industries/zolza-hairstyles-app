@@ -34,11 +34,11 @@ class _HomeState extends State<HomeScreen> {
         });
     // print(response.statusCode);
     var body = jsonDecode(utf8.decode(response.bodyBytes));
-    if (response.statusCode == 200 && body['appointments'] != '[]') {
+    if (response.statusCode == 200 && body != '[]') {
       setState(() {
-        fetchedAppointments = body['appointments'];
-        print(fetchedAppointments);
-        print(fetchedAppointments.length);
+        fetchedAppointments = body;
+        // print(fetchedAppointments);
+        // print(fetchedAppointments.length);
       });
     } else {
       setState(() {
@@ -117,26 +117,29 @@ class _HomeState extends State<HomeScreen> {
   Widget getTile(index) {
     var service = index['service']['name'];
     var date = index['start_slot']['start_time'];
-    print(service);
-    print(date);
-    return ListTile(
-      title: Text(
-        service,
-        style: TextStyle(
-          color: Theme.of(context).primaryColor,
+    var archival = index['archival'];
+    if (!archival) {
+      return ListTile(
+        title: Text(
+          service,
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
         ),
-      ),
-      subtitle: Text(
-        DateFormat("yyyy-MM-ddTHH:mm:ss")
-            .parse(date, true)
-            .toLocal()
-            .toString()
-            .substring(0, 19),
-        style: TextStyle(
-          color: Theme.of(context).primaryColor,
+        subtitle: Text(
+          DateFormat("yyyy-MM-ddTHH:mm:ss")
+              .parse(date, true)
+              .toLocal()
+              .toString()
+              .substring(0, 16),
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      throw Exception();
+    }
   }
 
   void checkForInternetConnection() async {

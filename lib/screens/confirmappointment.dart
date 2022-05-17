@@ -143,8 +143,8 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                   child: ElevatedButton(
                     onPressed: () async {
                       Response response = await createAppointment();
-                      print(response.statusCode);
-                      print(response.body);
+                      // print(response.statusCode);
+                      // print(response.body);
                       if (response.statusCode == 400) {
                         Allerts().allertNotEnoughTime(context);
                       } else if (response.statusCode == 201) {

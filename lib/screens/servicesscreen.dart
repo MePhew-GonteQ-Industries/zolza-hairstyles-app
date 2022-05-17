@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hairdressing_salon_app/helpers/services.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/widgets/drawerwidget.dart';
-import 'package:intl/intl.dart';
 import '../helpers/servicesapi.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -120,9 +119,11 @@ Widget buildServices(List<Service> services) => ListView.builder(
               TemporaryStorage.service = service.name;
               TemporaryStorage.serviceID = service.id;
               TemporaryStorage.serviceAverageDuration = service.averageTime;
-              print(service.id);
-              print(service.name);
-              print(TemporaryStorage.serviceAverageDuration);
+              TemporaryStorage.requiredSlots = service.requiredSlots;
+              // print(TemporaryStorage.requiredSlots);
+              // print(service.id);
+              // print(service.name);
+              // print(TemporaryStorage.serviceAverageDuration);
               Navigator.pushNamed(context, '/appointments');
             },
           );

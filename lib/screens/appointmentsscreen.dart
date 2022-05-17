@@ -5,7 +5,8 @@ import '../helpers/appointments.dart';
 import '../helpers/appointmentsapi.dart';
 import '../helpers/temporarystorage.dart';
 
-var slots = 0;
+var currentSlotFits = 0;
+var requiredSlots = TemporaryStorage.requiredSlots;
 
 class AppointmentsScreen extends StatefulWidget {
   const AppointmentsScreen({Key? key}) : super(key: key);
@@ -16,12 +17,12 @@ class AppointmentsScreen extends StatefulWidget {
 
 class _AppointmentsState extends State<AppointmentsScreen> {
   String now = '';
-  String choosenDate = '';
+  String chosenDate = '';
   @override
   void initState() {
     super.initState();
     now = DateFormat("dd-MM-yyyy").format(DateTime.now());
-    choosenDate = now;
+    chosenDate = now;
   }
 
   @override
@@ -69,7 +70,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  choosenDate,
+                  chosenDate,
                   style: TextStyle(
                     fontSize: 24,
                     color: Theme.of(context).primaryColor,
@@ -90,11 +91,8 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                       ),
                       onChanged: (date) {}, onConfirm: (date) {
                     setState(() {
-                      choosenDate = DateFormat('yyyy-MM-dd').format(date);
-                      print(choosenDate);
-                      TemporaryStorage.date = choosenDate;
-                      // choosenDate = now;
-                      print(TemporaryStorage.date);
+                      chosenDate = DateFormat('yyyy-MM-dd').format(date);
+                      TemporaryStorage.date = chosenDate;
                     });
                   }, currentTime: DateTime.now(), locale: LocaleType.pl);
                 },
@@ -107,7 +105,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
             child: Align(
               alignment: Alignment.center,
               child: FutureBuilder<List<Appointment>>(
-                future: AppointmentsApi.getAppointments(context, choosenDate),
+                future: AppointmentsApi.getAppointments(context, chosenDate),
                 builder: (context, snapshot) {
                   final appointments = snapshot.data;
                   switch (snapshot.connectionState) {
@@ -148,57 +146,35 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
       itemCount: appointments.length,
       itemBuilder: (context, index) {
         final appointment = appointments[index];
-        print(slots);
-        if (!appointment.occupied &&
-            !appointment.reserved &&
-            !appointment.holiday &&
-            !appointment.sunday) {
-          if (slots < (TemporaryStorage.serviceAverageDuration / 15)) {
-            slots++;
-            return ListTile(
-              leading: Icon(
-                Icons.access_time,
-                color: Theme.of(context).primaryColor,
-              ),
-              title: Text(
-                DateFormat("yyyy-MM-ddTHH:mm:ss")
-                        .parse(appointment.startTime, true)
-                        .toLocal()
-                        .toString()
-                        .substring(11, 16) +
-                    ' - ' +
-                    DateFormat("yyyy-MM-ddTHH:mm:ss")
-                        .parse(appointment.endTime, true)
-                        .toLocal()
-                        .toString()
-                        .substring(11, 16),
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              onTap: () {
-                TemporaryStorage.appointmentID = appointment.id;
-                TemporaryStorage.startHour = DateFormat("yyyy-MM-ddTHH:mm:ss")
-                    .parse(appointment.startTime, true)
-                    .toLocal()
-                    .toString()
-                    .substring(11, 16);
-                Navigator.pushNamed(context, '/confirmAppointment');
-              },
-            );
-          } else {
-            slots = 0;
-            return const ListTile(
-              leading: Icon(
-                Icons.free_cancellation,
-                color: Colors.red,
-              ),
-              title: Text(
-                'Zajęte',
-                style: TextStyle(color: Colors.red),
-              ),
-            );
+        currentSlotFits = 0;
+        if (index + requiredSlots < appointments.length) {
+          for (int i = index; i < index + requiredSlots; i++) {
+            var slot = appointments[index];
+
+            if (slot.occupied) {
+              break;
+            }
+
+            if (slot.reserved) {
+              break;
+            }
+
+            if (slot.holiday) {
+              break;
+            }
+
+            if (slot.sunday) {
+              break;
+            }
+
+            if (currentSlotFits == requiredSlots) {
+              break;
+            }
+
+            currentSlotFits++;
           }
-        } else if (appointment.reserved) {
-          slots = 0;
+        }
+        if (appointment.reserved) {
           return ListTile(
             leading: const Icon(
               Icons.miscellaneous_services,
@@ -212,7 +188,6 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             ),
           );
         } else if (appointment.holiday) {
-          slots = 0;
           return ListTile(
             leading: Icon(
               Icons.free_cancellation,
@@ -224,7 +199,6 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             ),
           );
         } else if (appointment.sunday) {
-          slots = 0;
           return ListTile(
             leading: Icon(
               Icons.free_cancellation,
@@ -246,11 +220,45 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
               style: TextStyle(color: Colors.red),
             ),
           );
-        } else {
-          return Text(
-            'Wystąpił problem, spróbuj ponownie później',
-            style: TextStyle(
+        } else if (currentSlotFits == requiredSlots) {
+          return ListTile(
+            leading: Icon(
+              Icons.access_time,
               color: Theme.of(context).primaryColor,
+            ),
+            title: Text(
+              DateFormat("yyyy-MM-ddTHH:mm:ss")
+                      .parse(appointment.startTime, true)
+                      .toLocal()
+                      .toString()
+                      .substring(11, 16) +
+                  ' - ' +
+                  DateFormat("yyyy-MM-ddTHH:mm:ss")
+                      .parse(appointment.endTime, true)
+                      .toLocal()
+                      .toString()
+                      .substring(11, 16),
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+            onTap: () {
+              TemporaryStorage.appointmentID = appointment.id;
+              TemporaryStorage.startHour = DateFormat("yyyy-MM-ddTHH:mm:ss")
+                  .parse(appointment.startTime, true)
+                  .toLocal()
+                  .toString()
+                  .substring(11, 16);
+              Navigator.pushNamed(context, '/confirmAppointment');
+            },
+          );
+        } else {
+          return const ListTile(
+            leading: Icon(
+              Icons.free_cancellation,
+              color: Colors.red,
+            ),
+            title: Text(
+              'Za mało złota mój panie',
+              style: TextStyle(color: Colors.red),
             ),
           );
         }

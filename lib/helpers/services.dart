@@ -5,6 +5,7 @@ class Service {
   final int averageTime;
   final bool available;
   final String id;
+  final int requiredSlots;
 
   const Service({
     required this.minPrice,
@@ -13,6 +14,7 @@ class Service {
     required this.averageTime,
     required this.available,
     required this.id,
+    required this.requiredSlots,
   });
 
   static Service fromJson(json) => Service(
@@ -22,5 +24,6 @@ class Service {
         averageTime: json['average_time_minutes'],
         available: json['available'],
         id: json['id'],
+        requiredSlots: json['required_slots'],
       );
 }

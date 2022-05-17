@@ -13,4 +13,5 @@ class TemporaryStorage {
   static String date = DateFormat("yyyy-MM-dd").format(DateTime.now());
   static String appointmentID = 'appointmentID';
   static String startHour = 'hour';
+  static int requiredSlots = 0;
 }

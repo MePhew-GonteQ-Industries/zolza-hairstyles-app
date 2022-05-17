@@ -673,8 +673,8 @@ class _ProfileState extends State<ProfileScreen> {
                 Allerts().allert(context, 'Błąd połączenia',
                     'Spróbuj ponownie za chwile', 'OK', false, false, false);
               }
-              print(TemporaryStorage.email);
-              print(verification.statusCode);
+              // print(TemporaryStorage.email);
+              // print(verification.statusCode);
             },
           ),
           const SizedBox(

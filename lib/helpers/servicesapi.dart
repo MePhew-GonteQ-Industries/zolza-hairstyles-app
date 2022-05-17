@@ -18,7 +18,7 @@ class ServicesApi {
       onTimeout: () => http.Response('Error', 408),
     );
     final body = jsonDecode(utf8.decode(response.bodyBytes));
-    print(body);
+    // print(body);
     return body.map<Service>(Service.fromJson).toList();
   }
 }
