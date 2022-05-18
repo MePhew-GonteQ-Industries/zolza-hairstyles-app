@@ -297,17 +297,37 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
                 // ),
                 title: Center(
                   child: Text(
-                    DateFormat("yyyy-MM-ddTHH:mm:ss")
+                    'Od: ' +
+                        DateFormat("yyyy-MM-ddTHH:mm:ss")
                             .parse(appointment.startTime, true)
                             .toLocal()
                             .toString()
-                            .substring(11, 16) +
-                        ' - ' +
+                            .substring(11, 16),
+                    // +
+                    // ' - ' +
+                    // DateFormat("yyyy-MM-ddTHH:mm:ss")
+                    //     .parse(appointment.endTime, true)
+                    //     .add(Duration(
+                    //       minutes: 15 * (requiredSlots - 1),
+                    //     ))
+                    //     .toLocal()
+                    //     .toString()
+                    //     .substring(11, 16),
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+                subtitle: Center(
+                  child: Text(
+                    'Do: ' +
                         DateFormat("yyyy-MM-ddTHH:mm:ss")
                             .parse(appointment.endTime, true)
-                            .add(Duration(
-                              minutes: 15 * (requiredSlots - 1),
-                            ))
+                            .add(
+                              Duration(
+                                minutes: 15 * (requiredSlots - 1),
+                              ),
+                            )
                             .toLocal()
                             .toString()
                             .substring(11, 16),
