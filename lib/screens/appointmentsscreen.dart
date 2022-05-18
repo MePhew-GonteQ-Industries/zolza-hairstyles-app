@@ -201,72 +201,126 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             ),
           );
         } else if (appointment.sunday) {
-          return ListTile(
-            leading: Icon(
-              Icons.free_cancellation,
-              color: Theme.of(context).primaryColorDark,
+          return Card(
+            elevation: 6,
+            color: Colors.green,
+            margin: const EdgeInsets.all(8),
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: const BorderSide(
+                color: Color(0x44FFFFFF),
+                width: 1,
+              ),
             ),
-            title: Text(
-              'Niedziela',
-              style: TextStyle(color: Theme.of(context).primaryColorDark),
+            child: ListTile(
+              leading: Icon(
+                Icons.free_cancellation,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text(
+                'Niedziela',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
             ),
           );
         } else if (appointment.occupied) {
-          return const ListTile(
-            leading: Icon(
-              Icons.free_cancellation,
-              color: Colors.red,
-            ),
-            title: Text(
-              'Zajęte',
-              style: TextStyle(color: Colors.red),
-            ),
-          );
+          // return Card(
+          //   elevation: 6,
+          //   color: Colors.red,
+          //   margin: const EdgeInsets.all(8),
+          //   shape: OutlineInputBorder(
+          //     borderRadius: BorderRadius.circular(25),
+          //     borderSide: const BorderSide(
+          //       color: Color(0x44FFFFFF),
+          //       width: 1,
+          //     ),
+          //   ),
+          //   child: ListTile(
+          //     leading: Icon(
+          //       Icons.free_cancellation,
+          //       color: Theme.of(context).primaryColor,
+          //     ),
+          //     title: Text(
+          //       'Zajęte',
+          //       style: TextStyle(
+          //         color: Theme.of(context).primaryColor,
+          //       ),
+          //     ),
+          //   ),
+          // );
+          return const SizedBox.shrink();
         } else if (currentSlotFits == requiredSlots) {
-          return ListTile(
-            leading: Icon(
-              Icons.access_time,
-              color: Theme.of(context).primaryColor,
+          return Card(
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: const BorderSide(
+                color: Color(0x44FFFFFF),
+                width: 1,
+              ),
             ),
-            title: Text(
-              DateFormat("yyyy-MM-ddTHH:mm:ss")
-                      .parse(appointment.startTime, true)
-                      .toLocal()
-                      .toString()
-                      .substring(11, 16) +
-                  ' - ' +
-                  DateFormat("yyyy-MM-ddTHH:mm:ss")
-                      .parse(appointment.endTime, true)
-                      .add(Duration(
-                        minutes: 15 * (requiredSlots - 1),
-                      ))
-                      .toLocal()
-                      .toString()
-                      .substring(11, 16),
-              style: TextStyle(color: Theme.of(context).primaryColor),
+            child: ListTile(
+              leading: Icon(
+                Icons.access_time,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text(
+                DateFormat("yyyy-MM-ddTHH:mm:ss")
+                        .parse(appointment.startTime, true)
+                        .toLocal()
+                        .toString()
+                        .substring(11, 16) +
+                    ' - ' +
+                    DateFormat("yyyy-MM-ddTHH:mm:ss")
+                        .parse(appointment.endTime, true)
+                        .add(Duration(
+                          minutes: 15 * (requiredSlots - 1),
+                        ))
+                        .toLocal()
+                        .toString()
+                        .substring(11, 16),
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+              onTap: () {
+                TemporaryStorage.appointmentID = appointment.id;
+                TemporaryStorage.startHour = DateFormat("yyyy-MM-ddTHH:mm:ss")
+                    .parse(appointment.startTime, true)
+                    .toLocal()
+                    .toString()
+                    .substring(11, 16);
+                Navigator.pushNamed(context, '/confirmAppointment');
+              },
             ),
-            onTap: () {
-              TemporaryStorage.appointmentID = appointment.id;
-              TemporaryStorage.startHour = DateFormat("yyyy-MM-ddTHH:mm:ss")
-                  .parse(appointment.startTime, true)
-                  .toLocal()
-                  .toString()
-                  .substring(11, 16);
-              Navigator.pushNamed(context, '/confirmAppointment');
-            },
+            elevation: 6,
+            margin: const EdgeInsets.all(8),
           );
         } else {
-          print(appointment.startTime);
-          return const ListTile(
-            leading: Icon(
-              Icons.free_cancellation,
-              color: Colors.red,
-            ),
-            title: Text(
-              'Niewystarczająca ilość czasu',
-              style: TextStyle(color: Colors.red),
-            ),
-          );
+          // return Card(
+          //   elevation: 6,
+          //   color: Colors.red,
+          //   margin: const EdgeInsets.all(8),
+          //   shape: OutlineInputBorder(
+          //     borderRadius: BorderRadius.circular(25),
+          //     borderSide: const BorderSide(
+          //       color: Color(0x44FFFFFF),
+          //       width: 1,
+          //     ),
+          //   ),
+          //   child: ListTile(
+          //     leading: Icon(
+          //       Icons.free_cancellation,
+          //       color: Theme.of(context).primaryColor,
+          //     ),
+          //     title: Text(
+          //       'Niewystarczająca ilość czasu',
+          //       style: TextStyle(
+          //         color: Theme.of(context).primaryColor,
+          //       ),
+          //     ),
+          //   ),
+          // );
+          return const SizedBox.shrink();
         }
       },
     );
