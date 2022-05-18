@@ -177,27 +177,53 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
           }
         }
         if (appointment.reserved) {
-          return ListTile(
-            leading: const Icon(
-              Icons.miscellaneous_services,
-              color: Colors.red,
+          return Card(
+            elevation: 6,
+            color: Colors.red,
+            margin: const EdgeInsets.all(8),
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: const BorderSide(
+                color: Color(0x44FFFFFF),
+                width: 1,
+              ),
             ),
-            title: Text(
-              appointment.reservedReason
-                  ? 'Zarezerwowane: ${appointment.reservedReason}'
-                  : 'Zarezerwowane',
-              style: const TextStyle(color: Colors.red),
+            child: ListTile(
+              leading: Icon(
+                Icons.miscellaneous_services,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text(
+                appointment.reservedReason
+                    ? 'Zarezerwowane: ${appointment.reservedReason}'
+                    : 'Zarezerwowane',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
             ),
           );
         } else if (appointment.holiday) {
-          return ListTile(
-            leading: Icon(
-              Icons.free_cancellation,
-              color: Theme.of(context).primaryColorDark,
+          return Card(
+            elevation: 6,
+            color: Colors.green,
+            margin: const EdgeInsets.all(8),
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: const BorderSide(
+                color: Color(0x44FFFFFF),
+                width: 1,
+              ),
             ),
-            title: Text(
-              appointment.holidayName,
-              style: TextStyle(color: Theme.of(context).primaryColorDark),
+            child: ListTile(
+              leading: Icon(
+                Icons.free_cancellation,
+                color: Theme.of(context).primaryColorDark,
+              ),
+              title: Text(
+                appointment.holidayName,
+                style: TextStyle(color: Theme.of(context).primaryColorDark),
+              ),
             ),
           );
         } else if (appointment.sunday) {
