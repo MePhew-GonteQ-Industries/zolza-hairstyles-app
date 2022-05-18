@@ -120,7 +120,7 @@ Widget buildServices(List<Service> services) => ListView.builder(
               TemporaryStorage.serviceID = service.id;
               TemporaryStorage.serviceAverageDuration = service.averageTime;
               TemporaryStorage.requiredSlots = service.requiredSlots;
-              // print(TemporaryStorage.requiredSlots);
+              print(TemporaryStorage.requiredSlots);
               // print(service.id);
               // print(service.name);
               // print(TemporaryStorage.serviceAverageDuration);

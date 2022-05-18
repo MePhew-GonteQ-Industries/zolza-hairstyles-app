@@ -51,9 +51,9 @@ dependencies:
   sprintf: ^6.0.0
   connectivity_plus: ^2.2.1
   flutter_datetime_picker: ^1.5.1
-  firebase_messaging: ^11.2.8
-  cloud_firestore: ^3.1.10
-  firebase_core: ^1.13.1
+  # firebase_messaging: ^11.2.8
+  # cloud_firestore: ^3.1.10
+  # firebase_core: ^1.13.1
 
 dev_dependencies:
   flutter_test:

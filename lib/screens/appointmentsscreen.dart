@@ -6,7 +6,7 @@ import '../helpers/appointmentsapi.dart';
 import '../helpers/temporarystorage.dart';
 
 var currentSlotFits = 0;
-var requiredSlots = TemporaryStorage.requiredSlots;
+var requiredSlots = 0;
 
 class AppointmentsScreen extends StatefulWidget {
   const AppointmentsScreen({Key? key}) : super(key: key);
@@ -23,6 +23,8 @@ class _AppointmentsState extends State<AppointmentsScreen> {
     super.initState();
     now = DateFormat("dd-MM-yyyy").format(DateTime.now());
     chosenDate = now;
+    currentSlotFits = 0;
+    requiredSlots = TemporaryStorage.requiredSlots;
   }
 
   @override
@@ -147,9 +149,9 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
       itemBuilder: (context, index) {
         final appointment = appointments[index];
         currentSlotFits = 0;
-        if (index + requiredSlots < appointments.length) {
-          for (int i = index; i < index + requiredSlots; i++) {
-            var slot = appointments[index];
+        if (index + requiredSlots <= appointments.length) {
+          for (int i = index; i < (index + requiredSlots); i++) {
+            final slot = appointments[i];
 
             if (slot.occupied) {
               break;
@@ -235,6 +237,9 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
                   ' - ' +
                   DateFormat("yyyy-MM-ddTHH:mm:ss")
                       .parse(appointment.endTime, true)
+                      .add(Duration(
+                        minutes: 15 * (requiredSlots - 1),
+                      ))
                       .toLocal()
                       .toString()
                       .substring(11, 16),
@@ -251,13 +256,14 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             },
           );
         } else {
+          print(appointment.startTime);
           return const ListTile(
             leading: Icon(
               Icons.free_cancellation,
               color: Colors.red,
             ),
             title: Text(
-              'Za mało złota mój panie',
+              'Niewystarczająca ilość czasu',
               style: TextStyle(color: Colors.red),
             ),
           );
