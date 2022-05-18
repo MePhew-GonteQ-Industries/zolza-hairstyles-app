@@ -144,6 +144,9 @@ class _AppointmentsState extends State<AppointmentsScreen> {
 }
 
 Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
+      // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      //   crossAxisCount: 3,
+      // ),
       physics: const BouncingScrollPhysics(),
       itemCount: appointments.length,
       itemBuilder: (context, index) {
@@ -279,47 +282,66 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
           return const SizedBox.shrink();
         } else if (currentSlotFits == requiredSlots) {
           return Card(
+            // shape: OutlineInputBorder(
+            //   borderRadius: BorderRadius.circular(25),
+            //   borderSide: const BorderSide(
+            //     color: Color(0x44FFFFFF),
+            //     width: 1,
+            //   ),
+            // ),
+            child: Center(
+              child: ListTile(
+                // leading: Icon(
+                //   Icons.access_time,
+                //   color: Theme.of(context).primaryColor,
+                // ),
+                title: Center(
+                  child: Text(
+                    DateFormat("yyyy-MM-ddTHH:mm:ss")
+                            .parse(appointment.startTime, true)
+                            .toLocal()
+                            .toString()
+                            .substring(11, 16) +
+                        ' - ' +
+                        DateFormat("yyyy-MM-ddTHH:mm:ss")
+                            .parse(appointment.endTime, true)
+                            .add(Duration(
+                              minutes: 15 * (requiredSlots - 1),
+                            ))
+                            .toLocal()
+                            .toString()
+                            .substring(11, 16),
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  TemporaryStorage.appointmentID = appointment.id;
+                  TemporaryStorage.startHour = DateFormat("yyyy-MM-ddTHH:mm:ss")
+                      .parse(appointment.startTime, true)
+                      .toLocal()
+                      .toString()
+                      .substring(11, 16);
+                  Navigator.pushNamed(context, '/confirmAppointment');
+                },
+              ),
+            ),
+            elevation: 8,
+            // shape: CircleBorder(
+            //   side: BorderSide(
+            //     width: 1,
+            //     color: Color(0x44FFFFFF),
+            //   ),
+            // ),
             shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(
                 color: Color(0x44FFFFFF),
                 width: 1,
               ),
             ),
-            child: ListTile(
-              leading: Icon(
-                Icons.access_time,
-                color: Theme.of(context).primaryColor,
-              ),
-              title: Text(
-                DateFormat("yyyy-MM-ddTHH:mm:ss")
-                        .parse(appointment.startTime, true)
-                        .toLocal()
-                        .toString()
-                        .substring(11, 16) +
-                    ' - ' +
-                    DateFormat("yyyy-MM-ddTHH:mm:ss")
-                        .parse(appointment.endTime, true)
-                        .add(Duration(
-                          minutes: 15 * (requiredSlots - 1),
-                        ))
-                        .toLocal()
-                        .toString()
-                        .substring(11, 16),
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              onTap: () {
-                TemporaryStorage.appointmentID = appointment.id;
-                TemporaryStorage.startHour = DateFormat("yyyy-MM-ddTHH:mm:ss")
-                    .parse(appointment.startTime, true)
-                    .toLocal()
-                    .toString()
-                    .substring(11, 16);
-                Navigator.pushNamed(context, '/confirmAppointment');
-              },
-            ),
-            elevation: 6,
-            margin: const EdgeInsets.all(8),
+            margin: const EdgeInsets.all(10),
           );
         } else {
           // return Card(
