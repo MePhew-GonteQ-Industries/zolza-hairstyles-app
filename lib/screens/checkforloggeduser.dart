@@ -37,7 +37,7 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
           false);
     } else {
       var _refreshToken = await UserSecureStorage.getRefreshToken();
-      if (_refreshToken != 'null') {
+      if (_refreshToken != null) {
         Response refreshToken = await sendRefreshToken(_refreshToken);
         // print(refreshToken.statusCode);
         if (refreshToken.statusCode == 200) {
