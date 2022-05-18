@@ -1,4 +1,4 @@
-package pl.zolza-hairstyles.app
+package pl.zolza_hairstyles.app
 
 import io.flutter.embedding.android.FlutterActivity
 
