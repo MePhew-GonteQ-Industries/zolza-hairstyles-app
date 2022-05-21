@@ -72,7 +72,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         onPressed: () async {
           if (checkForEmptyTextField()) {
             var brightness =
-                SchedulerBinding.instance!.window.platformBrightness;
+                SchedulerBinding.instance.window.platformBrightness;
             bool isDarkMode = brightness == Brightness.dark;
             String mode = 'light';
             switch (isDarkMode) {
