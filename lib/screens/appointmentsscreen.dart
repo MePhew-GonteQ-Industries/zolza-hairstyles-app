@@ -289,6 +289,7 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             //     width: 1,
             //   ),
             // ),
+            color: Theme.of(context).backgroundColor,
             child: Center(
               child: ListTile(
                 // leading: Icon(
