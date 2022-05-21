@@ -7,6 +7,7 @@ import '../helpers/temporarystorage.dart';
 
 var currentSlotFits = 0;
 var requiredSlots = 0;
+var hasSlots = 0;
 
 class AppointmentsScreen extends StatefulWidget {
   const AppointmentsScreen({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
     now = DateFormat("dd-MM-yyyy").format(DateTime.now());
     chosenDate = now;
     currentSlotFits = 0;
+    hasSlots = 0;
     requiredSlots = TemporaryStorage.requiredSlots;
   }
 
@@ -129,6 +131,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                               )),
                         );
                       } else {
+                        print(snapshot.data);
                         return buildAppointments(appointments!);
                       }
                   }
@@ -175,7 +178,7 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             if (currentSlotFits == requiredSlots) {
               break;
             }
-
+            hasSlots++;
             currentSlotFits++;
           }
         }
@@ -364,6 +367,9 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
             ),
             margin: const EdgeInsets.all(10),
           );
+        } else if (appointments.isEmpty) {
+          print('isempty');
+          return Text('Brak wolnych miejsc');
         } else {
           // return Card(
           //   elevation: 6,
@@ -382,7 +388,7 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
           //       color: Theme.of(context).primaryColor,
           //     ),
           //     title: Text(
-          //       'Niewystarczająca ilość czasu',
+          //       'Brak wolnych miejsc',
           //       style: TextStyle(
           //         color: Theme.of(context).primaryColor,
           //       ),
