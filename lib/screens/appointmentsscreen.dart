@@ -146,7 +146,45 @@ class _AppointmentsState extends State<AppointmentsScreen> {
   }
 }
 
-Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
+Widget buildAppointments(List<Appointment> appointments) {
+  if (appointments.isEmpty) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Card(
+            elevation: 2,
+            color: Colors.blue,
+            margin: const EdgeInsets.all(8),
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
+              borderSide: const BorderSide(
+                color: Color(0x44FFFFFF),
+                width: 1,
+              ),
+            ),
+            child: const ListTile(
+              leading: Icon(
+                Icons.miscellaneous_services,
+                color: Colors.red,
+              ),
+              title: Text(
+                'Brak wolnych miejsc',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  } else {
+    return areSlots(appointments);
+  }
+}
+
+Widget areSlots(List<Appointment> appointments) => ListView.builder(
       // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
       //   crossAxisCount: 3,
       // ),
