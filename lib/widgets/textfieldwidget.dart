@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TextFieldWidget {
   Widget textField(BuildContext context, TextEditingController controller,
-      String hint, IconData icon, bool isObscure) {
+      String hint, IconData icon, bool isObscure, TextInputType type) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -40,6 +40,7 @@ class TextFieldWidget {
               ),
             ),
             obscureText: isObscure,
+            keyboardType: type,
           ),
         ),
       ],

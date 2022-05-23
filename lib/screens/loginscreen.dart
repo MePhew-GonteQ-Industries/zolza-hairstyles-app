@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: TextButton(
         onPressed: () => Navigator.pushNamed(context, '/forgotPassword'),
         style: TextButton.styleFrom(
-          padding: const EdgeInsets.only(right: 0), 
+          padding: const EdgeInsets.only(right: 0),
         ),
         child: Text(
           'Nie pamiętasz hasła?',
@@ -243,11 +243,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 50),
-                      TextFieldWidget().textField(context, emailController,
-                          'E-mail', Icons.email, false),
+                      TextFieldWidget().textField(
+                        context,
+                        emailController,
+                        'E-mail',
+                        Icons.email,
+                        false,
+                        TextInputType.emailAddress,
+                      ),
                       const SizedBox(height: 25),
-                      TextFieldWidget().textField(context, passwordController,
-                          'Hasło', Icons.lock, true),
+                      TextFieldWidget().textField(
+                        context,
+                        passwordController,
+                        'Hasło',
+                        Icons.lock,
+                        true,
+                        TextInputType.text,
+                      ),
                       const SizedBox(height: 5),
                       buildForgotPassword(),
                       const SizedBox(height: 25),

@@ -160,8 +160,14 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
                         ),
                       ),
                       const SizedBox(height: 50),
-                      TextFieldWidget().textField(context, emailController,
-                          'E-mail', Icons.email, false),
+                      TextFieldWidget().textField(
+                        context,
+                        emailController,
+                        'E-mail',
+                        Icons.email,
+                        false,
+                        TextInputType.emailAddress,
+                      ),
                       const SizedBox(height: 40),
                       buildForgotPasswordBtn()
                     ],
