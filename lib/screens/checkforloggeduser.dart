@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hairdressing_salon_app/helpers/loginhelper.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/helpers/usersecurestorage.dart';
+import 'package:hairdressing_salon_app/screens/loginscreen.dart';
 import 'package:hairdressing_salon_app/widgets/allerts.dart';
 import 'package:http/http.dart';
 import 'homescreen.dart';
@@ -121,6 +122,11 @@ void loginLoop(BuildContext context) async {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false);
+    } else if (refreshToken.statusCode == 401) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
           (route) => false);
     }
   }
