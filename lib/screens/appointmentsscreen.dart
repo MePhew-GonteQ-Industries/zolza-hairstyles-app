@@ -184,8 +184,8 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
         }
         if (appointment.reserved) {
           return Card(
-            elevation: 6,
-            color: Colors.red,
+            elevation: 2,
+            color: Theme.of(context).backgroundColor,
             margin: const EdgeInsets.all(8),
             shape: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25),
@@ -195,64 +195,66 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
               ),
             ),
             child: ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.miscellaneous_services,
-                color: Theme.of(context).primaryColor,
+                color: Colors.red,
               ),
               title: Text(
                 appointment.reservedReason
                     ? 'Zarezerwowane: ${appointment.reservedReason}'
                     : 'Zarezerwowane',
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                style: const TextStyle(
+                  color: Colors.red,
                 ),
               ),
             ),
           );
         } else if (appointment.holiday) {
           return Card(
-            elevation: 6,
-            color: Colors.green,
+            elevation: 2,
+            color: Theme.of(context).backgroundColor,
             margin: const EdgeInsets.all(8),
             shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(
                 color: Color(0x44FFFFFF),
                 width: 1,
               ),
             ),
             child: ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.free_cancellation,
-                color: Theme.of(context).primaryColorDark,
+                color: Colors.red,
               ),
               title: Text(
                 appointment.holidayName,
-                style: TextStyle(color: Theme.of(context).primaryColorDark),
+                style: const TextStyle(
+                  color: Colors.red,
+                ),
               ),
             ),
           );
         } else if (appointment.sunday) {
           return Card(
-            elevation: 6,
-            color: Colors.green,
+            elevation: 2,
+            color: Theme.of(context).backgroundColor,
             margin: const EdgeInsets.all(8),
             shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(
                 color: Color(0x44FFFFFF),
                 width: 1,
               ),
             ),
-            child: ListTile(
+            child: const ListTile(
               leading: Icon(
                 Icons.free_cancellation,
-                color: Theme.of(context).primaryColor,
+                color: Colors.red,
               ),
               title: Text(
                 'Niedziela',
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.red,
                 ),
               ),
             ),
@@ -329,7 +331,7 @@ Widget buildAppointments(List<Appointment> appointments) => ListView.builder(
                             .parse(appointment.endTime, true)
                             .add(
                               Duration(
-                                minutes: 15 * (requiredSlots - 1),
+                                minutes: 30 * (requiredSlots - 1),
                               ),
                             )
                             .toLocal()
