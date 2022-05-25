@@ -39,10 +39,46 @@
               "client_type": 3
             },
             {
-              "client_id": "436999151575-kbhikikua8rqavkgftu0932da2jug59e.apps.googleusercontent.com",
+              "client_id": "436999151575-ijhs4to39nantl2ngalljlc95q582rjd.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "pl.zolza-hairstyles.app"
+                "bundle_id": "pl.zolzahairstyles.app"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436999151575:android:6845e907727ef20dc33592",
+        "android_client_info": {
+          "package_name": "pl.zolzahairstyles.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436999151575-i7sgop2mg5l8g51pbtp7omb773f8t7da.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgPkVDeZtWnDgAcXMTC8_BLXyrp58L9xg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436999151575-i7sgop2mg5l8g51pbtp7omb773f8t7da.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "436999151575-ijhs4to39nantl2ngalljlc95q582rjd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "pl.zolzahairstyles.app"
               }
             }
           ]

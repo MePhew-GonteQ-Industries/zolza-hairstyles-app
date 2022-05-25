@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../helpers/loginhelper.dart';
 import '../widgets/allerts.dart';
 import '../widgets/textfieldwidget.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -95,6 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 default:
                   TemporaryStorage.gender = 'Płeć';
               }
+              final fcmToken = await FirebaseMessaging.instance.getToken();
+              print(fcmToken);
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
