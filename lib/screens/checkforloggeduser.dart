@@ -6,6 +6,7 @@ import 'package:hairdressing_salon_app/helpers/usersecurestorage.dart';
 import 'package:hairdressing_salon_app/screens/loginscreen.dart';
 import 'package:hairdressing_salon_app/widgets/allerts.dart';
 import 'package:http/http.dart';
+import '../FCM/getFCMToken.dart';
 import 'homescreen.dart';
 import 'dart:convert';
 
@@ -63,6 +64,7 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
             default:
               TemporaryStorage.gender = 'Płeć';
           }
+          await GetFcmToken().setUpToken();
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const HomeScreen()),

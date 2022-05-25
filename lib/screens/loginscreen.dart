@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hairdressing_salon_app/FCM/getFCMToken.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/helpers/usersecurestorage.dart';
 import 'package:hairdressing_salon_app/screens/homescreen.dart';
@@ -96,8 +97,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 default:
                   TemporaryStorage.gender = 'Płeć';
               }
-              final fcmToken = await FirebaseMessaging.instance.getToken();
-              print(fcmToken);
+              // final fcmToken = await FirebaseMessaging.instance.getToken();
+              // print(fcmToken);
+              await GetFcmToken().setUpToken();
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
