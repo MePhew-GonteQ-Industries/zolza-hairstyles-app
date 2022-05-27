@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../helpers/appointments.dart';
 import '../helpers/appointmentsapi.dart';
@@ -59,14 +60,14 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                   width: 1,
                 ),
               ),
-              child: const ListTile(
-                leading: Icon(
+              child: ListTile(
+                leading: const Icon(
                   Icons.close,
                   color: Colors.red,
                 ),
                 title: Text(
                   'Brak wolnych miejsc',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 24,
                     color: Colors.red,
                   ),
@@ -148,7 +149,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                       appointment.reservedReason
                           ? 'Zarezerwowane: ${appointment.reservedReason}'
                           : 'Zarezerwowane',
-                      style: const TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 24,
                         color: Colors.red,
                       ),
@@ -181,9 +182,9 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                     ),
                     title: Text(
                       appointment.holidayName,
-                      style: const TextStyle(
-                        color: Colors.red,
+                      style: GoogleFonts.poppins(
                         fontSize: 24,
+                        color: Colors.red,
                       ),
                     ),
                   ),
@@ -207,16 +208,16 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                       width: 1,
                     ),
                   ),
-                  child: const ListTile(
-                    leading: Icon(
+                  child: ListTile(
+                    leading: const Icon(
                       Icons.free_cancellation,
                       color: Colors.red,
                     ),
                     title: Text(
                       'Niedziela',
-                      style: TextStyle(
-                        color: Colors.red,
+                      style: GoogleFonts.poppins(
                         fontSize: 24,
+                        color: Colors.red,
                       ),
                     ),
                   ),
@@ -283,7 +284,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                       //     .toLocal()
                       //     .toString()
                       //     .substring(11, 16),
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: Theme.of(context).primaryColor,
                         fontSize: 24,
                       ),
@@ -302,7 +303,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                               .toLocal()
                               .toString()
                               .substring(11, 16),
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: Theme.of(context).primaryColor,
                       ),
                     ),
@@ -353,14 +354,14 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                       width: 1,
                     ),
                   ),
-                  child: const ListTile(
-                    leading: Icon(
+                  child: ListTile(
+                    leading: const Icon(
                       Icons.close,
                       color: Colors.red,
                     ),
                     title: Text(
                       'Brak wolnych miejsc',
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         fontSize: 24,
                         color: Colors.red,
                       ),
@@ -407,10 +408,13 @@ class _AppointmentsState extends State<AppointmentsScreen> {
         iconTheme: IconThemeData(
           color: Theme.of(context).backgroundColor,
         ),
-        title: Text('Wybierz datę',
-            style: TextStyle(
-              color: Theme.of(context).backgroundColor,
-            )),
+        title: Text(
+          'Wybierz datę',
+          style: GoogleFonts.poppins(
+            color: Theme.of(context).backgroundColor,
+            fontSize: 28,
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -424,7 +428,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
             flex: 3,
             child: Text(
               'Maksymalnie trzy miesiące do przodu:',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
                 fontSize: 20,
               ),
@@ -438,7 +442,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                 flex: 1,
                 child: Text(
                   chosenDate,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     fontSize: 24,
                     color: Theme.of(context).primaryColor,
                   ),
@@ -488,10 +492,11 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                         // print(snapshot.error);
                         return Center(
                           child: Text(
-                              'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                              )),
+                            'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',
+                            style: GoogleFonts.poppins(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
                         );
                       } else {
                         // print(snapshot.data);

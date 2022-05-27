@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/createappointmenthelper.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/widgets/allerts.dart';
@@ -23,8 +24,9 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
         ),
         title: Text(
           'Potwierdź wizytę',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Theme.of(context).backgroundColor,
+            fontSize: 24,
           ),
         ),
       ),
@@ -41,15 +43,15 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                   'Umówioną wizytę może anulować tylko administrator!'
                       .toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      // color: Theme.of(context).primaryColor,
-                      color: Colors.red,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
+                  style: GoogleFonts.poppins(
+                    color: Colors.red,
+                    fontSize: 24,
+                    // fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 40,
+                height: 30,
               ),
               ListTile(
                 leading: Icon(
@@ -59,7 +61,7 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                 title: Text(
                   'Data:',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     color: Theme.of(context).primaryColor,
                     fontSize: 24,
                   ),
@@ -67,7 +69,7 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                 subtitle: Text(
                   TemporaryStorage.date,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     color: Theme.of(context).primaryColor,
                     fontSize: 24,
                   ),
@@ -85,7 +87,7 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                 title: Text(
                   'Godzina:',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     color: Theme.of(context).primaryColor,
                     fontSize: 24,
                   ),
@@ -93,7 +95,7 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                 subtitle: Text(
                   TemporaryStorage.startHour,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     color: Theme.of(context).primaryColor,
                     fontSize: 24,
                   ),
@@ -111,7 +113,7 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                 title: Text(
                   'Usługa:',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     color: Theme.of(context).primaryColor,
                     fontSize: 24,
                   ),
@@ -119,7 +121,7 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                 subtitle: Text(
                   TemporaryStorage.service,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
                     color: Theme.of(context).primaryColor,
                     fontSize: 24,
                   ),
@@ -155,7 +157,7 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                     },
                     child: Text(
                       'Potwierdź wizytę',
-                      style: TextStyle(
+                      style: GoogleFonts.poppins(
                         color: Theme.of(context).primaryColor,
                         fontSize: 24,
                       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/widgets/textfieldwidget.dart';
 import 'package:http/http.dart';
 import '../helpers/signuphelper.dart';
@@ -40,16 +41,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         name == '' ||
         surename == '' ||
         repassword == '') {
-      Allerts().allert(context, 'Nie tak szybko...',
-          'Te pola nie mogą być puste', 'OK', false, false, false);
+      Allerts().allert(
+        context,
+        'Nie tak szybko...',
+        'Te pola nie mogą być puste',
+        'OK',
+        false,
+        false,
+        false,
+      );
       return false;
     } else if (password != repassword) {
-      Allerts().allert(context, 'Nie tak szybko...',
-          'Podane hasłą muszą się zgadzać', 'OK', false, false, false);
+      Allerts().allert(
+        context,
+        'Nie tak szybko...',
+        'Podane hasłą muszą się zgadzać',
+        'OK',
+        false,
+        false,
+        false,
+      );
       return false;
     } else if (choosenValue == 'Płeć') {
-      Allerts().allert(context, 'Nie tak szybko...', 'Proszę wybrać płeć', 'OK',
-          false, false, false);
+      Allerts().allert(
+        context,
+        'Nie tak szybko...',
+        'Proszę wybrać płeć',
+        'OK',
+        false,
+        false,
+        false,
+      );
       return false;
     } else {
       return true;
@@ -126,9 +148,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             }
           }
         },
-        child: const Text(
+        child: Text(
           'Zarejestruj się',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -148,7 +170,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           children: [
             TextSpan(
               text: 'Masz już konto? ',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -156,7 +178,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             TextSpan(
               text: "Zaloguj się",
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColorDark,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -175,7 +197,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
       child: DropdownButton(
           alignment: Alignment.center,
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             fontSize: 18,
             color: Theme.of(context).primaryColor,
           ),
@@ -221,7 +243,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     children: [
                       Text(
                         'Zarejestruj się',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           color: Theme.of(context).primaryColor,
                           fontSize: 40,
                           fontWeight: FontWeight.bold,

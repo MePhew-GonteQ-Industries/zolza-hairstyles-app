@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/FCM/getFCMToken.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/helpers/usersecurestorage.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../helpers/loginhelper.dart';
 import '../widgets/allerts.dart';
 import '../widgets/textfieldwidget.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         child: Text(
           'Nie pamiętasz hasła?',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
           ),
@@ -131,9 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
             }
           }
         },
-        child: const Text(
+        child: Text(
           'Zaloguj się',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -196,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             TextSpan(
               text: 'Nie posiadasz konta? ',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -204,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextSpan(
               text: 'Zarejestruj się',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColorDark,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -241,7 +241,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Text(
                         'Zaloguj się',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           color: Theme.of(context).primaryColor,
                           fontSize: 40,
                           fontWeight: FontWeight.bold,

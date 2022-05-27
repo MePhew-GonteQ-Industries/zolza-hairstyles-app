@@ -1,5 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import '../helpers/logouthelper.dart';
 import '../helpers/temporarystorage.dart';
@@ -22,7 +23,10 @@ class DrawerWidget {
         ),
         title: Text(
           text,
-          style: TextStyle(color: color),
+          style: GoogleFonts.poppins(
+            color: color,
+            fontSize: 18,
+          ),
         ),
         onTap: () => selectedItem(context, index),
       );
@@ -37,8 +41,9 @@ class DrawerWidget {
         ),
         title: Text(
           'Wyloguj się',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: color,
+            fontSize: 18,
           ),
         ),
         onTap: () async {
@@ -58,6 +63,7 @@ class DrawerWidget {
             if (logOut.statusCode == 200) {
               UserSecureStorage.setRefreshToken('null');
               TemporaryStorage.accessToken = 'null';
+              UserSecureStorage.setFCMToken('null');
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
@@ -96,10 +102,10 @@ class DrawerWidget {
                     Expanded(
                       flex: 5,
                       child: Text(
-                        'Witaj,\n${TemporaryStorage.name}',
-                        style: TextStyle(
+                        'Witaj, ${TemporaryStorage.name}',
+                        style: GoogleFonts.poppins(
                           color: Theme.of(context).canvasColor,
-                          fontSize: 20,
+                          fontSize: 24,
                         ),
                       ),
                     ),

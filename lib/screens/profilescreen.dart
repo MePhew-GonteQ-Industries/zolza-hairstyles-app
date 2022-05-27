@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/helpers/updateuserdetailshelper.dart';
 import 'package:http/http.dart';
@@ -69,7 +70,7 @@ class _ProfileState extends State<ProfileScreen> {
       ),
       child: DropdownButton(
           alignment: Alignment.center,
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Theme.of(context).primaryColor,
           ),
           hint: const Text('Wybierz swoją rolę'),
@@ -124,8 +125,15 @@ class _ProfileState extends State<ProfileScreen> {
             ),
             onPressed: () async {
               if (choosenValue == 'Płeć') {
-                Allerts().allert(context, 'Nie tak szybko...',
-                    'Proszę wybrać płeć', 'OK', false, false, false);
+                Allerts().allert(
+                  context,
+                  'Nie tak szybko...',
+                  'Proszę wybrać płeć',
+                  'OK',
+                  false,
+                  false,
+                  false,
+                );
               } else {
                 String name = nameController.text;
                 String surName = surNameController.text;
@@ -157,11 +165,11 @@ class _ProfileState extends State<ProfileScreen> {
                                   obscureText: true,
                                   decoration: InputDecoration(
                                     hintText: 'Podaj hasło',
-                                    hintStyle: TextStyle(
+                                    hintStyle: GoogleFonts.poppins(
                                       color: Theme.of(context).primaryColor,
                                     ),
                                   ),
-                                  style: TextStyle(
+                                  style: GoogleFonts.poppins(
                                     color: Theme.of(context).primaryColor,
                                   ),
                                 ),
@@ -169,7 +177,10 @@ class _ProfileState extends State<ProfileScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: ElevatedButton(
-                                  child: const Text("Zapisz zmiany"),
+                                  child: Text(
+                                    "Zapisz zmiany",
+                                    style: GoogleFonts.poppins(),
+                                  ),
                                   onPressed: () async {
                                     if (passwordController.text == '') {
                                       Allerts().allert(
@@ -296,9 +307,9 @@ class _ProfileState extends State<ProfileScreen> {
                 }
               }
             },
-            child: const Text(
+            child: Text(
               'Zapisz zmiany',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Colors.white,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -324,7 +335,10 @@ class _ProfileState extends State<ProfileScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           'Profil użytkownika',
-          style: TextStyle(color: Theme.of(context).backgroundColor),
+          style: GoogleFonts.poppins(
+            color: Theme.of(context).backgroundColor,
+            fontSize: 28,
+          ),
         ),
       ),
       body: ListView(
@@ -333,7 +347,7 @@ class _ProfileState extends State<ProfileScreen> {
             title: Center(
               child: Text(
                 TemporaryStorage.name + ' ' + TemporaryStorage.surName,
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   fontSize: 24,
                   color: Theme.of(context).primaryColor,
                 ),
@@ -347,12 +361,13 @@ class _ProfileState extends State<ProfileScreen> {
             ),
             title: Text(
               'E-mail',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
             ),
             subtitle: Text(
               TemporaryStorage.email,
+              style: GoogleFonts.poppins(),
             ),
           ),
           ListTile(
@@ -362,7 +377,7 @@ class _ProfileState extends State<ProfileScreen> {
             ),
             title: Text(
               'Hasło',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
             ),
@@ -370,13 +385,13 @@ class _ProfileState extends State<ProfileScreen> {
               enabled: false,
               decoration: InputDecoration(
                 hintText: '********',
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.poppins(
                   color: Theme.of(context).primaryColor,
                 ),
               ),
               obscureText: true,
               controller: passwordController,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
             ),
@@ -404,11 +419,11 @@ class _ProfileState extends State<ProfileScreen> {
                                     obscureText: true,
                                     decoration: InputDecoration(
                                       hintText: 'Stare hasło',
-                                      hintStyle: TextStyle(
+                                      hintStyle: GoogleFonts.poppins(
                                         color: Theme.of(context).primaryColor,
                                       ),
                                     ),
-                                    style: TextStyle(
+                                    style: GoogleFonts.poppins(
                                       color: Theme.of(context).primaryColor,
                                     ),
                                   ),
@@ -420,11 +435,11 @@ class _ProfileState extends State<ProfileScreen> {
                                     obscureText: true,
                                     decoration: InputDecoration(
                                       hintText: 'Nowe hasło',
-                                      hintStyle: TextStyle(
+                                      hintStyle: GoogleFonts.poppins(
                                         color: Theme.of(context).primaryColor,
                                       ),
                                     ),
-                                    style: TextStyle(
+                                    style: GoogleFonts.poppins(
                                       color: Theme.of(context).primaryColor,
                                     ),
                                   ),
@@ -436,11 +451,11 @@ class _ProfileState extends State<ProfileScreen> {
                                     obscureText: true,
                                     decoration: InputDecoration(
                                       hintText: 'Powtórz nowe hasło',
-                                      hintStyle: TextStyle(
+                                      hintStyle: GoogleFonts.poppins(
                                         color: Theme.of(context).primaryColor,
                                       ),
                                     ),
-                                    style: TextStyle(
+                                    style: GoogleFonts.poppins(
                                       color: Theme.of(context).primaryColor,
                                     ),
                                   ),
@@ -448,7 +463,10 @@ class _ProfileState extends State<ProfileScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ElevatedButton(
-                                    child: const Text("Zapisz zmiany"),
+                                    child: Text(
+                                      "Zapisz zmiany",
+                                      style: GoogleFonts.poppins(),
+                                    ),
                                     onPressed: () async {
                                       if (oldPasswordController.text == '' ||
                                           passwordController.text == '' ||
@@ -537,7 +555,7 @@ class _ProfileState extends State<ProfileScreen> {
             ),
             title: Text(
               'Imię',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
             ),
@@ -552,12 +570,12 @@ class _ProfileState extends State<ProfileScreen> {
               enabled: isEnabledName,
               decoration: InputDecoration(
                 hintText: TemporaryStorage.name,
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.poppins(
                   color: Theme.of(context).primaryColor,
                 ),
               ),
               controller: nameController,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
             ),
@@ -581,7 +599,7 @@ class _ProfileState extends State<ProfileScreen> {
             ),
             title: Text(
               'Nazwisko',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
             ),
@@ -596,12 +614,12 @@ class _ProfileState extends State<ProfileScreen> {
               enabled: isEnabledSurName,
               decoration: InputDecoration(
                 hintText: TemporaryStorage.surName,
-                hintStyle: TextStyle(
+                hintStyle: GoogleFonts.poppins(
                   color: Theme.of(context).primaryColor,
                 ),
               ),
               controller: surNameController,
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
             ),
@@ -625,7 +643,7 @@ class _ProfileState extends State<ProfileScreen> {
             ),
             title: Text(
               'Płeć',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
             ),
@@ -638,13 +656,13 @@ class _ProfileState extends State<ProfileScreen> {
             ),
             title: Text(
               'Ponów weryfikację',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
             ),
             subtitle: Text(
               'Kliknij aby wysłać E-mail do ponownej weryfikacji konta',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
             ),

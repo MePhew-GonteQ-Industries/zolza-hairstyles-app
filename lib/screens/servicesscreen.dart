@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/services.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/widgets/drawerwidget.dart';
@@ -35,7 +36,9 @@ class _ServicesState extends State<ServicesScreen> {
         ),
         title: Text(
           text,
-          style: TextStyle(color: color),
+          style: GoogleFonts.poppins(
+            color: color,
+          ),
         ),
         onTap: () {},
       ),
@@ -51,10 +54,13 @@ class _ServicesState extends State<ServicesScreen> {
         iconTheme: IconThemeData(
           color: Theme.of(context).backgroundColor,
         ),
-        title: Text('Wybierz usługę',
-            style: TextStyle(
-              color: Theme.of(context).backgroundColor,
-            )),
+        title: Text(
+          'Wybierz usługę',
+          style: GoogleFonts.poppins(
+            color: Theme.of(context).backgroundColor,
+            fontSize: 28,
+          ),
+        ),
       ),
       drawer: DrawerWidget().drawer(context),
       body: FutureBuilder<List<Service>>(
@@ -73,10 +79,12 @@ class _ServicesState extends State<ServicesScreen> {
                 print(snapshot.error);
                 return Center(
                   child: Text(
-                      'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      )),
+                    'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',
+                    style: GoogleFonts.poppins(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 24,
+                    ),
+                  ),
                 );
               } else {
                 return buildServices(services!);
@@ -94,44 +102,62 @@ Widget buildServices(List<Service> services) => ListView.builder(
       itemBuilder: (context, index) {
         final service = services[index];
         if (service.available) {
-          return ListTile(
-            leading: Icon(
-              Icons.design_services_rounded,
-              color: Theme.of(context).primaryColor,
+          return Card(
+            color: Theme.of(context).backgroundColor,
+            elevation: 6,
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Color(0x44FFFFFF),
+                width: 1,
+              ),
             ),
-            title: Text(
-              service.name,
-              style: TextStyle(color: Theme.of(context).primaryColor),
+            margin: const EdgeInsets.all(8),
+            child: ListTile(
+              leading: Icon(
+                Icons.design_services_rounded,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text(
+                service.name,
+                style: GoogleFonts.poppins(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              subtitle: Text(
+                'Czas trwania: ' +
+                    service.averageTime.toString() +
+                    ' minut | Cena: ' +
+                    service.minPrice.toString() +
+                    'zł' +
+                    '-' +
+                    service.maxPrice.toString() +
+                    'zł',
+                style: GoogleFonts.poppins(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              // isThreeLine: true,
+              onTap: () {
+                TemporaryStorage.service = service.name;
+                TemporaryStorage.serviceID = service.id;
+                TemporaryStorage.serviceAverageDuration = service.averageTime;
+                TemporaryStorage.requiredSlots = service.requiredSlots;
+                // print(TemporaryStorage.requiredSlots);
+                // print(service.id);
+                // print(service.name);
+                // print(TemporaryStorage.serviceAverageDuration);
+                Navigator.pushNamed(context, '/appointments');
+              },
             ),
-            subtitle: Text(
-              'Czas trwania: ' +
-                  service.averageTime.toString() +
-                  ' minut | Cena: ' +
-                  service.minPrice.toString() +
-                  'zł' +
-                  '-' +
-                  service.maxPrice.toString() +
-                  'zł',
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            // isThreeLine: true,
-            onTap: () {
-              TemporaryStorage.service = service.name;
-              TemporaryStorage.serviceID = service.id;
-              TemporaryStorage.serviceAverageDuration = service.averageTime;
-              TemporaryStorage.requiredSlots = service.requiredSlots;
-              // print(TemporaryStorage.requiredSlots);
-              // print(service.id);
-              // print(service.name);
-              // print(TemporaryStorage.serviceAverageDuration);
-              Navigator.pushNamed(context, '/appointments');
-            },
           );
         } else {
           return Center(
             child: Text(
               'Brak dostępnych usług',
-              style: TextStyle(color: Theme.of(context).primaryColor),
+              style: GoogleFonts.poppins(
+                color: Theme.of(context).primaryColor,
+              ),
             ),
           );
         }

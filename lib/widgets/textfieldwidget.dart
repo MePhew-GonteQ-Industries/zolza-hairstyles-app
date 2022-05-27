@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TextFieldWidget {
   Widget textField(BuildContext context, TextEditingController controller,
@@ -24,7 +25,7 @@ class TextFieldWidget {
           child: TextField(
             controller: controller,
             cursorColor: Theme.of(context).backgroundColor,
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               color: Theme.of(context).backgroundColor,
             ),
             decoration: InputDecoration(
@@ -35,7 +36,7 @@ class TextFieldWidget {
                 color: Theme.of(context).backgroundColor,
               ),
               hintText: hint,
-              hintStyle: TextStyle(
+              hintStyle: GoogleFonts.poppins(
                 color: Theme.of(context).hintColor,
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/verifyuser.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../screens/checkforloggeduser.dart';
@@ -8,10 +9,14 @@ class Allerts {
       bool isLoop, bool isLoginRedirect, bool isPoppedSecondTime) {
     Alert(
       context: context,
-      style: const AlertStyle(
+      style: AlertStyle(
         isCloseButton: false,
         isOverlayTapDismiss: false,
-        titleStyle: TextStyle(
+        titleStyle: GoogleFonts.poppins(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+        descStyle: GoogleFonts.poppins(
           color: Colors.black,
         ),
       ),
@@ -21,7 +26,7 @@ class Allerts {
         DialogButton(
           child: Text(
             confirm,
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               color: Theme.of(context).primaryColor,
             ),
           ),
@@ -44,10 +49,14 @@ class Allerts {
   void allertEmailVerification(BuildContext context) {
     Alert(
       context: context,
-      style: const AlertStyle(
+      style: AlertStyle(
         isCloseButton: false,
         isOverlayTapDismiss: false,
-        titleStyle: TextStyle(
+        titleStyle: GoogleFonts.poppins(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+        descStyle: GoogleFonts.poppins(
           color: Colors.black,
         ),
       ),
@@ -57,7 +66,7 @@ class Allerts {
         DialogButton(
           child: Text(
             'OK',
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               color: Theme.of(context).primaryColor,
             ),
           ),
@@ -75,10 +84,14 @@ class Allerts {
   void allertAppointmentCreated(BuildContext context) {
     Alert(
       context: context,
-      style: const AlertStyle(
+      style: AlertStyle(
         isCloseButton: false,
         isOverlayTapDismiss: false,
-        titleStyle: TextStyle(
+        titleStyle: GoogleFonts.poppins(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+        descStyle: GoogleFonts.poppins(
           color: Colors.black,
         ),
       ),
@@ -88,7 +101,7 @@ class Allerts {
         DialogButton(
           child: Text(
             'OK',
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               color: Theme.of(context).primaryColor,
             ),
           ),

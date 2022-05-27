@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/forgotpasswordhelper.dart';
 import 'package:hairdressing_salon_app/widgets/textfieldwidget.dart';
 import 'package:http/http.dart';
@@ -106,9 +107,9 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
             }
           }
         },
-        child: const Text(
+        child: Text(
           'Zresetuj hasło',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -128,8 +129,9 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
         ),
         title: Text(
           'Nie pamiętam hasła',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Theme.of(context).backgroundColor,
+            fontSize: 28,
           ),
         ),
       ),
@@ -154,7 +156,7 @@ class _ForgotPasswordState extends State<ForgotPasswordScreen> {
                     children: [
                       Text(
                         'Aby zresetować hasło podaj swój E-mail',
-                        style: TextStyle(
+                        style: GoogleFonts.poppins(
                           fontSize: 25,
                           color: Theme.of(context).primaryColor,
                         ),

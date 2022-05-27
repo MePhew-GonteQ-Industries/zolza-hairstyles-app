@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/widgets/drawerwidget.dart';
 import 'package:http/http.dart' as http;
@@ -54,11 +54,11 @@ class _HomeState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Wygląda na to\nże nie masz umówionej wizyty,\nkliknij przycisk aby to zrobić',
-              style: TextStyle(
+              'Wygląda na to,\nże nie masz umówionej wizyty,\nkliknij przycisk aby to zrobić',
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontSize: 22,
+                // fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(
@@ -74,10 +74,13 @@ class _HomeState extends State<HomeScreen> {
                 primary: Theme.of(context).primaryColorDark,
                 shadowColor: const Color(0xCC007AF3),
               ),
-              child: const Text('Umów wizytę',
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
+              child: Text(
+                'Umów wizytę',
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
               onPressed: () {
                 Navigator.pushNamed(context, '/services');
               },
@@ -91,10 +94,9 @@ class _HomeState extends State<HomeScreen> {
           ListTile(
             title: Text(
               'Nadchodzące wizyty',
-              style: TextStyle(
+              style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
                 fontSize: 24,
-                fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),
@@ -119,21 +121,37 @@ class _HomeState extends State<HomeScreen> {
     var date = index['start_slot']['start_time'];
     var archival = index['archival'];
     if (!archival) {
-      return ListTile(
-        title: Text(
-          service,
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
+      return Card(
+        color: Theme.of(context).backgroundColor,
+        elevation: 6,
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: Color(0x44FFFFFF),
+            width: 1,
           ),
         ),
-        subtitle: Text(
-          DateFormat("yyyy-MM-ddTHH:mm:ss")
-              .parse(date, true)
-              .toLocal()
-              .toString()
-              .substring(0, 16),
-          style: TextStyle(
-            color: Theme.of(context).primaryColor,
+        margin: const EdgeInsets.all(8),
+        child: ListTile(
+          title: Center(
+            child: Text(
+              service,
+              style: GoogleFonts.poppins(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ),
+          subtitle: Center(
+            child: Text(
+              DateFormat("yyyy-MM-ddTHH:mm:ss")
+                  .parse(date, true)
+                  .toLocal()
+                  .toString()
+                  .substring(0, 16),
+              style: GoogleFonts.poppins(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
           ),
         ),
       );
@@ -166,7 +184,10 @@ class _HomeState extends State<HomeScreen> {
         ),
         title: Text(
           'Zołza Hairstyles',
-          style: TextStyle(color: Theme.of(context).backgroundColor),
+          style: GoogleFonts.poppins(
+            color: Theme.of(context).backgroundColor,
+            fontSize: 28,
+          ),
         ),
       ),
       drawer: DrawerWidget().drawer(context),
