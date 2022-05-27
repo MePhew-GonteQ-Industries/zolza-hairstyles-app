@@ -123,15 +123,15 @@ class _HomeState extends State<HomeScreen> {
     if (!archival) {
       return Card(
         color: Theme.of(context).backgroundColor,
-        elevation: 6,
+        elevation: 3,
         shape: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(25),
           borderSide: const BorderSide(
             color: Color(0x44FFFFFF),
             width: 1,
           ),
         ),
-        margin: const EdgeInsets.all(8),
+        margin: const EdgeInsets.all(4),
         child: ListTile(
           title: Center(
             child: Text(
