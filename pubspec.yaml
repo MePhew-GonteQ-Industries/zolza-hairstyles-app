@@ -54,6 +54,7 @@ dependencies:
   firebase_messaging: ^11.4.0
   firebase_core: ^1.17.0
   google_fonts: ^3.0.1
+  google_sign_in: ^5.3.2
   # firebase_messaging: ^11.2.8
   # cloud_firestore: ^3.1.10
   # firebase_core: ^1.13.1
@@ -115,6 +116,7 @@ flutter:
     - assets/images/google.svg
     - assets/images/instagram.svg
     - assets/images/messenger.svg
+    - assets/images/apple.svg
 # flutter_native_splash:
 # color: "#ffffff"
 # image: assets/images/splashpage.png

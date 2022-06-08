@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hairdressing_salon_app/FCM/getFCMToken.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
 import 'package:hairdressing_salon_app/helpers/usersecurestorage.dart';
+import 'package:hairdressing_salon_app/outer_sign_in/google_sign_in.dart';
 import 'package:hairdressing_salon_app/screens/homescreen.dart';
 import 'package:hairdressing_salon_app/widgets/textfieldwidget.dart';
 import 'package:http/http.dart';
@@ -163,7 +165,10 @@ class _LoginScreenState extends State<LoginScreen> {
           primary: color,
           shadowColor: const Color(0xCC007AF3),
         ),
-        onPressed: () {},
+        onPressed: () async {
+          // await GoogleSignIn.signIn();
+          signInGoogle();
+        },
         child: Row(
           children: [
             Expanded(
@@ -271,20 +276,27 @@ class _LoginScreenState extends State<LoginScreen> {
                       buildLoginBtn(),
                       const SizedBox(height: 20),
                       buildSignUpBtn(),
-                      const SizedBox(height: 30),
-                      buildOuterLoginButton(
-                        text: 'Zaloguj przez Facebook',
-                        icon: 'assets/images/facebook.svg',
-                        color: const Color(0xFF246bce),
-                        textColor: Colors.white,
-                      ),
-                      const SizedBox(height: 20),
-                      buildOuterLoginButton(
-                        text: 'Zaloguj przez Google',
-                        icon: 'assets/images/google.svg',
-                        color: Colors.white,
-                        textColor: Colors.black,
-                      ),
+                      // const SizedBox(height: 30),
+                      // buildOuterLoginButton(
+                      //   text: 'Zaloguj przez Facebook',
+                      //   icon: 'assets/images/facebook.svg',
+                      //   color: const Color(0xFF246bce),
+                      //   textColor: Colors.white,
+                      // ),
+                      // const SizedBox(height: 20),
+                      // buildOuterLoginButton(
+                      //   text: 'Zaloguj przez Google',
+                      //   icon: 'assets/images/google.svg',
+                      //   color: Colors.red,
+                      //   textColor: Colors.black,
+                      // ),
+                      // const SizedBox(height: 20),
+                      // buildOuterLoginButton(
+                      //   text: 'Zaloguj przez Apple',
+                      //   icon: 'assets/images/apple.svg',
+                      //   color: Colors.white,
+                      //   textColor: Colors.black,
+                      // ),
                     ],
                   ),
                 ),
