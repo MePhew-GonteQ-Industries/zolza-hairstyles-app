@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "ZOZA_hairstyles_LOGO_LIGHT.png",
+      "filename" : "logo_dark.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
@@ -12,12 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "ZOZA_hairstyles_LOGO_DARK.png",
+      "filename" : "logo_light.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "ZOZA_hairstyles_LOGO_LIGHT-1.png",
+      "filename" : "logo_dark-1.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
@@ -28,12 +28,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "ZOZA_hairstyles_LOGO_DARK-1.png",
+      "filename" : "logo_light-1.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
-      "filename" : "ZOZA_hairstyles_LOGO_LIGHT-2.png",
+      "filename" : "logo_dark-2.png",
       "idiom" : "iphone",
       "scale" : "3x"
     },
@@ -44,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "ZOZA_hairstyles_LOGO_DARK-2.png",
+      "filename" : "logo_light-2.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }
