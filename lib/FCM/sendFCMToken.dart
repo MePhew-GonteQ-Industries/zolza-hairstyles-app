@@ -3,13 +3,14 @@ import 'package:http/http.dart' as http;
 
 Future<http.Response> sendFCMToken(String token) {
   return http.post(
-    Uri.parse(TemporaryStorage.apiUrl + '/notifications/fcmtoken'),
-    headers: {
-      'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
-      'Content-Type': 'application/json',
-    },
-    body: {
-      'fcmtoken': token,
-    },
+    Uri.parse(TemporaryStorage.apiUrl),
+    // Uri.parse(TemporaryStorage.apiUrl + '/notifications/fcmtoken'),
+    // // headers: {
+    // //   'Content-Type': 'application/json',
+    // //   'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
+    // // },
+    // body: {
+    //   'fcmtoken': token,
+    // },
   );
 }

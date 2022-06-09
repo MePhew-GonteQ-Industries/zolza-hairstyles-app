@@ -47,7 +47,7 @@ class _ContactState extends State<ContactScreen> {
                 ),
               ),
               onTap: () async {
-                launchUrlString('tel:+48 730 601 830');
+                launchUrlString('tel://+48730601830');
               },
             ), //phone
             ListTile(
@@ -79,7 +79,11 @@ class _ContactState extends State<ContactScreen> {
                 ),
               ),
               onTap: () async {
-                launchUrlString('https://messenger.com/t/110103241392161');
+                // launchUrlString('https://www.messenger.com/t/110103241392161');
+                // launchUrlString('fb-messenger://profile/110103241392161');
+                launchUrlString('http://m.me/110103241392161');
+                // launchUrlString('messenger://110103241392161');
+                // await MessengerLauncher.launchMessenger('110103241392161');
               },
             ), //messenger
             ListTile(
@@ -95,8 +99,9 @@ class _ContactState extends State<ContactScreen> {
                 ),
               ),
               onTap: () async {
-                launchUrlString(
-                    'https://facebook.com/Zołza-Hairstyles-110103241392161');
+                // launchUrlString(
+                //     'https://www.facebook.com/Zo%C5%82za-Hairstyles-110103241392161');
+                launchUrlString('fb://profile/110103241392161');
               },
             ), //facebook
             ListTile(
@@ -112,7 +117,8 @@ class _ContactState extends State<ContactScreen> {
                 ),
               ),
               onTap: () async {
-                launchUrlString('https://instagram.com/zolza_hairstyles/');
+                // launchUrlString('https://www.instagram.com/zolza_hairstyles/');
+                launchUrlString('instagram://user?zolza_haistyles');
               },
             ), //instagram
             ListTile(

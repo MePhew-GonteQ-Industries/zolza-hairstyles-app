@@ -41,6 +41,8 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
       var _refreshToken = await UserSecureStorage.getRefreshToken();
       if (_refreshToken != null) {
         Response refreshToken = await sendRefreshToken(_refreshToken);
+        print(refreshToken.statusCode);
+        print(refreshToken.body);
         // print(refreshToken.statusCode);
         if (refreshToken.statusCode == 200) {
           final parsedJson = jsonDecode(refreshToken.body);

@@ -153,6 +153,8 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                         Allerts().allertAppointmentCreated(context);
                       } else if (response.statusCode == 403) {
                         Allerts().allertEmailVerification(context);
+                      } else {
+                        Allerts().allertHomeScreenRedirect(context);
                       }
                     },
                     child: Text(

@@ -144,4 +144,34 @@ class Allerts {
       ],
     ).show();
   }
+
+  void allertHomeScreenRedirect(BuildContext context) {
+    Alert(
+      context: context,
+      style: const AlertStyle(
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        titleStyle: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      title: 'Wystąpił błąd',
+      desc: 'Spróbuj ponownie później.',
+      buttons: [
+        DialogButton(
+          child: Text(
+            'OK',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/home');
+          },
+          color: Theme.of(context).primaryColorDark,
+        ),
+      ],
+    ).show();
+  }
 }

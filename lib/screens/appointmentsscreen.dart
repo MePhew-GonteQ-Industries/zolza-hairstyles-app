@@ -430,7 +430,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
               'Maksymalnie trzy miesiące do przodu:',
               style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
           ),
