@@ -93,8 +93,8 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
             SvgPicture.asset(
               'assets/images/logo_dark.svg',
               color: Theme.of(context).primaryColor,
-              height: 60,
-              width: 60,
+              height: 80,
+              width: 80,
             ),
             const SizedBox(
               height: 30,

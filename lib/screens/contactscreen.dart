@@ -118,7 +118,7 @@ class _ContactState extends State<ContactScreen> {
               ),
               onTap: () async {
                 // launchUrlString('https://www.instagram.com/zolza_hairstyles/');
-                launchUrlString('instagram://user?zolza_haistyles');
+                launchUrlString('instagram://user?username=zolza_hairstyles');
               },
             ), //instagram
             ListTile(
