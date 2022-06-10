@@ -91,7 +91,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
         itemBuilder: (context, index) {
           final appointment = appointments[index];
           currentSlotFits = 0;
-          print(currentSlotFits);
+          // print(currentSlotFits);
           if (index + requiredSlots <= appointments.length) {
             for (int i = index; i < (index + requiredSlots); i++) {
               final slot = appointments[i];
