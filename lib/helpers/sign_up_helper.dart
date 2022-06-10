@@ -19,7 +19,7 @@ Future<http.Response> signUpUser(String name, String surname, String email,
 
   return http
       .post(
-    Uri.parse(TemporaryStorage.apiUrl + '/users/register'),
+    Uri.parse('${TemporaryStorage.apiUrl}/users/register'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'content-language': 'pl',

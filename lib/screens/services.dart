@@ -76,7 +76,7 @@ class _ServicesState extends State<ServicesScreen> {
               );
             default:
               if (snapshot.hasError) {
-                print(snapshot.error);
+                // print(snapshot.error);
                 return Center(
                   child: Text(
                     'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',
@@ -125,14 +125,7 @@ Widget buildServices(List<Service> services) => ListView.builder(
                 ),
               ),
               subtitle: Text(
-                'Czas trwania: ' +
-                    service.averageTime.toString() +
-                    ' minut | Cena: ' +
-                    service.minPrice.toString() +
-                    'zł' +
-                    '-' +
-                    service.maxPrice.toString() +
-                    'zł',
+                'Czas trwania: ${service.averageTime} minut | Cena: ${service.minPrice}zł-${service.maxPrice}zł',
                 style: GoogleFonts.poppins(
                   color: Theme.of(context).primaryColor,
                 ),

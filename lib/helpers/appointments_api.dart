@@ -13,8 +13,7 @@ class AppointmentsApi {
   static Future<List<Appointment>> getAppointments(
       BuildContext context, String date) async {
     final response = await http.get(
-      Uri.parse(TemporaryStorage.apiUrl +
-          '/appointments/slots?date=${TemporaryStorage.date}'),
+      Uri.parse('${TemporaryStorage.apiUrl}/appointments/slots?date=${TemporaryStorage.date}'),
       headers: headers,
     );
     // print(response.body);

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 Future<http.Response> verifyUser() async {
   return http
       .post(
-    Uri.parse(TemporaryStorage.apiUrl + '/users/request-email-verification'),
+    Uri.parse('${TemporaryStorage.apiUrl}/users/request-email-verification'),
     headers: {
       'Content-Type': 'application/json',
     },

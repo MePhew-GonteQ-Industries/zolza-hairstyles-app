@@ -20,7 +20,7 @@ Future<http.Response> updateUserDetails(
   }
   return http
       .put(
-        Uri.parse(TemporaryStorage.apiUrl + '/users/me/update-details'),
+        Uri.parse('${TemporaryStorage.apiUrl}/users/me/update-details'),
         headers: {
           'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
           'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ Future<http.Response> updateUserDetails(
 
 Future<http.Response> enterSudoMode(String password) {
   return http.post(
-    Uri.parse(TemporaryStorage.apiUrl + '/auth/enter-sudo-mode'),
+    Uri.parse('${TemporaryStorage.apiUrl}/auth/enter-sudo-mode'),
     headers: {
       'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
     },
@@ -58,7 +58,7 @@ Future<http.Response> changeUserPassword(
     String oldPassword, String newPassword) {
   return http
       .post(
-        Uri.parse(TemporaryStorage.apiUrl + '/auth/change-password'),
+        Uri.parse('${TemporaryStorage.apiUrl}/auth/change-password'),
         headers: {
           'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
           'Content-Type': 'application/json',

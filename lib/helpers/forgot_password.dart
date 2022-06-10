@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 Future<http.Response> forgotPassword(String email) async {
   return http
       .post(
-        Uri.parse(TemporaryStorage.apiUrl + '/auth/request-password-reset'),
+        Uri.parse('${TemporaryStorage.apiUrl}/auth/request-password-reset'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email}),
       )

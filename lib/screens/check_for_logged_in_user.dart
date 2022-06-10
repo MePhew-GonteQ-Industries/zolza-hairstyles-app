@@ -39,9 +39,9 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
           false,
           false);
     } else {
-      var _refreshToken = await UserSecureStorage.getRefreshToken();
-      if (_refreshToken != null) {
-        Response refreshToken = await sendRefreshToken(_refreshToken);
+      var refreshTokenSecureStorage = await UserSecureStorage.getRefreshToken();
+      if (refreshTokenSecureStorage != null) {
+        Response refreshToken = await sendRefreshToken(refreshTokenSecureStorage);
         // print(refreshToken.statusCode);
         // print(refreshToken.body);
         // print(refreshToken.statusCode);
@@ -123,7 +123,7 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
 
 
 void loginLoop(BuildContext context) async {
-  var _refreshToken = await UserSecureStorage.getRefreshToken();
+  var refreshTokenSecureStorage = await UserSecureStorage.getRefreshToken();
   var currentTime = DateTime.now();
   while (true) {
     await Future.delayed(const Duration(milliseconds: 500));
@@ -142,7 +142,7 @@ void loginLoop(BuildContext context) async {
           false);
       break;
     }
-    Response refreshToken = await sendRefreshToken(_refreshToken);
+    Response refreshToken = await sendRefreshToken(refreshTokenSecureStorage);
     // print(refreshToken.statusCode);
     if (refreshToken.statusCode == 200) {
       final parsedJson = jsonDecode(refreshToken.body);

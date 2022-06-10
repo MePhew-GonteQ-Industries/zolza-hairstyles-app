@@ -9,7 +9,7 @@ Map<String, String> headers = {
 
 Future<http.Response> createAppointment() {
   return http.post(
-    Uri.parse(TemporaryStorage.apiUrl + '/appointments'),
+    Uri.parse('${TemporaryStorage.apiUrl}/appointments'),
     headers: headers,
     body: jsonEncode(<String, String>{
       'service_id': TemporaryStorage.serviceID,

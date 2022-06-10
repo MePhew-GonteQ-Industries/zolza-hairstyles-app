@@ -27,7 +27,7 @@ class _HomeState extends State<HomeScreen> {
 
   fetchAppointments() async {
     var response = await http.get(
-        Uri.parse(TemporaryStorage.apiUrl + '/appointments/mine'),
+        Uri.parse('${TemporaryStorage.apiUrl}/appointments/mine'),
         headers: {
           'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
           'Content-Type': 'application/json',

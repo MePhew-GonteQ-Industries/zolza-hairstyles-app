@@ -346,7 +346,7 @@ class _ProfileState extends State<ProfileScreen> {
           ListTile(
             title: Center(
               child: Text(
-                TemporaryStorage.name + ' ' + TemporaryStorage.surName,
+                '${TemporaryStorage.name} ${TemporaryStorage.surName}',
                 style: GoogleFonts.poppins(
                   fontSize: 24,
                   color: Theme.of(context).primaryColor,
