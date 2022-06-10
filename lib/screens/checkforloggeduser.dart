@@ -1,13 +1,13 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:hairdressing_salon_app/helpers/loginhelper.dart';
 import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
-import 'package:hairdressing_salon_app/helpers/usersecurestorage.dart';
+import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
 import 'package:hairdressing_salon_app/screens/loginscreen.dart';
 import 'package:hairdressing_salon_app/widgets/allerts.dart';
 import 'package:http/http.dart';
-import '../FCM/getFCMToken.dart';
+import '../FCM/get_fcm_token.dart';
 import 'homescreen.dart';
 import 'dart:convert';
 
@@ -42,8 +42,8 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
       var _refreshToken = await UserSecureStorage.getRefreshToken();
       if (_refreshToken != null) {
         Response refreshToken = await sendRefreshToken(_refreshToken);
-        print(refreshToken.statusCode);
-        print(refreshToken.body);
+        // print(refreshToken.statusCode);
+        // print(refreshToken.body);
         // print(refreshToken.statusCode);
         if (refreshToken.statusCode == 200) {
           final parsedJson = jsonDecode(refreshToken.body);
@@ -86,28 +86,41 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              'assets/images/logo_dark.svg',
-              color: Theme.of(context).primaryColor,
-              height: 80,
-              width: 80,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Column(
+              children: [
+                // SvgPicture.asset(
+                //   'assets/images/logo_dark.svg',
+                //   color: Theme.of(context).primaryColor,
+                //   height: 80,
+                //   width: 80,
+                // ),
+                const SizedBox(
+                  height: 80,
+                ),
+                Image.asset('assets/images/launch_image_light.png',
+                  color: Theme.of(context).primaryColor,
+                  height: 80,
+                  width: 80,),
+                const SizedBox(
+                  height: 30,
+                ),
+                const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 30,
-            ),
-            const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-            ),
-          ],
-        ),
-      ),
+          ),
+        ],
+      )
     );
   }
 }
+
+
 
 void loginLoop(BuildContext context) async {
   var _refreshToken = await UserSecureStorage.getRefreshToken();
