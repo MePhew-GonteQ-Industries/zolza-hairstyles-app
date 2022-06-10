@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
-import 'package:hairdressing_salon_app/widgets/drawerwidget.dart';
+import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
+import 'package:hairdressing_salon_app/widgets/drawer.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 

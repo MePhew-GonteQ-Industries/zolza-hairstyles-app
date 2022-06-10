@@ -1,14 +1,14 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_svg/svg.dart';
-import 'package:hairdressing_salon_app/helpers/loginhelper.dart';
-import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
+import 'package:hairdressing_salon_app/helpers/login.dart';
+import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
-import 'package:hairdressing_salon_app/screens/loginscreen.dart';
+import 'package:hairdressing_salon_app/screens/login.dart';
 import 'package:hairdressing_salon_app/widgets/allerts.dart';
 import 'package:http/http.dart';
 import '../FCM/get_fcm_token.dart';
-import 'homescreen.dart';
+import 'home.dart';
 import 'dart:convert';
 
 class CheckForLoggedUserScreen extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/verifyuser.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import '../screens/checkforloggeduser.dart';
+import '../screens/check_for_logged_in_user.dart';
 
 class Allerts {
   void allert(BuildContext context, String title, String desc, String confirm,

@@ -3,8 +3,8 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../helpers/appointments.dart';
-import '../helpers/appointmentsapi.dart';
-import '../helpers/temporarystorage.dart';
+import '../helpers/appointments_api.dart';
+import '../helpers/temporary_storage.dart';
 
 var currentSlotFits = 0;
 var requiredSlots = 0;

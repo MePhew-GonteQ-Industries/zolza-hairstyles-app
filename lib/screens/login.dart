@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/FCM/get_fcm_token.dart';
-import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
+import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
 import 'package:hairdressing_salon_app/outer_sign_in/google_sign_in.dart';
-import 'package:hairdressing_salon_app/screens/homescreen.dart';
-import 'package:hairdressing_salon_app/widgets/textfieldwidget.dart';
+import 'package:hairdressing_salon_app/screens/home.dart';
+import 'package:hairdressing_salon_app/widgets/text_field.dart';
 import 'package:http/http.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../helpers/loginhelper.dart';
+import '../helpers/login.dart';
 import '../widgets/allerts.dart';
-import '../widgets/textfieldwidget.dart';
+import '../widgets/text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

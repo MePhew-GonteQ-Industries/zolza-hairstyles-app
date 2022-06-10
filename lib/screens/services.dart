@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/services.dart';
-import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
-import 'package:hairdressing_salon_app/widgets/drawerwidget.dart';
-import '../helpers/servicesapi.dart';
+import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
+import 'package:hairdressing_salon_app/widgets/drawer.dart';
+import '../helpers/services_api.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key? key}) : super(key: key);
