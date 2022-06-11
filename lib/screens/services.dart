@@ -9,10 +9,10 @@ class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key? key}) : super(key: key);
 
   @override
-  _ServicesState createState() => _ServicesState();
+  ServicesState createState() => ServicesState();
 }
 
-class _ServicesState extends State<ServicesScreen> {
+class ServicesState extends State<ServicesScreen> {
   @override
   void initState() {
     super.initState();

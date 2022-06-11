@@ -64,6 +64,7 @@ class DrawerWidget {
               UserSecureStorage.setRefreshToken('null');
               TemporaryStorage.accessToken = 'null';
               UserSecureStorage.setFCMToken('null');
+              UserSecureStorage.setIsLoggedIn('false');
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(

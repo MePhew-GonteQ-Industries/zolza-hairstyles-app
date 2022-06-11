@@ -9,10 +9,10 @@ class ConfirmAppointment extends StatefulWidget {
   const ConfirmAppointment({Key? key}) : super(key: key);
 
   @override
-  _ConfirmAppointment createState() => _ConfirmAppointment();
+  ConfirmAppointmentState createState() => ConfirmAppointmentState();
 }
 
-class _ConfirmAppointment extends State<ConfirmAppointment> {
+class ConfirmAppointmentState extends State<ConfirmAppointment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -9,10 +9,10 @@ class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
 
   @override
-  _ContactState createState() => _ContactState();
+  ContactState createState() => ContactState();
 }
 
-class _ContactState extends State<ContactScreen> {
+class ContactState extends State<ContactScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -11,10 +11,10 @@ class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  _ProfileState createState() => _ProfileState();
+  ProfileState createState() => ProfileState();
 }
 
-class _ProfileState extends State<ProfileScreen> {
+class ProfileState extends State<ProfileScreen> {
   final passwordController = TextEditingController();
   final rePasswordController = TextEditingController();
   final nameController = TextEditingController();
@@ -194,7 +194,6 @@ class _ProfileState extends State<ProfileScreen> {
                                     } else {
                                       Response sudo = await enterSudoMode(
                                           passwordController.text);
-
                                       if (sudo.statusCode == 200) {
                                         Response response =
                                             await updateUserDetails(

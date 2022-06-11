@@ -4,10 +4,10 @@ class SelectHourScreen extends StatefulWidget {
   const SelectHourScreen({Key? key}) : super(key: key);
 
   @override
-  _SelectHourState createState() => _SelectHourState();
+  SelectHourState createState() => SelectHourState();
 }
 
-class _SelectHourState extends State<SelectHourScreen> {
+class SelectHourState extends State<SelectHourScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

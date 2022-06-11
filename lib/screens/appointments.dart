@@ -14,10 +14,10 @@ class AppointmentsScreen extends StatefulWidget {
   const AppointmentsScreen({Key? key}) : super(key: key);
 
   @override
-  _AppointmentsState createState() => _AppointmentsState();
+  AppointmentsState createState() => AppointmentsState();
 }
 
-class _AppointmentsState extends State<AppointmentsScreen> {
+class AppointmentsState extends State<AppointmentsScreen> {
   String now = '';
   String chosenDate = '';
   @override
@@ -283,11 +283,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                   // ),
                   title: Center(
                     child: Text(
-                      'Od: ${DateFormat("yyyy-MM-ddTHH:mm:ss")
-                              .parse(appointment.startTime, true)
-                              .toLocal()
-                              .toString()
-                              .substring(11, 16)}',
+                      'Od: ${DateFormat("yyyy-MM-ddTHH:mm:ss").parse(appointment.startTime, true).toLocal().toString().substring(11, 16)}',
                       // +
                       // ' - ' +
                       // DateFormat("yyyy-MM-ddTHH:mm:ss")
@@ -306,16 +302,11 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                   ),
                   subtitle: Center(
                     child: Text(
-                      'Do: ${DateFormat("yyyy-MM-ddTHH:mm:ss")
-                              .parse(appointment.endTime, true)
-                              .add(
-                                Duration(
-                                  minutes: 30 * (requiredSlots - 1),
-                                ),
-                              )
-                              .toLocal()
-                              .toString()
-                              .substring(11, 16)}',
+                      'Do: ${DateFormat("yyyy-MM-ddTHH:mm:ss").parse(appointment.endTime, true).add(
+                            Duration(
+                              minutes: 30 * (requiredSlots - 1),
+                            ),
+                          ).toLocal().toString().substring(11, 16)}',
                       style: GoogleFonts.poppins(
                         color: Theme.of(context).primaryColor,
                       ),

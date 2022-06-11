@@ -18,10 +18,10 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -101,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // final fcmToken = await FirebaseMessaging.instance.getToken();
               // print(fcmToken);
               await GetFcmToken().setUpToken();
+              await UserSecureStorage.setIsLoggedIn('true');
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()),

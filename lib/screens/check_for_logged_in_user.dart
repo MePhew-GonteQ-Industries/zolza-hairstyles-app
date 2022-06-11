@@ -15,11 +15,11 @@ class CheckForLoggedUserScreen extends StatefulWidget {
   const CheckForLoggedUserScreen({Key? key}) : super(key: key);
 
   @override
-  _CheckForLoggedUserScreenState createState() =>
-      _CheckForLoggedUserScreenState();
+  CheckForLoggedUserScreenState createState() =>
+      CheckForLoggedUserScreenState();
 }
 
-class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
+class CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
   @override
   void initState() {
     super.initState();
@@ -41,7 +41,8 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
     } else {
       var refreshTokenSecureStorage = await UserSecureStorage.getRefreshToken();
       if (refreshTokenSecureStorage != null) {
-        Response refreshToken = await sendRefreshToken(refreshTokenSecureStorage);
+        Response refreshToken =
+            await sendRefreshToken(refreshTokenSecureStorage);
         // print(refreshToken.statusCode);
         // print(refreshToken.body);
         // print(refreshToken.statusCode);
@@ -86,41 +87,40 @@ class _CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Column(
-              children: [
-                // SvgPicture.asset(
-                //   'assets/images/logo_dark.svg',
-                //   color: Theme.of(context).primaryColor,
-                //   height: 80,
-                //   width: 80,
-                // ),
-                const SizedBox(
-                  height: 80,
-                ),
-                Image.asset('assets/images/launch_image_light.png',
-                  color: Theme.of(context).primaryColor,
-                  height: 80,
-                  width: 80,),
-                const SizedBox(
-                  height: 30,
-                ),
-                const CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                ),
-              ],
-            ),
+        body: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: Column(
+            children: [
+              // SvgPicture.asset(
+              //   'assets/images/logo_dark.svg',
+              //   color: Theme.of(context).primaryColor,
+              //   height: 80,
+              //   width: 80,
+              // ),
+              const SizedBox(
+                height: 80,
+              ),
+              Image.asset(
+                'assets/images/launch_image_light.png',
+                color: Theme.of(context).primaryColor,
+                height: 80,
+                width: 80,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            ],
           ),
-        ],
-      )
-    );
+        ),
+      ],
+    ));
   }
 }
-
-
 
 void loginLoop(BuildContext context) async {
   var refreshTokenSecureStorage = await UserSecureStorage.getRefreshToken();
