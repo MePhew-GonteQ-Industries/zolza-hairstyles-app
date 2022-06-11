@@ -5,7 +5,7 @@ import 'package:hairdressing_salon_app/helpers/login.dart';
 import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
 import 'package:hairdressing_salon_app/screens/login.dart';
-import 'package:hairdressing_salon_app/widgets/allerts.dart';
+import 'package:hairdressing_salon_app/widgets/alerts.dart';
 import 'package:http/http.dart';
 import '../FCM/get_fcm_token.dart';
 import 'home.dart';
@@ -30,7 +30,7 @@ class CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
   void checkForLoggedUser() async {
     final ConnectivityResult result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
-      Allerts().allert(
+      Alerts().alert(
           context,
           'Brak połączenia',
           'Sprawdź swoje połączenie z internetem',
@@ -132,7 +132,7 @@ void loginLoop(BuildContext context) async {
     );
     var now = DateTime.now();
     if (timeout.difference(now).inMilliseconds < 0) {
-      Allerts().allert(
+      Alerts().alert(
           context,
           'Błąd połączenia',
           'Nie udało się nawiązać połączenia z serwerem',

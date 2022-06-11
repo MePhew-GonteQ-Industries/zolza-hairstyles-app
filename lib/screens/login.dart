@@ -11,7 +11,7 @@ import 'package:hairdressing_salon_app/widgets/text_field.dart';
 import 'package:http/http.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../helpers/login.dart';
-import '../widgets/allerts.dart';
+import '../widgets/alerts.dart';
 import '../widgets/text_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class LoginScreenState extends State<LoginScreen> {
     email = emailController.text;
     password = passwordController.text;
     if (email == '' || password == '') {
-      Allerts().allert(context, 'Nie tak szybko...',
+      Alerts().alert(context, 'Nie tak szybko...',
           'Te pola nie mogą być puste', 'OK', false, false, false);
       return false;
     } else {
@@ -107,7 +107,7 @@ class LoginScreenState extends State<LoginScreen> {
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                   (route) => false);
             } else if (response.statusCode == 500) {
-              Allerts().allert(
+              Alerts().alert(
                   context,
                   'Błąd połączenia',
                   'Nie udało się nawiązać połączenia z serwerem',
@@ -116,13 +116,13 @@ class LoginScreenState extends State<LoginScreen> {
                   false,
                   false);
             } else if (response.statusCode == 404) {
-              Allerts().allert(context, 'Podano błędne dane logowania',
+              Alerts().alert(context, 'Podano błędne dane logowania',
                   'Spróbuj jeszcze raz', 'OK', false, false, false);
             } else if (response.statusCode == 408) {
-              Allerts().allert(context, 'Błąd połączenia z serwerem',
+              Alerts().alert(context, 'Błąd połączenia z serwerem',
                   'Spróbuj ponownie za chwile', 'OK', false, false, false);
             } else {
-              Allerts().allert(
+              Alerts().alert(
                   context,
                   'Błąd połączenia',
                   'Nie udało się nawiązać połączenia z serwerem',

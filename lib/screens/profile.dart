@@ -4,25 +4,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
 import 'package:hairdressing_salon_app/helpers/update_user_details.dart';
 import 'package:http/http.dart';
-import '../helpers/verifyuser.dart';
-import '../widgets/allerts.dart';
+import '../helpers/verify_user.dart';
+import '../widgets/alerts.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
-  ProfileState createState() => ProfileState();
+  State<ProfileScreen> createState() => ProfileState();
 }
 
 class ProfileState extends State<ProfileScreen> {
   final passwordController = TextEditingController();
   final rePasswordController = TextEditingController();
   final nameController = TextEditingController();
-  final surNameController = TextEditingController();
+  final surnameController = TextEditingController();
   final oldPasswordController = TextEditingController();
   bool onChangedValue = false;
   bool isEnabledName = false;
-  bool isEnabledSurName = false;
+  bool isEnabledSurname = false;
   late FocusNode nameFocusNode;
   late FocusNode surNameFocusNode;
 
@@ -30,9 +30,9 @@ class ProfileState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     nameController.text = TemporaryStorage.name;
-    surNameController.text = TemporaryStorage.surName;
+    surnameController.text = TemporaryStorage.surName;
     isEnabledName = false;
-    isEnabledSurName = false;
+    isEnabledSurname = false;
     nameFocusNode = FocusNode();
     surNameFocusNode = FocusNode();
   }
@@ -44,7 +44,7 @@ class ProfileState extends State<ProfileScreen> {
     super.dispose();
   }
 
-  String choosenValue = TemporaryStorage.gender;
+  String chosenValue = TemporaryStorage.gender;
 
   List genderItem = [
     'Płeć',
@@ -53,15 +53,15 @@ class ProfileState extends State<ProfileScreen> {
     'Inna',
   ];
   buildDropDown() {
-    switch (choosenValue) {
+    switch (chosenValue) {
       case 'male':
-        choosenValue = 'Mężczyzna';
+        chosenValue = 'Mężczyzna';
         break;
       case 'female':
-        choosenValue = 'Kobieta';
+        chosenValue = 'Kobieta';
         break;
       case 'other':
-        choosenValue = 'Inna';
+        chosenValue = 'Inna';
         break;
     }
     return Theme(
@@ -74,10 +74,10 @@ class ProfileState extends State<ProfileScreen> {
             color: Theme.of(context).primaryColor,
           ),
           hint: const Text('Wybierz swoją rolę'),
-          value: choosenValue,
+          value: chosenValue,
           onChanged: (value) {
             setState(() {
-              choosenValue = value as String;
+              chosenValue = value as String;
               onChangedValue = true;
               buildSubmitButton();
             });
@@ -95,15 +95,15 @@ class ProfileState extends State<ProfileScreen> {
 
   buildSubmitButton() {
     if (onChangedValue) {
-      switch (choosenValue) {
+      switch (chosenValue) {
         case 'male':
-          choosenValue = 'Mężczyzna';
+          chosenValue = 'Mężczyzna';
           break;
         case 'female':
-          choosenValue = 'Kobieta';
+          chosenValue = 'Kobieta';
           break;
         case 'other':
-          choosenValue = 'Inna';
+          chosenValue = 'Inna';
           break;
       }
       return Padding(
@@ -124,8 +124,8 @@ class ProfileState extends State<ProfileScreen> {
               shadowColor: const Color(0xCC007AF3),
             ),
             onPressed: () async {
-              if (choosenValue == 'Płeć') {
-                Allerts().allert(
+              if (chosenValue == 'Płeć') {
+                Alerts().alert(
                   context,
                   'Nie tak szybko...',
                   'Proszę wybrać płeć',
@@ -136,7 +136,7 @@ class ProfileState extends State<ProfileScreen> {
                 );
               } else {
                 String name = nameController.text;
-                String surName = surNameController.text;
+                String surName = surnameController.text;
                 if (name == '') {
                   name = TemporaryStorage.name;
                 }
@@ -144,7 +144,7 @@ class ProfileState extends State<ProfileScreen> {
                   surName = TemporaryStorage.surName;
                 }
                 Response response =
-                    await updateUserDetails(name, surName, choosenValue);
+                    await updateUserDetails(name, surName, chosenValue);
                 var responseBody = jsonDecode(response.body);
                 if (response.statusCode == 403 &&
                     responseBody['detail'] ==
@@ -183,7 +183,7 @@ class ProfileState extends State<ProfileScreen> {
                                   ),
                                   onPressed: () async {
                                     if (passwordController.text == '') {
-                                      Allerts().allert(
+                                      Alerts().alert(
                                           context,
                                           'Nie tak szybko...',
                                           'Te pola nie mogą być puste',
@@ -197,14 +197,14 @@ class ProfileState extends State<ProfileScreen> {
                                       if (sudo.statusCode == 200) {
                                         Response response =
                                             await updateUserDetails(
-                                                name, surName, choosenValue);
+                                                name, surName, chosenValue);
 
                                         passwordController.text = '';
                                         if (response.statusCode == 200) {
                                           TemporaryStorage.name = name;
                                           TemporaryStorage.surName = surName;
                                           String gender = 'Płeć';
-                                          switch (choosenValue) {
+                                          switch (chosenValue) {
                                             case 'Mężczyzna':
                                               gender = 'male';
                                               break;
@@ -219,7 +219,7 @@ class ProfileState extends State<ProfileScreen> {
                                           }
                                           TemporaryStorage.gender = gender;
                                           passwordController.text = '';
-                                          Allerts().allert(
+                                          Alerts().alert(
                                               context,
                                               'Operacja przebiegła pomyślnie',
                                               'Dane zostały zmienione',
@@ -229,7 +229,7 @@ class ProfileState extends State<ProfileScreen> {
                                               true);
                                         }
                                       } else if (response.statusCode == 500) {
-                                        Allerts().allert(
+                                        Alerts().alert(
                                             context,
                                             'Błąd połączenia',
                                             'Nie udało się nawiązać połączenia z serwerem',
@@ -239,7 +239,7 @@ class ProfileState extends State<ProfileScreen> {
                                             false);
                                         oldPasswordController.text = '';
                                       } else if (response.statusCode == 408) {
-                                        Allerts().allert(
+                                        Alerts().alert(
                                             context,
                                             'Błąd połączenia z serwerem',
                                             'Spróbuj ponownie za chwile',
@@ -248,7 +248,7 @@ class ProfileState extends State<ProfileScreen> {
                                             false,
                                             false);
                                       } else {
-                                        Allerts().allert(
+                                        Alerts().alert(
                                             context,
                                             'Podano błędne dane',
                                             'Spróbuj jeszcze raz',
@@ -272,7 +272,7 @@ class ProfileState extends State<ProfileScreen> {
                   TemporaryStorage.name = name;
                   TemporaryStorage.surName = surName;
                   String gender = 'Płeć';
-                  switch (choosenValue) {
+                  switch (chosenValue) {
                     case 'Mężczyzna':
                       gender = 'male';
                       break;
@@ -286,10 +286,10 @@ class ProfileState extends State<ProfileScreen> {
                       gender = 'Płeć';
                   }
                   TemporaryStorage.gender = gender;
-                  Allerts().allert(context, 'Operacja przebiegła pomyślnie',
+                  Alerts().alert(context, 'Operacja przebiegła pomyślnie',
                       'Dane zostały zmienione', 'OK', false, false, false);
                 } else if (response.statusCode == 500) {
-                  Allerts().allert(
+                  Alerts().alert(
                       context,
                       'Błąd połączenia',
                       'Nie udało się nawiązać połączenia z serwerem',
@@ -298,10 +298,10 @@ class ProfileState extends State<ProfileScreen> {
                       false,
                       false);
                 } else if (response.statusCode == 408) {
-                  Allerts().allert(context, 'Błąd połączenia z serwerem',
+                  Alerts().alert(context, 'Błąd połączenia z serwerem',
                       'Spróbuj ponownie za chwile', 'OK', false, false, false);
                 } else {
-                  Allerts().allert(context, 'Podano błędne dane',
+                  Alerts().alert(context, 'Podano błędne dane',
                       'Spróbuj jeszcze raz', 'OK', false, false, false);
                 }
               }
@@ -470,7 +470,7 @@ class ProfileState extends State<ProfileScreen> {
                                       if (oldPasswordController.text == '' ||
                                           passwordController.text == '' ||
                                           rePasswordController.text == '') {
-                                        Allerts().allert(
+                                        Alerts().alert(
                                             context,
                                             'Nie tak szybko...',
                                             'Te pola nie mogą być puste',
@@ -480,7 +480,7 @@ class ProfileState extends State<ProfileScreen> {
                                             false);
                                       } else if (passwordController.text !=
                                           rePasswordController.text) {
-                                        Allerts().allert(
+                                        Alerts().alert(
                                             context,
                                             'Nie tak szybko...',
                                             'Podane hasła muszą się zgadzać',
@@ -496,7 +496,7 @@ class ProfileState extends State<ProfileScreen> {
                                         if (response.statusCode == 200) {
                                           Navigator.of(context).pop();
                                         } else if (response.statusCode == 500) {
-                                          Allerts().allert(
+                                          Alerts().alert(
                                               context,
                                               'Błąd połączenia',
                                               'Nie udało się nawiązać połączenia z serwerem',
@@ -505,7 +505,7 @@ class ProfileState extends State<ProfileScreen> {
                                               false,
                                               false);
                                         } else if (response.statusCode == 409) {
-                                          Allerts().allert(
+                                          Alerts().alert(
                                               context,
                                               'Podano błędne dane',
                                               'Zmienione hasło nie może być takie samo jak jedno z pięciu ostatnich',
@@ -514,7 +514,7 @@ class ProfileState extends State<ProfileScreen> {
                                               false,
                                               false);
                                         } else if (response.statusCode == 408) {
-                                          Allerts().allert(
+                                          Alerts().alert(
                                               context,
                                               'Błąd połączenia z serwerem',
                                               'Spróbuj ponownie za chwile',
@@ -523,7 +523,7 @@ class ProfileState extends State<ProfileScreen> {
                                               false,
                                               false);
                                         } else {
-                                          Allerts().allert(
+                                          Alerts().alert(
                                               context,
                                               'Podano błędne dane',
                                               'Spróbuj jeszcze raz',
@@ -610,14 +610,14 @@ class ProfileState extends State<ProfileScreen> {
                 });
               },
               focusNode: surNameFocusNode,
-              enabled: isEnabledSurName,
+              enabled: isEnabledSurname,
               decoration: InputDecoration(
                 hintText: TemporaryStorage.surName,
                 hintStyle: GoogleFonts.poppins(
                   color: Theme.of(context).primaryColor,
                 ),
               ),
-              controller: surNameController,
+              controller: surnameController,
               style: GoogleFonts.poppins(
                 color: Theme.of(context).primaryColor,
               ),
@@ -630,7 +630,7 @@ class ProfileState extends State<ProfileScreen> {
               onTap: () {
                 setState(() {
                   surNameFocusNode.requestFocus();
-                  isEnabledSurName = true;
+                  isEnabledSurname = true;
                 });
               },
             ),
@@ -669,16 +669,16 @@ class ProfileState extends State<ProfileScreen> {
             onTap: () async {
               Response verification = await verifyUser();
               if (verification.statusCode == 202) {
-                Allerts().allert(
+                Alerts().alert(
                     context,
                     'Wysłano E-mail',
-                    'Wiadmość z linkiem weryfikacyjnym została wysłana',
+                    'Wiadomość z linkiem weryfikacyjnym została wysłana',
                     'OK',
                     false,
                     false,
                     false);
               } else if (verification.statusCode == 500) {
-                Allerts().allert(
+                Alerts().alert(
                     context,
                     'Błąd połączenia',
                     'Nie udało się nawiązać połączenia z serwerem',
@@ -687,7 +687,7 @@ class ProfileState extends State<ProfileScreen> {
                     false,
                     false);
               } else if (verification.statusCode == 408) {
-                Allerts().allert(context, 'Błąd połączenia',
+                Alerts().alert(context, 'Błąd połączenia',
                     'Spróbuj ponownie za chwile', 'OK', false, false, false);
               }
               // print(TemporaryStorage.email);
