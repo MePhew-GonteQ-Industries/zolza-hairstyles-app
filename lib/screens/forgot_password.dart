@@ -12,10 +12,10 @@ class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  _ForgotPasswordState createState() => _ForgotPasswordState();
+  ForgotPasswordState createState() => ForgotPasswordState();
 }
 
-class _ForgotPasswordState extends State<ForgotPasswordScreen> {
+class ForgotPasswordState extends State<ForgotPasswordScreen> {
   int seconds = 900;
   final emailController = TextEditingController();
 

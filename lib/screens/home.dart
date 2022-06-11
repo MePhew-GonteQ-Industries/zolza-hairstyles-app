@@ -11,10 +11,10 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  HomeState createState() => HomeState();
 }
 
-class _HomeState extends State<HomeScreen> {
+class HomeState extends State<HomeScreen> {
   List fetchedAppointments = [];
   bool connected = false;
 
