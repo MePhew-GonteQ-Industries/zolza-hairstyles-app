@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hairdressing_salon_app/helpers/verifyuser.dart';
+import 'package:hairdressing_salon_app/helpers/verify_user.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../screens/check_for_logged_in_user.dart';
 
-class Allerts {
-  void allert(BuildContext context, String title, String desc, String confirm,
+class Alerts {
+  void alert(BuildContext context, String title, String desc, String confirm,
       bool isLoop, bool isLoginRedirect, bool isPoppedSecondTime) {
     Alert(
       context: context,
@@ -46,7 +46,7 @@ class Allerts {
     ).show();
   }
 
-  void allertEmailVerification(BuildContext context) {
+  void alertEmailVerification(BuildContext context) {
     Alert(
       context: context,
       style: AlertStyle(
@@ -67,6 +67,7 @@ class Allerts {
           onPressed: () async {
             Navigator.pop(context);
             await verifyUser();
+            print('What?');
             Navigator.pushNamed(context, '/home');
           },
           color: Theme.of(context).primaryColorDark,
@@ -81,7 +82,7 @@ class Allerts {
     ).show();
   }
 
-  void allertAppointmentCreated(BuildContext context) {
+  void alertAppointmentCreated(BuildContext context) {
     Alert(
       context: context,
       style: AlertStyle(
@@ -115,7 +116,7 @@ class Allerts {
     ).show();
   }
 
-  void allertNotEnoughTime(BuildContext context) {
+  void alertNotEnoughTime(BuildContext context) {
     Alert(
       context: context,
       style: const AlertStyle(
@@ -145,7 +146,7 @@ class Allerts {
     ).show();
   }
 
-  void allertHomeScreenRedirect(BuildContext context) {
+  void alertHomeScreenRedirect(BuildContext context) {
     Alert(
       context: context,
       style: const AlertStyle(

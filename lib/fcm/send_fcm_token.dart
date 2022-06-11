@@ -10,7 +10,7 @@ Future<http.Response> sendFCMToken(String token) {
     //   'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
     // },
     // body: {
-    //   'fcmtoken': token,
+    //   'fcm_token': token,
     // },
   );
 }

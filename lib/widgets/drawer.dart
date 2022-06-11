@@ -6,7 +6,7 @@ import '../helpers/logout.dart';
 import '../helpers/temporary_storage.dart';
 import '../helpers/user_secure_storage.dart';
 import '../screens/login.dart';
-import 'allerts.dart';
+import 'alerts.dart';
 
 class DrawerWidget {
   Widget drawer(BuildContext context) {
@@ -50,7 +50,7 @@ class DrawerWidget {
           final ConnectivityResult result =
               await Connectivity().checkConnectivity();
           if (result == ConnectivityResult.none) {
-            Allerts().allert(
+            Alerts().alert(
                 context,
                 'Błąd połączenia',
                 'Sprawdź swoje połączenie z internetem i spróbuj ponownie',
@@ -72,10 +72,10 @@ class DrawerWidget {
                   ),
                   (route) => false);
             } else if (logOut.statusCode == 408) {
-              Allerts().allert(context, 'Błąd połączenia z serwerem',
+              Alerts().alert(context, 'Błąd połączenia z serwerem',
                   'Spróbuj ponownie za chwile', 'OK', false, false, false);
             } else {
-              Allerts().allert(context, 'Błąd połączenia z serwerem',
+              Alerts().alert(context, 'Błąd połączenia z serwerem',
                   'Spróbuj jeszcze raz', 'OK', false, false, false);
             }
           }

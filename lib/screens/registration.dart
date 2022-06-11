@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/widgets/text_field.dart';
 import 'package:http/http.dart';
 import '../helpers/sign_up_helper.dart';
-import '../widgets/allerts.dart';
+import '../widgets/alerts.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -15,33 +15,33 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class RegistrationScreenState extends State<RegistrationScreen> {
-  String choosenValue = '';
+  String chosenValue = '';
   List genderItem = ['Płeć', 'Kobieta', 'Mężczyzna', 'Inna'];
   @override
   void initState() {
     super.initState();
-    choosenValue = genderItem[0];
+    chosenValue = genderItem[0];
   }
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
-  final surNameController = TextEditingController();
-  final rePasswordController = TextEditingController();
+  final surnameController = TextEditingController();
+  final repeatPasswordController = TextEditingController();
 
   bool checkForEmptyTextField() {
-    String email, password, name, surename, repassword;
+    String email, password, name, surname, repeatPassword;
     email = emailController.text;
     password = passwordController.text;
     name = nameController.text;
-    repassword = rePasswordController.text;
-    surename = surNameController.text;
+    repeatPassword = repeatPasswordController.text;
+    surname = surnameController.text;
     if (email == '' ||
         password == '' ||
         name == '' ||
-        surename == '' ||
-        repassword == '') {
-      Allerts().allert(
+        surname == '' ||
+        repeatPassword == '') {
+      Alerts().alert(
         context,
         'Nie tak szybko...',
         'Te pola nie mogą być puste',
@@ -51,19 +51,19 @@ class RegistrationScreenState extends State<RegistrationScreen> {
         false,
       );
       return false;
-    } else if (password != repassword) {
-      Allerts().allert(
+    } else if (password != repeatPassword) {
+      Alerts().alert(
         context,
         'Nie tak szybko...',
-        'Podane hasłą muszą się zgadzać',
+        'Podane hasła muszą się zgadzać',
         'OK',
         false,
         false,
         false,
       );
       return false;
-    } else if (choosenValue == 'Płeć') {
-      Allerts().allert(
+    } else if (chosenValue == 'Płeć') {
+      Alerts().alert(
         context,
         'Nie tak szybko...',
         'Proszę wybrać płeć',
@@ -106,15 +106,15 @@ class RegistrationScreenState extends State<RegistrationScreen> {
             }
             Response response = await signUpUser(
               nameController.text,
-              surNameController.text,
+              surnameController.text,
               emailController.text,
               passwordController.text,
-              choosenValue,
+              chosenValue,
               mode,
             );
             if (response.statusCode == 201) {
               Navigator.pushNamed(context, '/login');
-              Allerts().allert(
+              Alerts().alert(
                   context,
                   'Zarejestrowano pomyślnie',
                   'Zaloguj się aby korzystać z aplikacji',
@@ -124,7 +124,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                   false);
             } else if (response.statusCode == 404 ||
                 response.statusCode == 500) {
-              Allerts().allert(
+              Alerts().alert(
                   context,
                   'Błąd połączenia',
                   'Nie udało się nawiązać połączenia z serwerem',
@@ -133,7 +133,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                   false,
                   false);
             } else if (response.statusCode == 408) {
-              Allerts().allert(
+              Alerts().alert(
                   context,
                   'Błąd połączenia',
                   'Nie udało się nawiązać połączenia z serwerem',
@@ -143,7 +143,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                   false);
             } else {
               // print(response.statusCode);
-              Allerts().allert(context, 'Podano błędne dane rejestracji',
+              Alerts().alert(context, 'Podano błędne dane rejestracji',
                   'Spróbuj jeszcze raz', 'OK', false, false, false);
             }
           }
@@ -202,10 +202,10 @@ class RegistrationScreenState extends State<RegistrationScreen> {
             color: Theme.of(context).primaryColor,
           ),
           hint: const Text('Wybierz swoją rolę'),
-          value: choosenValue,
+          value: chosenValue,
           onChanged: (value) {
             setState(() {
-              choosenValue = value as String;
+              chosenValue = value as String;
             });
           },
           items: genderItem.map((item) {
@@ -263,7 +263,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       const SizedBox(height: 20),
                       TextFieldWidget().textField(
                         context,
-                        surNameController,
+                        surnameController,
                         'Nazwisko',
                         Icons.person,
                         false,
@@ -290,7 +290,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       const SizedBox(height: 20),
                       TextFieldWidget().textField(
                         context,
-                        rePasswordController,
+                        repeatPasswordController,
                         'Powtórz hasło',
                         Icons.lock,
                         true,

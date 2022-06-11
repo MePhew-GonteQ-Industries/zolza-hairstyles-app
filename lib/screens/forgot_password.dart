@@ -6,7 +6,7 @@ import 'package:hairdressing_salon_app/helpers/forgot_password.dart';
 import 'package:hairdressing_salon_app/widgets/text_field.dart';
 import 'package:http/http.dart';
 import 'package:sprintf/sprintf.dart';
-import '../widgets/allerts.dart';
+import '../widgets/alerts.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
     String email;
     email = emailController.text;
     if (email == '') {
-      Allerts().allert(context, 'Nie tak szybko...',
+      Alerts().alert(context, 'Nie tak szybko...',
           'Te pola nie mogą być puste', 'OK', false, false, false);
       return false;
     } else {
@@ -31,27 +31,27 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
     }
   }
 
-  tooManyRequestsAllert({required int seconds}) {
+  tooManyRequestsAlert({required int seconds}) {
     String poprawnaForma = '';
     String retryRequest = '';
     int minutes = (seconds / 60).round();
     if (minutes == 1) {
       poprawnaForma = 'minutę';
       retryRequest =
-          sprintf('Można spróbować ponowanie za %i $poprawnaForma', [minutes]);
+          sprintf('Można spróbować ponownie za %i $poprawnaForma', [minutes]);
     } else if (minutes > 1 && minutes < 5) {
       poprawnaForma = 'minuty';
       retryRequest =
-          sprintf('Można spróbować ponowanie za %i $poprawnaForma', [minutes]);
+          sprintf('Można spróbować ponownie za %i $poprawnaForma', [minutes]);
     } else if (minutes > 4) {
       poprawnaForma = 'minut';
       retryRequest =
-          sprintf('Można spróbować ponowanie za %i $poprawnaForma', [minutes]);
+          sprintf('Można spróbować ponownie za %i $poprawnaForma', [minutes]);
     } else {
       poprawnaForma = 'kilka sekund';
-      retryRequest = 'Można spróbować ponowanie za $poprawnaForma';
+      retryRequest = 'Można spróbować ponownie za $poprawnaForma';
     }
-    Allerts().allert(context, 'Wiadomość została już wysłana', retryRequest,
+    Alerts().alert(context, 'Wiadomość została już wysłana', retryRequest,
         'OK', false, true, false);
   }
 
@@ -75,7 +75,7 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
             if (checkForEmptyTextField()) {
               Response response = await forgotPassword(emailController.text);
               if (response.statusCode == 202) {
-                Allerts().allert(
+                Alerts().alert(
                     context,
                     'Wysłano E-mail',
                     'Otwórz wiadomość i wykonaj instrukcję aby zresetować hasło',
@@ -84,7 +84,7 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
                     true,
                     false);
               } else if (response.statusCode == 500) {
-                Allerts().allert(
+                Alerts().alert(
                     context,
                     'Błąd połączenia',
                     'Nie udało się nawiązać połączenia z serwerem',
@@ -95,12 +95,12 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
               } else if (response.statusCode == 429) {
                 var parsedJson = response.headers;
                 seconds = int.parse(parsedJson['retry-after']!);
-                tooManyRequestsAllert(seconds: seconds);
+                tooManyRequestsAlert(seconds: seconds);
               } else if (response.statusCode == 408) {
-                Allerts().allert(context, 'Błąd połączenia z serwerem',
+                Alerts().alert(context, 'Błąd połączenia z serwerem',
                     'Spróbuj ponownie za chwile', 'OK', false, false, false);
               } else {
-                Allerts().allert(context, 'Podano błędny adres E-mail',
+                Alerts().alert(context, 'Podano błędny adres E-mail',
                     'Spróbuj jeszcze raz', 'OK', false, false, false);
                 throw Exception('Podano błędny adres E-mail');
               }

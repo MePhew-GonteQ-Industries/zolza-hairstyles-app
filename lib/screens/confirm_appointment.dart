@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/create_appointment.dart';
 import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
-import 'package:hairdressing_salon_app/widgets/allerts.dart';
+import 'package:hairdressing_salon_app/widgets/alerts.dart';
 import 'package:http/http.dart';
 
 class ConfirmAppointment extends StatefulWidget {
@@ -148,13 +148,13 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
                       // print(response.statusCode);
                       // print(response.body);
                       if (response.statusCode == 400) {
-                        Allerts().allertNotEnoughTime(context);
+                        Alerts().alertNotEnoughTime(context);
                       } else if (response.statusCode == 201) {
-                        Allerts().allertAppointmentCreated(context);
+                        Alerts().alertAppointmentCreated(context);
                       } else if (response.statusCode == 403) {
-                        Allerts().allertEmailVerification(context);
+                        Alerts().alertEmailVerification(context);
                       } else {
-                        Allerts().allertHomeScreenRedirect(context);
+                        Alerts().alertHomeScreenRedirect(context);
                       }
                     },
                     style: ElevatedButton.styleFrom(
