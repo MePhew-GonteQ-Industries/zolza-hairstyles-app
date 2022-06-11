@@ -10,3 +10,5 @@ const lightPrimaryColorShadow = Color(0xCC3D3D3D);
 const lightBackgroundColorShadow = Color(0xCCF2F2F2);
 const darkBackgroundColorShadow = Color(0xCC3D3D3D);
 const darkPrimaryColorShadow = Color(0xCCF2F2F2);
+const lightAccentColor = Color(0xCC00a2e8);
+const darkAccentColor = Color(0xcc3cda7a);

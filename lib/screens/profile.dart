@@ -361,7 +361,7 @@ class ProfileState extends State<ProfileScreen> {
             title: Text(
               'E-mail',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).textTheme.bodyText2?.color,
               ),
             ),
             subtitle: Text(
@@ -377,7 +377,7 @@ class ProfileState extends State<ProfileScreen> {
             title: Text(
               'Hasło',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).textTheme.bodyText2?.color,
               ),
             ),
             subtitle: TextField(
@@ -555,7 +555,7 @@ class ProfileState extends State<ProfileScreen> {
             title: Text(
               'Imię',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).textTheme.bodyText2?.color,
               ),
             ),
             subtitle: TextField(
@@ -599,7 +599,7 @@ class ProfileState extends State<ProfileScreen> {
             title: Text(
               'Nazwisko',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).textTheme.bodyText2?.color,
               ),
             ),
             subtitle: TextField(
@@ -643,7 +643,7 @@ class ProfileState extends State<ProfileScreen> {
             title: Text(
               'Płeć',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).textTheme.bodyText2?.color,
               ),
             ),
             trailing: buildDropDown(),
@@ -656,7 +656,7 @@ class ProfileState extends State<ProfileScreen> {
             title: Text(
               'Ponów weryfikację',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).textTheme.bodyText2?.color,
               ),
             ),
             subtitle: Text(
