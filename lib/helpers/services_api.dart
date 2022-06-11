@@ -1,5 +1,5 @@
 import 'package:hairdressing_salon_app/helpers/services.dart';
-import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
+import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -8,7 +8,7 @@ class ServicesApi {
   static Future<List<Service>> getServices(BuildContext context) async {
     final response = await http.get(
         Uri.parse(
-          TemporaryStorage.apiUrl + '/services',
+          '${TemporaryStorage.apiUrl}/services',
         ),
         headers: {
           'Content-Type': 'application/json',

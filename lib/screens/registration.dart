@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hairdressing_salon_app/widgets/textfieldwidget.dart';
+import 'package:hairdressing_salon_app/widgets/text_field.dart';
 import 'package:http/http.dart';
-import '../helpers/signuphelper.dart';
+import '../helpers/sign_up_helper.dart';
 import '../widgets/allerts.dart';
 
 class RegistrationScreen extends StatefulWidget {

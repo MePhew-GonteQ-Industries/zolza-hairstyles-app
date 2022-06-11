@@ -3,8 +3,8 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../helpers/appointments.dart';
-import '../helpers/appointmentsapi.dart';
-import '../helpers/temporarystorage.dart';
+import '../helpers/appointments_api.dart';
+import '../helpers/temporary_storage.dart';
 
 var currentSlotFits = 0;
 var requiredSlots = 0;
@@ -91,7 +91,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
         itemBuilder: (context, index) {
           final appointment = appointments[index];
           currentSlotFits = 0;
-          print(currentSlotFits);
+          // print(currentSlotFits);
           if (index + requiredSlots <= appointments.length) {
             for (int i = index; i < (index + requiredSlots); i++) {
               final slot = appointments[i];
@@ -260,6 +260,21 @@ class _AppointmentsState extends State<AppointmentsScreen> {
               //   ),
               // ),
               color: Theme.of(context).backgroundColor,
+              elevation: 8,
+              // shape: CircleBorder(
+              //   side: BorderSide(
+              //     width: 1,
+              //     color: Color(0x44FFFFFF),
+              //   ),
+              // ),
+              shape: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Color(0x44FFFFFF),
+                  width: 1,
+                ),
+              ),
+              margin: const EdgeInsets.all(10),
               child: Center(
                 child: ListTile(
                   // leading: Icon(
@@ -268,12 +283,11 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                   // ),
                   title: Center(
                     child: Text(
-                      'Od: ' +
-                          DateFormat("yyyy-MM-ddTHH:mm:ss")
+                      'Od: ${DateFormat("yyyy-MM-ddTHH:mm:ss")
                               .parse(appointment.startTime, true)
                               .toLocal()
                               .toString()
-                              .substring(11, 16),
+                              .substring(11, 16)}',
                       // +
                       // ' - ' +
                       // DateFormat("yyyy-MM-ddTHH:mm:ss")
@@ -292,8 +306,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                   ),
                   subtitle: Center(
                     child: Text(
-                      'Do: ' +
-                          DateFormat("yyyy-MM-ddTHH:mm:ss")
+                      'Do: ${DateFormat("yyyy-MM-ddTHH:mm:ss")
                               .parse(appointment.endTime, true)
                               .add(
                                 Duration(
@@ -302,7 +315,7 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                               )
                               .toLocal()
                               .toString()
-                              .substring(11, 16),
+                              .substring(11, 16)}',
                       style: GoogleFonts.poppins(
                         color: Theme.of(context).primaryColor,
                       ),
@@ -320,21 +333,6 @@ class _AppointmentsState extends State<AppointmentsScreen> {
                   },
                 ),
               ),
-              elevation: 8,
-              // shape: CircleBorder(
-              //   side: BorderSide(
-              //     width: 1,
-              //     color: Color(0x44FFFFFF),
-              //   ),
-              // ),
-              shape: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: Color(0x44FFFFFF),
-                  width: 1,
-                ),
-              ),
-              margin: const EdgeInsets.all(10),
             );
           } else if (hasSlots == 0) {
             return Column(

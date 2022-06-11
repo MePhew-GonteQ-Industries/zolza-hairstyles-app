@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hairdressing_salon_app/helpers/createappointmenthelper.dart';
-import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
+import 'package:hairdressing_salon_app/helpers/create_appointment.dart';
+import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
 import 'package:hairdressing_salon_app/widgets/allerts.dart';
 import 'package:http/http.dart';
 
@@ -157,19 +157,19 @@ class _ConfirmAppointment extends State<ConfirmAppointment> {
                         Allerts().allertHomeScreenRedirect(context);
                       }
                     },
-                    child: Text(
-                      'Potwierdź wizytę',
-                      style: GoogleFonts.poppins(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 24,
-                      ),
-                    ),
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).primaryColorDark,
                       shadowColor: const Color(0xCC007AF3),
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    child: Text(
+                      'Potwierdź wizytę',
+                      style: GoogleFonts.poppins(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 24,
                       ),
                     ),
                   ),

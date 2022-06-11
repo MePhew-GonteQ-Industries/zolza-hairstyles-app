@@ -1,14 +1,13 @@
-import 'dart:convert';
-import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
+import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
 import 'package:http/http.dart' as http;
 
 // Map<String, String> headers = {
-//   'Content-Type': 'application/x-wwww-form-urlencoded; charset=UTF-8'
+//   'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
 // };
 
 Future<http.Response> loginUser(String email, String password) async {
   return http.post(
-    Uri.parse(TemporaryStorage.apiUrl + '/auth/login'),
+    Uri.parse('${TemporaryStorage.apiUrl}/auth/login'),
     body: {
       'grant_type': 'password',
       'username': email,
@@ -26,7 +25,7 @@ Future<http.Response> loginUser(String email, String password) async {
 
 Future<http.Response> sendRefreshToken(String refreshToken) async {
   return http.post(
-    Uri.parse(TemporaryStorage.apiUrl + '/auth/refresh-token'),
+    Uri.parse('${TemporaryStorage.apiUrl}/auth/refresh-token'),
     body: {
       'grant_type': 'refresh_token',
       'refresh_token': refreshToken,
@@ -43,7 +42,7 @@ Future<http.Response> sendRefreshToken(String refreshToken) async {
 
 Future<http.Response> getInfoRequest(String accessToken) async {
   return http.get(
-    Uri.parse(TemporaryStorage.apiUrl + '/users/me'),
+    Uri.parse('${TemporaryStorage.apiUrl}/users/me'),
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $accessToken',

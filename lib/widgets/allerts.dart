@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/verifyuser.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import '../screens/checkforloggeduser.dart';
+import '../screens/check_for_logged_in_user.dart';
 
 class Allerts {
   void allert(BuildContext context, String title, String desc, String confirm,
@@ -24,12 +24,6 @@ class Allerts {
       desc: desc,
       buttons: [
         DialogButton(
-          child: Text(
-            confirm,
-            style: GoogleFonts.poppins(
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
           onPressed: () {
             Navigator.pop(context);
             if (isLoop) {
@@ -41,6 +35,12 @@ class Allerts {
             }
           },
           color: Theme.of(context).primaryColorDark,
+          child: Text(
+            confirm,
+            style: GoogleFonts.poppins(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
         ),
       ],
     ).show();
@@ -64,18 +64,18 @@ class Allerts {
       desc: 'Kliknij w aby przesłać E-mail do weryfikacji konta',
       buttons: [
         DialogButton(
-          child: Text(
-            'OK',
-            style: GoogleFonts.poppins(
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
           onPressed: () async {
             Navigator.pop(context);
             await verifyUser();
             Navigator.pushNamed(context, '/home');
           },
           color: Theme.of(context).primaryColorDark,
+          child: Text(
+            'OK',
+            style: GoogleFonts.poppins(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
         ),
       ],
     ).show();
@@ -99,17 +99,17 @@ class Allerts {
       desc: 'Pomyślnie umówiono wizytę',
       buttons: [
         DialogButton(
+          onPressed: () async {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/home');
+          },
+          color: Theme.of(context).primaryColorDark,
           child: Text(
             'OK',
             style: GoogleFonts.poppins(
               color: Theme.of(context).primaryColor,
             ),
           ),
-          onPressed: () async {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/home');
-          },
-          color: Theme.of(context).primaryColorDark,
         ),
       ],
     ).show();
@@ -129,17 +129,17 @@ class Allerts {
       desc: 'Wybrano slot z niewystarczającą ilością czasu',
       buttons: [
         DialogButton(
+          onPressed: () async {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/appointments');
+          },
+          color: Theme.of(context).primaryColorDark,
           child: Text(
             'OK',
             style: TextStyle(
               color: Theme.of(context).primaryColor,
             ),
           ),
-          onPressed: () async {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/appointments');
-          },
-          color: Theme.of(context).primaryColorDark,
         ),
       ],
     ).show();
@@ -159,17 +159,17 @@ class Allerts {
       desc: 'Spróbuj ponownie później.',
       buttons: [
         DialogButton(
+          onPressed: () async {
+            Navigator.pop(context);
+            Navigator.pushNamed(context, '/home');
+          },
+          color: Theme.of(context).primaryColorDark,
           child: Text(
             'OK',
             style: TextStyle(
               color: Theme.of(context).primaryColor,
             ),
           ),
-          onPressed: () async {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, '/home');
-          },
-          color: Theme.of(context).primaryColorDark,
         ),
       ],
     ).show();

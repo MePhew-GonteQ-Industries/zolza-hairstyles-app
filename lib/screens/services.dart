@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/services.dart';
-import 'package:hairdressing_salon_app/helpers/temporarystorage.dart';
-import 'package:hairdressing_salon_app/widgets/drawerwidget.dart';
-import '../helpers/servicesapi.dart';
+import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
+import 'package:hairdressing_salon_app/widgets/drawer.dart';
+import '../helpers/services_api.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key? key}) : super(key: key);
@@ -76,7 +76,7 @@ class _ServicesState extends State<ServicesScreen> {
               );
             default:
               if (snapshot.hasError) {
-                print(snapshot.error);
+                // print(snapshot.error);
                 return Center(
                   child: Text(
                     'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',
@@ -125,14 +125,7 @@ Widget buildServices(List<Service> services) => ListView.builder(
                 ),
               ),
               subtitle: Text(
-                'Czas trwania: ' +
-                    service.averageTime.toString() +
-                    ' minut | Cena: ' +
-                    service.minPrice.toString() +
-                    'zł' +
-                    '-' +
-                    service.maxPrice.toString() +
-                    'zł',
+                'Czas trwania: ${service.averageTime} minut | Cena: ${service.minPrice}zł-${service.maxPrice}zł',
                 style: GoogleFonts.poppins(
                   color: Theme.of(context).primaryColor,
                 ),
