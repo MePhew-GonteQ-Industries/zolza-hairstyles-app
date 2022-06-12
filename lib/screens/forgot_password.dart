@@ -75,6 +75,7 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
             if (checkForEmptyTextField()) {
               Response response = await forgotPassword(emailController.text);
               if (response.statusCode == 202) {
+                if (!mounted) return;
                 Alerts().alert(
                     context,
                     'Wysłano E-mail',
@@ -84,6 +85,7 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
                     true,
                     false);
               } else if (response.statusCode == 500) {
+                if (!mounted) return;
                 Alerts().alert(
                     context,
                     'Błąd połączenia',
@@ -97,9 +99,11 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
                 seconds = int.parse(parsedJson['retry-after']!);
                 tooManyRequestsAlert(seconds: seconds);
               } else if (response.statusCode == 408) {
+                if (!mounted) return;
                 Alerts().alert(context, 'Błąd połączenia z serwerem',
                     'Spróbuj ponownie za chwile', 'OK', false, false, false);
               } else {
+                if (!mounted) return;
                 Alerts().alert(context, 'Podano błędny adres E-mail',
                     'Spróbuj jeszcze raz', 'OK', false, false, false);
                 throw Exception('Podano błędny adres E-mail');

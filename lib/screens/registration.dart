@@ -113,6 +113,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
               mode,
             );
             if (response.statusCode == 201) {
+              if (!mounted) return;
               Navigator.pushNamed(context, '/login');
               Alerts().alert(
                   context,
@@ -124,6 +125,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                   false);
             } else if (response.statusCode == 404 ||
                 response.statusCode == 500) {
+              if (!mounted) return;
               Alerts().alert(
                   context,
                   'Błąd połączenia',
@@ -133,6 +135,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                   false,
                   false);
             } else if (response.statusCode == 408) {
+              if (!mounted) return;
               Alerts().alert(
                   context,
                   'Błąd połączenia',
@@ -143,6 +146,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                   false);
             } else {
               // print(response.statusCode);
+              if (!mounted) return;
               Alerts().alert(context, 'Podano błędne dane rejestracji',
                   'Spróbuj jeszcze raz', 'OK', false, false, false);
             }

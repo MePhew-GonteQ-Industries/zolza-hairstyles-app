@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hairdressing_salon_app/helpers/appointment_data.dart';
 import 'package:intl/intl.dart';
 import '../helpers/appointments.dart';
 import '../helpers/appointments_api.dart';
-import '../helpers/temporary_storage.dart';
+import '../helpers/service_data.dart';
 
 var currentSlotFits = 0;
 var requiredSlots = 0;
@@ -18,23 +19,27 @@ class AppointmentsScreen extends StatefulWidget {
 }
 
 class AppointmentsState extends State<AppointmentsScreen> {
-  String now = '';
-  String chosenDate = '';
+  late String currentDate;
+  late DateTime now;
+  late String chosenDateString;
+  late DateTime chosenDate;
   @override
   void initState() {
     super.initState();
-    now = DateFormat("dd-MM-yyyy").format(DateTime.now());
+    now = DateTime.now();
+    currentDate = DateFormat("dd-MM-yyyy").format(now);
     chosenDate = now;
+    chosenDateString = DateFormat('yyyy-MM-dd').format(chosenDate);
     currentSlotFits = 0;
     hasSlots = 0;
-    requiredSlots = TemporaryStorage.requiredSlots;
+    requiredSlots = ServiceData.requiredSlots;
   }
 
   @override
   void dispose() {
     super.dispose();
-    TemporaryStorage.date = DateFormat("yyyy-MM-dd").format(DateTime.now());
-    now = DateFormat("dd-MM-yyyy").format(DateTime.now());
+    currentDate = DateFormat("dd-MM-yyyy").format(DateTime.now());
+    AppointmentData.date = currentDate;
   }
 
   final minTime = DateTime.now();
@@ -313,8 +318,8 @@ class AppointmentsState extends State<AppointmentsScreen> {
                     ),
                   ),
                   onTap: () {
-                    TemporaryStorage.appointmentID = appointment.id;
-                    TemporaryStorage.startHour =
+                    AppointmentData.id = appointment.id;
+                    AppointmentData.startHour =
                         DateFormat("yyyy-MM-ddTHH:mm:ss")
                             .parse(appointment.startTime, true)
                             .toLocal()
@@ -430,7 +435,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
               Expanded(
                 flex: 1,
                 child: Text(
-                  chosenDate,
+                  chosenDateString,
                   style: GoogleFonts.poppins(
                     fontSize: 24,
                     color: Theme.of(context).primaryColor,
@@ -451,10 +456,11 @@ class AppointmentsState extends State<AppointmentsScreen> {
                       ),
                       onChanged: (date) {}, onConfirm: (date) {
                     setState(() {
-                      chosenDate = DateFormat('yyyy-MM-dd').format(date);
-                      TemporaryStorage.date = chosenDate;
+                      chosenDate = date;
+                      chosenDateString = DateFormat('yyyy-MM-dd').format(date);
+                      AppointmentData.date = chosenDateString;
                     });
-                  }, currentTime: DateTime.now(), locale: LocaleType.pl);
+                  }, currentTime: chosenDate, locale: LocaleType.pl);
                 },
               ),
               const Padding(padding: EdgeInsets.only(right: 15)),
@@ -465,7 +471,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
             child: Align(
               alignment: Alignment.center,
               child: FutureBuilder<List<Appointment>>(
-                future: AppointmentsApi.getAppointments(context, chosenDate),
+                future: AppointmentsApi.getAppointments(context, chosenDateString),
                 builder: (context, snapshot) {
                   final appointments = snapshot.data;
                   switch (snapshot.connectionState) {

@@ -2,9 +2,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_svg/svg.dart';
 import 'package:hairdressing_salon_app/helpers/login.dart';
-import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
 import 'package:hairdressing_salon_app/screens/login.dart';
+import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:hairdressing_salon_app/widgets/alerts.dart';
 import 'package:http/http.dart';
 import '../FCM/get_fcm_token.dart';
@@ -30,6 +30,7 @@ class CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
   void checkForLoggedUser() async {
     final ConnectivityResult result = await Connectivity().checkConnectivity();
     if (result == ConnectivityResult.none) {
+      if (!mounted) return;
       Alerts().alert(
           context,
           'Brak połączenia',
@@ -49,36 +50,41 @@ class CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
         if (refreshToken.statusCode == 200) {
           final parsedJson = jsonDecode(refreshToken.body);
           await UserSecureStorage.setRefreshToken(parsedJson['refresh_token']);
-          TemporaryStorage.accessToken = parsedJson['access_token'];
-          Response getInfo = await getInfoRequest(TemporaryStorage.accessToken);
+          UserData.accessToken = parsedJson['access_token'];
+          Response getInfo = await getInfoRequest(UserData.accessToken);
           final parsedInfo = jsonDecode(utf8.decode(getInfo.bodyBytes));
-          TemporaryStorage.name = parsedInfo['name'];
-          TemporaryStorage.surName = parsedInfo['surname'];
-          TemporaryStorage.email = parsedInfo['email'];
+          UserData.name = parsedInfo['name'];
+          UserData.surname = parsedInfo['surname'];
+          UserData.email = parsedInfo['email'];
+          UserData.verified = parsedInfo['verified'];
           switch (parsedInfo['gender']) {
             case 'male':
-              TemporaryStorage.gender = 'Mężczyzna';
+              UserData.gender = 'Mężczyzna';
               break;
             case 'female':
-              TemporaryStorage.gender = 'Kobieta';
+              UserData.gender = 'Kobieta';
               break;
             case 'other':
-              TemporaryStorage.gender = 'Inna';
+              UserData.gender = 'Inna';
               break;
             default:
-              TemporaryStorage.gender = 'Płeć';
+              UserData.gender = 'Płeć';
           }
           await GetFcmToken().setUpToken();
+          if (!mounted) return;
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const HomeScreen()),
               (route) => false);
         } else if (refreshToken.statusCode == 401) {
+          if (!mounted) return;
           Navigator.pushNamed(context, '/login');
         } else {
+          if (!mounted) return;
           loginLoop(context);
         }
       } else {
+        if (!mounted) return;
         Navigator.pushNamed(context, '/login');
       }
     }
@@ -147,10 +153,10 @@ void loginLoop(BuildContext context) async {
     if (refreshToken.statusCode == 200) {
       final parsedJson = jsonDecode(refreshToken.body);
       await UserSecureStorage.setRefreshToken(parsedJson['refresh_token']);
-      TemporaryStorage.accessToken = parsedJson['access_token'];
-      Response getInfo = await getInfoRequest(TemporaryStorage.accessToken);
+      UserData.accessToken = parsedJson['access_token'];
+      Response getInfo = await getInfoRequest(UserData.accessToken);
       final parsedInfo = jsonDecode(utf8.decode(getInfo.bodyBytes));
-      TemporaryStorage.name = parsedInfo['name'];
+      UserData.name = parsedInfo['name'];
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const HomeScreen()),

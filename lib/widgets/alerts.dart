@@ -67,7 +67,6 @@ class Alerts {
           onPressed: () async {
             Navigator.pop(context);
             await verifyUser();
-            print('What?');
             Navigator.pushNamed(context, '/home');
           },
           color: Theme.of(context).primaryColorDark,

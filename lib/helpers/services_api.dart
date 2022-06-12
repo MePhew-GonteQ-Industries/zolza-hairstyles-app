@@ -1,5 +1,6 @@
+import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:hairdressing_salon_app/helpers/services.dart';
-import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
+import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -8,11 +9,11 @@ class ServicesApi {
   static Future<List<Service>> getServices(BuildContext context) async {
     final response = await http.get(
         Uri.parse(
-          '${TemporaryStorage.apiUrl}/services',
+          '$apiUrl/services',
         ),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $TemporaryStorage.accessToken',
+          'Authorization': 'Bearer ${UserData.accessToken}',
         }).timeout(
       const Duration(seconds: 10),
       onTimeout: () => http.Response('Error', 408),

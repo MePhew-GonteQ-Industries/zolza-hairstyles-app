@@ -1,0 +1,1 @@
+const apiUrl = 'https://zolza-hairstyles.pl/api';

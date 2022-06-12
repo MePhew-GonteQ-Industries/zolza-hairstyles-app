@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
+import 'package:hairdressing_salon_app/constants/globals.dart';
+import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:http/http.dart' as http;
 
 Future<http.Response> updateUserDetails(
@@ -20,9 +21,9 @@ Future<http.Response> updateUserDetails(
   }
   return http
       .put(
-        Uri.parse('${TemporaryStorage.apiUrl}/users/me/update-details'),
+        Uri.parse('$apiUrl/users/me/update-details'),
         headers: {
-          'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
+          'Authorization': 'Bearer ${UserData.accessToken}',
           'Content-Type': 'application/json',
         },
         body: jsonEncode(
@@ -41,9 +42,9 @@ Future<http.Response> updateUserDetails(
 
 Future<http.Response> enterSudoMode(String password) {
   return http.post(
-    Uri.parse('${TemporaryStorage.apiUrl}/auth/enter-sudo-mode'),
+    Uri.parse('$apiUrl/auth/enter-sudo-mode'),
     headers: {
-      'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
+      'Authorization': 'Bearer ${UserData.accessToken}',
     },
     body: {
       'password': password,
@@ -58,9 +59,9 @@ Future<http.Response> changeUserPassword(
     String oldPassword, String newPassword) {
   return http
       .post(
-        Uri.parse('${TemporaryStorage.apiUrl}/auth/change-password'),
+        Uri.parse('$apiUrl/auth/change-password'),
         headers: {
-          'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
+          'Authorization': 'Bearer ${UserData.accessToken}',
           'Content-Type': 'application/json',
         },
         body: jsonEncode(

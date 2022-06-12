@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import '../helpers/logout.dart';
-import '../helpers/temporary_storage.dart';
+import '../helpers/user_data.dart';
 import '../helpers/user_secure_storage.dart';
 import '../screens/login.dart';
 import 'alerts.dart';
@@ -62,7 +62,7 @@ class DrawerWidget {
             Response logOut = await logOutUser();
             if (logOut.statusCode == 200) {
               UserSecureStorage.setRefreshToken('null');
-              TemporaryStorage.accessToken = 'null';
+              UserData.accessToken = 'null';
               UserSecureStorage.setFCMToken('null');
               UserSecureStorage.setIsLoggedIn('false');
               Navigator.pushAndRemoveUntil(
@@ -103,7 +103,7 @@ class DrawerWidget {
                     Expanded(
                       flex: 5,
                       child: Text(
-                        'Witaj, ${TemporaryStorage.name}',
+                        'Witaj, ${UserData.name}',
                         style: GoogleFonts.poppins(
                           color: Theme.of(context).canvasColor,
                           fontSize: 24,

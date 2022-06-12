@@ -1,18 +1,19 @@
 import 'dart:convert';
 
-import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
+import 'package:hairdressing_salon_app/constants/globals.dart';
+import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:http/http.dart' as http;
 
 Future<http.Response> verifyUser() async {
   return http
       .post(
-    Uri.parse('${TemporaryStorage.apiUrl}/users/request-email-verification'),
+    Uri.parse('$apiUrl/users/request-email-verification'),
     headers: {
       'Content-Type': 'application/json',
     },
     body: jsonEncode(
       <String, String>{
-        'email': TemporaryStorage.email,
+        'email': UserData.email,
       },
     ),
   )

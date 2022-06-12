@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/FCM/get_fcm_token.dart';
-import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
-import 'package:hairdressing_salon_app/outer_sign_in/google_sign_in.dart';
+import 'package:hairdressing_salon_app/external_sign_in/google_sign_in.dart';
 import 'package:hairdressing_salon_app/screens/home.dart';
 import 'package:hairdressing_salon_app/widgets/text_field.dart';
 import 'package:http/http.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../helpers/login.dart';
+import '../helpers/user_data.dart';
 import '../widgets/alerts.dart';
 import '../widgets/text_field.dart';
 
@@ -78,35 +78,37 @@ class LoginScreenState extends State<LoginScreen> {
               final parsedJson = jsonDecode(response.body);
               await UserSecureStorage.setRefreshToken(
                   parsedJson['refresh_token']);
-              TemporaryStorage.accessToken = parsedJson['access_token'];
+              UserData.accessToken = parsedJson['access_token'];
               Response getInfo =
-                  await getInfoRequest(TemporaryStorage.accessToken);
+                  await getInfoRequest(UserData.accessToken);
               final parsedInfo = jsonDecode(utf8.decode(getInfo.bodyBytes));
-              TemporaryStorage.name = parsedInfo['name'];
-              TemporaryStorage.surName = parsedInfo['surname'];
-              TemporaryStorage.email = parsedInfo['email'];
+              UserData.name = parsedInfo['name'];
+              UserData.surname = parsedInfo['surname'];
+              UserData.email = parsedInfo['email'];
               switch (parsedInfo['gender']) {
                 case 'male':
-                  TemporaryStorage.gender = 'Mężczyzna';
+                  UserData.gender = 'Mężczyzna';
                   break;
                 case 'female':
-                  TemporaryStorage.gender = 'Kobieta';
+                  UserData.gender = 'Kobieta';
                   break;
                 case 'other':
-                  TemporaryStorage.gender = 'Inna';
+                  UserData.gender = 'Inna';
                   break;
                 default:
-                  TemporaryStorage.gender = 'Płeć';
+                  UserData.gender = 'Płeć';
               }
               // final fcmToken = await FirebaseMessaging.instance.getToken();
               // print(fcmToken);
               await GetFcmToken().setUpToken();
               await UserSecureStorage.setIsLoggedIn('true');
+              if (!mounted) return;
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const HomeScreen()),
                   (route) => false);
             } else if (response.statusCode == 500) {
+              if (!mounted) return;
               Alerts().alert(
                   context,
                   'Błąd połączenia',
@@ -116,12 +118,15 @@ class LoginScreenState extends State<LoginScreen> {
                   false,
                   false);
             } else if (response.statusCode == 404) {
+              if (!mounted) return;
               Alerts().alert(context, 'Podano błędne dane logowania',
                   'Spróbuj jeszcze raz', 'OK', false, false, false);
             } else if (response.statusCode == 408) {
+              if (!mounted) return;
               Alerts().alert(context, 'Błąd połączenia z serwerem',
                   'Spróbuj ponownie za chwile', 'OK', false, false, false);
             } else {
+              if (!mounted) return;
               Alerts().alert(
                   context,
                   'Błąd połączenia',

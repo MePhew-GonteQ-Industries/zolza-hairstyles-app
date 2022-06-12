@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
 import 'package:hairdressing_salon_app/helpers/update_user_details.dart';
+import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:http/http.dart';
 import '../helpers/verify_user.dart';
 import '../widgets/alerts.dart';
@@ -20,31 +20,31 @@ class ProfileState extends State<ProfileScreen> {
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
   final oldPasswordController = TextEditingController();
-  bool onChangedValue = false;
+  bool valueChanged = false;
   bool isEnabledName = false;
   bool isEnabledSurname = false;
   late FocusNode nameFocusNode;
-  late FocusNode surNameFocusNode;
+  late FocusNode surnameFocusNode;
 
   @override
   void initState() {
     super.initState();
-    nameController.text = TemporaryStorage.name;
-    surnameController.text = TemporaryStorage.surName;
+    nameController.text = UserData.name;
+    surnameController.text = UserData.surname;
     isEnabledName = false;
     isEnabledSurname = false;
     nameFocusNode = FocusNode();
-    surNameFocusNode = FocusNode();
+    surnameFocusNode = FocusNode();
   }
 
   @override
   void dispose() {
     nameFocusNode.dispose();
-    surNameFocusNode.dispose();
+    surnameFocusNode.dispose();
     super.dispose();
   }
 
-  String chosenValue = TemporaryStorage.gender;
+  String chosenValue = UserData.gender;
 
   List genderItem = [
     'Płeć',
@@ -73,12 +73,12 @@ class ProfileState extends State<ProfileScreen> {
           style: GoogleFonts.poppins(
             color: Theme.of(context).primaryColor,
           ),
-          hint: const Text('Wybierz swoją rolę'),
+          hint: const Text('Wybierz swoją płeć'),
           value: chosenValue,
           onChanged: (value) {
             setState(() {
               chosenValue = value as String;
-              onChangedValue = true;
+              valueChanged = true;
               buildSubmitButton();
             });
           },
@@ -94,7 +94,7 @@ class ProfileState extends State<ProfileScreen> {
   }
 
   buildSubmitButton() {
-    if (onChangedValue) {
+    if (valueChanged) {
       switch (chosenValue) {
         case 'male':
           chosenValue = 'Mężczyzna';
@@ -136,15 +136,15 @@ class ProfileState extends State<ProfileScreen> {
                 );
               } else {
                 String name = nameController.text;
-                String surName = surnameController.text;
+                String surname = surnameController.text;
                 if (name == '') {
-                  name = TemporaryStorage.name;
+                  name = UserData.name;
                 }
-                if (surName == '') {
-                  surName = TemporaryStorage.surName;
+                if (surname == '') {
+                  surname = UserData.surname;
                 }
                 Response response =
-                    await updateUserDetails(name, surName, chosenValue);
+                    await updateUserDetails(name, surname, chosenValue);
                 var responseBody = jsonDecode(response.body);
                 if (response.statusCode == 403 &&
                     responseBody['detail'] ==
@@ -197,12 +197,12 @@ class ProfileState extends State<ProfileScreen> {
                                       if (sudo.statusCode == 200) {
                                         Response response =
                                             await updateUserDetails(
-                                                name, surName, chosenValue);
+                                                name, surname, chosenValue);
 
                                         passwordController.text = '';
                                         if (response.statusCode == 200) {
-                                          TemporaryStorage.name = name;
-                                          TemporaryStorage.surName = surName;
+                                          UserData.name = name;
+                                          UserData.surname = surname;
                                           String gender = 'Płeć';
                                           switch (chosenValue) {
                                             case 'Mężczyzna':
@@ -217,8 +217,10 @@ class ProfileState extends State<ProfileScreen> {
                                             default:
                                               gender = 'Płeć';
                                           }
-                                          TemporaryStorage.gender = gender;
+                                          UserData.gender = gender;
                                           passwordController.text = '';
+                                          valueChanged = false;
+                                          if (!mounted) return;
                                           Alerts().alert(
                                               context,
                                               'Operacja przebiegła pomyślnie',
@@ -229,6 +231,8 @@ class ProfileState extends State<ProfileScreen> {
                                               true);
                                         }
                                       } else if (response.statusCode == 500) {
+                                        oldPasswordController.text = '';
+                                        if (!mounted) return;
                                         Alerts().alert(
                                             context,
                                             'Błąd połączenia',
@@ -237,8 +241,8 @@ class ProfileState extends State<ProfileScreen> {
                                             false,
                                             false,
                                             false);
-                                        oldPasswordController.text = '';
                                       } else if (response.statusCode == 408) {
+                                        if (!mounted) return;
                                         Alerts().alert(
                                             context,
                                             'Błąd połączenia z serwerem',
@@ -248,6 +252,8 @@ class ProfileState extends State<ProfileScreen> {
                                             false,
                                             false);
                                       } else {
+                                        oldPasswordController.text = '';
+                                        if (!mounted) return;
                                         Alerts().alert(
                                             context,
                                             'Podano błędne dane',
@@ -256,7 +262,6 @@ class ProfileState extends State<ProfileScreen> {
                                             false,
                                             false,
                                             false);
-                                        oldPasswordController.text = '';
                                       }
                                     }
                                   },
@@ -269,8 +274,8 @@ class ProfileState extends State<ProfileScreen> {
                     },
                   );
                 } else if (response.statusCode == 200) {
-                  TemporaryStorage.name = name;
-                  TemporaryStorage.surName = surName;
+                  UserData.name = name;
+                  UserData.surname = surname;
                   String gender = 'Płeć';
                   switch (chosenValue) {
                     case 'Mężczyzna':
@@ -285,10 +290,12 @@ class ProfileState extends State<ProfileScreen> {
                     default:
                       gender = 'Płeć';
                   }
-                  TemporaryStorage.gender = gender;
+                  UserData.gender = gender;
+                  if (!mounted) return;
                   Alerts().alert(context, 'Operacja przebiegła pomyślnie',
                       'Dane zostały zmienione', 'OK', false, false, false);
                 } else if (response.statusCode == 500) {
+                  if (!mounted) return;
                   Alerts().alert(
                       context,
                       'Błąd połączenia',
@@ -298,9 +305,11 @@ class ProfileState extends State<ProfileScreen> {
                       false,
                       false);
                 } else if (response.statusCode == 408) {
+                  if (!mounted) return;
                   Alerts().alert(context, 'Błąd połączenia z serwerem',
                       'Spróbuj ponownie za chwile', 'OK', false, false, false);
                 } else {
+                  if (!mounted) return;
                   Alerts().alert(context, 'Podano błędne dane',
                       'Spróbuj jeszcze raz', 'OK', false, false, false);
                 }
@@ -345,7 +354,7 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             title: Center(
               child: Text(
-                '${TemporaryStorage.name} ${TemporaryStorage.surName}',
+                '${UserData.name} ${UserData.surname}',
                 style: GoogleFonts.poppins(
                   fontSize: 24,
                   color: Theme.of(context).primaryColor,
@@ -365,7 +374,7 @@ class ProfileState extends State<ProfileScreen> {
               ),
             ),
             subtitle: Text(
-              TemporaryStorage.email,
+              UserData.email,
               style: GoogleFonts.poppins(),
             ),
           ),
@@ -494,8 +503,10 @@ class ProfileState extends State<ProfileScreen> {
                                                 oldPasswordController.text,
                                                 passwordController.text);
                                         if (response.statusCode == 200) {
+                                          if (!mounted) return;
                                           Navigator.of(context).pop();
                                         } else if (response.statusCode == 500) {
+                                          if (!mounted) return;
                                           Alerts().alert(
                                               context,
                                               'Błąd połączenia',
@@ -505,6 +516,7 @@ class ProfileState extends State<ProfileScreen> {
                                               false,
                                               false);
                                         } else if (response.statusCode == 409) {
+                                          if (!mounted) return;
                                           Alerts().alert(
                                               context,
                                               'Podano błędne dane',
@@ -514,6 +526,7 @@ class ProfileState extends State<ProfileScreen> {
                                               false,
                                               false);
                                         } else if (response.statusCode == 408) {
+                                          if (!mounted) return;
                                           Alerts().alert(
                                               context,
                                               'Błąd połączenia z serwerem',
@@ -523,6 +536,7 @@ class ProfileState extends State<ProfileScreen> {
                                               false,
                                               false);
                                         } else {
+                                          if (!mounted) return;
                                           Alerts().alert(
                                               context,
                                               'Podano błędne dane',
@@ -561,14 +575,14 @@ class ProfileState extends State<ProfileScreen> {
             subtitle: TextField(
               onChanged: (text) {
                 setState(() {
-                  onChangedValue = true;
+                  valueChanged = true;
                   buildSubmitButton();
                 });
               },
               focusNode: nameFocusNode,
               enabled: isEnabledName,
               decoration: InputDecoration(
-                hintText: TemporaryStorage.name,
+                hintText: UserData.name,
                 hintStyle: GoogleFonts.poppins(
                   color: Theme.of(context).primaryColor,
                 ),
@@ -605,14 +619,14 @@ class ProfileState extends State<ProfileScreen> {
             subtitle: TextField(
               onChanged: (text) {
                 setState(() {
-                  onChangedValue = true;
+                  valueChanged = true;
                   buildSubmitButton();
                 });
               },
-              focusNode: surNameFocusNode,
+              focusNode: surnameFocusNode,
               enabled: isEnabledSurname,
               decoration: InputDecoration(
-                hintText: TemporaryStorage.surName,
+                hintText: UserData.surname,
                 hintStyle: GoogleFonts.poppins(
                   color: Theme.of(context).primaryColor,
                 ),
@@ -629,7 +643,7 @@ class ProfileState extends State<ProfileScreen> {
               ),
               onTap: () {
                 setState(() {
-                  surNameFocusNode.requestFocus();
+                  surnameFocusNode.requestFocus();
                   isEnabledSurname = true;
                 });
               },
@@ -648,52 +662,54 @@ class ProfileState extends State<ProfileScreen> {
             ),
             trailing: buildDropDown(),
           ),
-          ListTile(
-            leading: Icon(
-              Icons.email,
-              color: Theme.of(context).primaryColor,
-            ),
-            title: Text(
-              'Ponów weryfikację',
-              style: GoogleFonts.poppins(
-                color: Theme.of(context).textTheme.bodyText2?.color,
-              ),
-            ),
-            subtitle: Text(
-              'Kliknij aby wysłać E-mail do ponownej weryfikacji konta',
-              style: GoogleFonts.poppins(
+          if (!UserData.verified)
+            ListTile(
+              leading: Icon(
+                Icons.email,
                 color: Theme.of(context).primaryColor,
               ),
+              title: Text(
+                'Ponów weryfikację',
+                style: GoogleFonts.poppins(
+                  color: Theme.of(context).textTheme.bodyText2?.color,
+                ),
+              ),
+              subtitle: Text(
+                'Kliknij aby wysłać E-mail do ponownej weryfikacji konta',
+                style: GoogleFonts.poppins(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              isThreeLine: true,
+              onTap: () async {
+                Response verification = await verifyUser();
+                if (verification.statusCode == 202) {
+                  if (!mounted) return;
+                  Alerts().alert(
+                      context,
+                      'Wysłano E-mail',
+                      'Wiadomość z linkiem weryfikacyjnym została wysłana',
+                      'OK',
+                      false,
+                      false,
+                      false);
+                } else if (verification.statusCode == 500) {
+                  if (!mounted) return;
+                  Alerts().alert(
+                      context,
+                      'Błąd połączenia',
+                      'Nie udało się nawiązać połączenia z serwerem',
+                      'OK',
+                      false,
+                      false,
+                      false);
+                } else if (verification.statusCode == 408) {
+                  if (!mounted) return;
+                  Alerts().alert(context, 'Błąd połączenia',
+                      'Spróbuj ponownie za chwile', 'OK', false, false, false);
+                }
+              },
             ),
-            isThreeLine: true,
-            onTap: () async {
-              Response verification = await verifyUser();
-              if (verification.statusCode == 202) {
-                Alerts().alert(
-                    context,
-                    'Wysłano E-mail',
-                    'Wiadomość z linkiem weryfikacyjnym została wysłana',
-                    'OK',
-                    false,
-                    false,
-                    false);
-              } else if (verification.statusCode == 500) {
-                Alerts().alert(
-                    context,
-                    'Błąd połączenia',
-                    'Nie udało się nawiązać połączenia z serwerem',
-                    'OK',
-                    false,
-                    false,
-                    false);
-              } else if (verification.statusCode == 408) {
-                Alerts().alert(context, 'Błąd połączenia',
-                    'Spróbuj ponownie za chwile', 'OK', false, false, false);
-              }
-              // print(TemporaryStorage.email);
-              // print(verification.statusCode);
-            },
-          ),
           const SizedBox(
             height: 30,
           ),

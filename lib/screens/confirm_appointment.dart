@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/create_appointment.dart';
-import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
+import 'package:hairdressing_salon_app/helpers/service_data.dart';
 import 'package:hairdressing_salon_app/widgets/alerts.dart';
 import 'package:http/http.dart';
+
+import '../helpers/appointment_data.dart';
 
 class ConfirmAppointment extends StatefulWidget {
   const ConfirmAppointment({Key? key}) : super(key: key);
@@ -67,7 +69,7 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
                   ),
                 ),
                 subtitle: Text(
-                  TemporaryStorage.date,
+                  AppointmentData.date,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: Theme.of(context).primaryColor,
@@ -93,7 +95,7 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
                   ),
                 ),
                 subtitle: Text(
-                  TemporaryStorage.startHour,
+                  AppointmentData.startHour,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: Theme.of(context).primaryColor,
@@ -119,7 +121,7 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
                   ),
                 ),
                 subtitle: Text(
-                  TemporaryStorage.service,
+                  ServiceData.name,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: Theme.of(context).primaryColor,
@@ -148,12 +150,17 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
                       // print(response.statusCode);
                       // print(response.body);
                       if (response.statusCode == 400) {
+                        if (!mounted) return;
                         Alerts().alertNotEnoughTime(context);
                       } else if (response.statusCode == 201) {
+                        if (!mounted) return;
                         Alerts().alertAppointmentCreated(context);
                       } else if (response.statusCode == 403) {
+                        if (!mounted) return;
                         Alerts().alertEmailVerification(context);
+                        if (!mounted) return;
                       } else {
+                        if (!mounted) return;
                         Alerts().alertHomeScreenRedirect(context);
                       }
                     },

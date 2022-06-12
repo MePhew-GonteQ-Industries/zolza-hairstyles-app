@@ -1,15 +1,16 @@
-import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
+import 'package:hairdressing_salon_app/constants/globals.dart';
+import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 
 Map<String, String> headers = {
-  'Authorization': 'Bearer ${TemporaryStorage.accessToken}'
+  'Authorization': 'Bearer ${UserData.accessToken}'
 };
 
 Future<http.Response> logOutUser() async {
   return http
       .post(
-        Uri.parse('${TemporaryStorage.apiUrl}/auth/logout'),
+        Uri.parse('$apiUrl/auth/logout'),
         headers: headers,
       )
       .timeout(

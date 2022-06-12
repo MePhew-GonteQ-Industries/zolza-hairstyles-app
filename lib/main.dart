@@ -3,7 +3,7 @@ import 'package:hairdressing_salon_app/screens/check_for_logged_in_user.dart';
 import 'package:hairdressing_salon_app/screens/confirm_appointment.dart';
 import 'package:hairdressing_salon_app/screens/select_hours.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'colors.dart';
+import 'constants/colors.dart';
 import 'screens/appointments.dart';
 import 'screens/contact.dart';
 import 'screens/forgot_password.dart';

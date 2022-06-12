@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hairdressing_salon_app/helpers/temporary_storage.dart';
+import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:hairdressing_salon_app/widgets/drawer.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+
+import '../helpers/user_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -27,9 +29,9 @@ class HomeState extends State<HomeScreen> {
 
   fetchAppointments() async {
     var response = await http.get(
-        Uri.parse('${TemporaryStorage.apiUrl}/appointments/mine'),
+        Uri.parse('$apiUrl/appointments/mine'),
         headers: {
-          'Authorization': 'Bearer ${TemporaryStorage.accessToken}',
+          'Authorization': 'Bearer ${UserData.accessToken}',
           'Content-Type': 'application/json',
         });
     // print(response.statusCode);
