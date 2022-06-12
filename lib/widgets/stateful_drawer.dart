@@ -8,82 +8,107 @@ import '../helpers/user_secure_storage.dart';
 import '../screens/login.dart';
 import 'alerts.dart';
 
-class DrawerWidget {
-  Drawer drawer(BuildContext context) {
-    buildMenuItem({
-      required String text,
-      required IconData icon,
-      required int index,
-    }) {
-      Color color = Theme.of(context).primaryColor;
-      return ListTile(
-        leading: Icon(
-          icon,
-          color: color,
-        ),
-        title: Text(
-          text,
-          style: GoogleFonts.poppins(
-            color: color,
-            fontSize: 18,
-          ),
-        ),
-        onTap: () => selectedItem(context, index),
-      );
-    }
+class CustomDrawerWidget extends StatefulWidget {
+  const CustomDrawerWidget({Key? key, BuildContext? context}) : super(key: key);
 
-    buildLogOutBtn() {
-      Color color = Theme.of(context).primaryColor;
-      return ListTile(
-        leading: Icon(
-          Icons.logout,
+  @override
+  DrawerWidgetState createState() => DrawerWidgetState();
+}
+
+class DrawerWidgetState extends State<CustomDrawerWidget> {
+  buildMenuItem({
+    required String text,
+    required IconData icon,
+    required int index,
+  }) {
+    Color color = Theme.of(context).primaryColor;
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: color,
+      ),
+      title: Text(
+        text,
+        style: GoogleFonts.poppins(
           color: color,
+          fontSize: 18,
         ),
-        title: Text(
-          'Wyloguj się',
-          style: GoogleFonts.poppins(
-            color: color,
-            fontSize: 18,
-          ),
+      ),
+      onTap: () => selectedItem(context, index),
+    );
+  }
+
+  buildLogOutBtn() {
+    Color color = Theme.of(context).primaryColor;
+    return ListTile(
+      leading: Icon(
+        Icons.logout,
+        color: color,
+      ),
+      title: Text(
+        'Wyloguj się',
+        style: GoogleFonts.poppins(
+          color: color,
+          fontSize: 18,
         ),
-        onTap: () async {
-          final ConnectivityResult result =
-              await Connectivity().checkConnectivity();
-          if (result == ConnectivityResult.none) {
-            // if(!mounted) return;
-            Alerts().alert(
+      ),
+      onTap: () async {
+        final ConnectivityResult result =
+            await Connectivity().checkConnectivity();
+        if (result == ConnectivityResult.none) {
+          if (!mounted) return;
+          Alerts().alert(
+              context,
+              'Błąd połączenia',
+              'Sprawdź swoje połączenie z internetem i spróbuj ponownie',
+              'OK',
+              false,
+              false,
+              false);
+        } else {
+          Response logOut = await logOutUser();
+          if (logOut.statusCode == 200) {
+            UserSecureStorage.setRefreshToken('null');
+            UserData.accessToken = 'null';
+            UserSecureStorage.setFCMToken('null');
+            UserSecureStorage.setIsLoggedIn('false');
+            if (!mounted) return;
+            Navigator.pushAndRemoveUntil(
                 context,
-                'Błąd połączenia',
-                'Sprawdź swoje połączenie z internetem i spróbuj ponownie',
-                'OK',
-                false,
-                false,
-                false);
+                MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ),
+                (route) => false);
+          } else if (logOut.statusCode == 408) {
+            if (!mounted) return;
+            Alerts().alert(
+              context,
+              'Błąd połączenia z serwerem',
+              'Spróbuj ponownie za chwile',
+              'OK',
+              false,
+              false,
+              false,
+            );
           } else {
-            Response logOut = await logOutUser();
-            if (logOut.statusCode == 200) {
-              UserSecureStorage.setRefreshToken('null');
-              UserData.accessToken = 'null';
-              UserSecureStorage.setFCMToken('null');
-              UserSecureStorage.setIsLoggedIn('false');
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ),
-                  (route) => false);
-            } else if (logOut.statusCode == 408) {
-              Alerts().alert(context, 'Błąd połączenia z serwerem',
-                  'Spróbuj ponownie za chwile', 'OK', false, false, false);
-            } else {
-              Alerts().alert(context, 'Błąd połączenia z serwerem',
-                  'Spróbuj jeszcze raz', 'OK', false, false, false);
-            }
+            if (!mounted) return;
+            Alerts().alert(
+              context,
+              'Błąd połączenia z serwerem',
+              'Spróbuj jeszcze raz',
+              'OK',
+              false,
+              false,
+              false,
+            );
           }
-        },
-      );
-    }
+        }
+      },
+    );
+  }
 
+  @override
+  Widget build(context) {
     return Drawer(
       child: Material(
         color: Theme.of(context).backgroundColor,

@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import '../helpers/user_data.dart';
+import '../widgets/stateful_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -28,12 +29,11 @@ class HomeState extends State<HomeScreen> {
   }
 
   fetchAppointments() async {
-    var response = await http.get(
-        Uri.parse('$apiUrl/appointments/mine'),
-        headers: {
-          'Authorization': 'Bearer ${UserData.accessToken}',
-          'Content-Type': 'application/json',
-        });
+    var response =
+        await http.get(Uri.parse('$apiUrl/appointments/mine'), headers: {
+      'Authorization': 'Bearer ${UserData.accessToken}',
+      'Content-Type': 'application/json',
+    });
     // print(response.statusCode);
     var body = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode == 200 && body != '[]') {
@@ -192,7 +192,8 @@ class HomeState extends State<HomeScreen> {
           ),
         ),
       ),
-      drawer: DrawerWidget().drawer(context),
+      // drawer: DrawerWidget().drawer(context),
+      drawer: const CustomDrawerWidget(),
       body: Align(
         alignment: Alignment.center,
         child: getBody(),
