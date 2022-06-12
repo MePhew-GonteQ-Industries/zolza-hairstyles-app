@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/services.dart';
-import 'package:hairdressing_salon_app/widgets/drawer.dart';
 import '../helpers/service_data.dart';
 import '../helpers/services_api.dart';
+import '../widgets/stateful_drawer.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key? key}) : super(key: key);
@@ -62,7 +62,7 @@ class ServicesState extends State<ServicesScreen> {
           ),
         ),
       ),
-      drawer: DrawerWidget().drawer(context),
+      drawer: const CustomDrawerWidget(),
       body: FutureBuilder<List<Service>>(
         future: ServicesApi.getServices(context),
         builder: (context, snapshot) {

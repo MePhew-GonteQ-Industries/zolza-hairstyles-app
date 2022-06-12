@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hairdressing_salon_app/widgets/drawer.dart';
 // import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../widgets/stateful_drawer.dart';
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class ContactState extends State<ContactScreen> {
           ),
         ),
       ),
-      drawer: DrawerWidget().drawer(context),
+      drawer: const CustomDrawerWidget(),
       body: Center(
         child: ListView(
           children: [

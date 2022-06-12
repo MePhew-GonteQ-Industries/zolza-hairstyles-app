@@ -9,6 +9,8 @@ import '../screens/login.dart';
 import 'alerts.dart';
 
 class DrawerWidget {
+  DrawerWidget(BuildContext context);
+
   Drawer drawer(BuildContext context) {
     buildMenuItem({
       required String text,
