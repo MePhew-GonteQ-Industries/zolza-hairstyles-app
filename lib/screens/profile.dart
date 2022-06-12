@@ -78,7 +78,27 @@ class ProfileState extends State<ProfileScreen> {
           onChanged: (value) {
             setState(() {
               chosenValue = value as String;
-              valueChanged = true;
+              String testValue;
+              switch (chosenValue) {
+                case 'Mężczyzna':
+                  testValue = 'male';
+                  break;
+                case 'Kobieta':
+                  testValue = 'female';
+                  break;
+                case 'Płeć':
+                  testValue = 'placeholder';
+                  break;
+                default:
+                  testValue = 'other';
+                  break;
+              }
+
+              if (testValue == UserData.gender || testValue == 'placeholder') {
+                valueChanged = false;
+              } else {
+                valueChanged = true;
+              }
               buildSubmitButton();
             });
           },
@@ -94,6 +114,7 @@ class ProfileState extends State<ProfileScreen> {
   }
 
   buildSubmitButton() {
+    print(valueChanged);
     if (valueChanged) {
       switch (chosenValue) {
         case 'male':
@@ -219,7 +240,8 @@ class ProfileState extends State<ProfileScreen> {
                                           }
                                           UserData.gender = gender;
                                           passwordController.text = '';
-                                          valueChanged = false;
+                                          valueChanged = false; // Dlaczego przycisk nie znika?
+                                          buildSubmitButton();
                                           if (!mounted) return;
                                           Alerts().alert(
                                               context,
@@ -291,6 +313,8 @@ class ProfileState extends State<ProfileScreen> {
                       gender = 'Płeć';
                   }
                   UserData.gender = gender;
+                  valueChanged = false;
+                  buildSubmitButton(); // Dlaczego przycisk nie znika?
                   if (!mounted) return;
                   Alerts().alert(context, 'Operacja przebiegła pomyślnie',
                       'Dane zostały zmienione', 'OK', false, false, false);
