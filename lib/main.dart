@@ -104,7 +104,9 @@ class MyAppState extends State {
         scaffoldBackgroundColor: lightBackgroundColor,
         bottomAppBarColor: Colors.black,
         textTheme: ThemeData.light().textTheme.copyWith(
-            bodyText2: const TextStyle(color: lightAccentColor)
+              bodyText2: const TextStyle(
+                color: lightAccentColor,
+              ),
             ),
         cardColor: lightPrimaryColor,
         canvasColor: lightBackgroundColor,
@@ -118,7 +120,9 @@ class MyAppState extends State {
         scaffoldBackgroundColor: darkBackgroundColor,
         bottomAppBarColor: lightBackgroundColor,
         textTheme: ThemeData.dark().textTheme.copyWith(
-            bodyText2: const TextStyle(color: darkAccentColor)
+              bodyText2: const TextStyle(
+                color: darkAccentColor,
+              ),
             ),
         cardColor: lightComplementaryColor,
         canvasColor: lightBackgroundColor,
