@@ -1,8 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/services.dart';
+import 'package:hairdressing_salon_app/helpers/user_data.dart';
+import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
+import 'package:http/http.dart';
+import '../helpers/login.dart';
 import '../helpers/service_data.dart';
 import '../helpers/services_api.dart';
+import '../widgets/alerts.dart';
 import '../widgets/stateful_drawer.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -21,6 +27,30 @@ class ServicesState extends State<ServicesScreen> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  regainAccessTokenFunction() async {
+    final refreshToken = UserSecureStorage.getRefreshToken();
+    // final regainFunction =
+    //     regainAccessToken();
+    Response regainAccessToken = await sendRefreshToken(refreshToken);
+
+    if (regainAccessToken.statusCode == 200) {
+      final regainFunction = jsonDecode(regainAccessToken.body);
+      UserSecureStorage.setRefreshToken(
+        regainFunction['refresh_token'],
+      );
+      UserData.accessToken = regainFunction['access_token'];
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/services',
+        (route) => false,
+      );
+    } else {
+      if (!mounted) return;
+      Alerts().alertSessionExpired(context);
+    }
   }
 
   buildServicesItem({
@@ -76,7 +106,10 @@ class ServicesState extends State<ServicesScreen> {
               );
             default:
               if (snapshot.hasError) {
-                // print(snapshot.error);
+                print(snapshot.error);
+                if (snapshot.error == 401) {
+                  regainAccessTokenFunction();
+                }
                 return Center(
                   child: Text(
                     'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:http/http.dart';
+import '../helpers/login.dart';
 import '../helpers/logout.dart';
 import '../helpers/user_data.dart';
 import '../helpers/user_secure_storage.dart';
@@ -102,6 +105,58 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
               false,
               false,
             );
+          } else if (logOut.statusCode == 401) {
+            final refreshToken = UserSecureStorage.getRefreshToken();
+            // final regainFunction =
+            //     regainAccessToken();
+            Response regainAccessToken = await sendRefreshToken(refreshToken);
+
+            if (regainAccessToken.statusCode == 200) {
+              final regainFunction = jsonDecode(regainAccessToken.body);
+              UserSecureStorage.setRefreshToken(
+                regainFunction['refresh_token'],
+              );
+              UserData.accessToken = regainFunction['access_token'];
+              Response logOut = await logOutUser();
+              if (logOut.statusCode == 200) {
+                UserSecureStorage.setRefreshToken('null');
+                UserData.accessToken = 'null';
+                UserSecureStorage.setFCMToken('null');
+                UserSecureStorage.setIsLoggedIn('false');
+                if (!mounted) return;
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                    (route) => false);
+              } else if (logOut.statusCode == 408) {
+                if (!mounted) return;
+                Alerts().alert(
+                  context,
+                  'Błąd połączenia z serwerem',
+                  'Spróbuj ponownie za chwile',
+                  'OK',
+                  false,
+                  false,
+                  false,
+                );
+              } else {
+                if (!mounted) return;
+                Alerts().alert(
+                  context,
+                  'Błąd połączenia z serwerem',
+                  'Spróbuj jeszcze raz',
+                  'OK',
+                  false,
+                  false,
+                  false,
+                );
+              }
+            } else {
+              if (!mounted) return;
+              Alerts().alertSessionExpired(context);
+            }
           } else {
             if (!mounted) return;
             Alerts().alert(
@@ -129,7 +184,11 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/profile');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/profile',
+                  (route) => false,
+                );
               },
               child: DrawerHeader(
                 decoration: BoxDecoration(

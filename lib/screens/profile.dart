@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hairdressing_salon_app/helpers/login.dart';
+import 'package:hairdressing_salon_app/helpers/refresh_access_token.dart';
 import 'package:hairdressing_salon_app/helpers/update_user_details.dart';
 import 'package:hairdressing_salon_app/helpers/user_data.dart';
+import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
 import 'package:http/http.dart';
 import '../helpers/verify_user.dart';
 import '../widgets/alerts.dart';
@@ -280,6 +283,34 @@ class ProfileState extends State<ProfileScreen> {
                                             false,
                                             false,
                                             false);
+                                      } else if (response.statusCode == 401) {
+                                        final refreshToken =
+                                            UserSecureStorage.getRefreshToken();
+                                        // final regainFunction =
+                                        //     regainAccessToken();
+                                        Response regainAccessToken =
+                                            await sendRefreshToken(
+                                                refreshToken);
+
+                                        if (regainAccessToken.statusCode ==
+                                            200) {
+                                          final regainFunction = jsonDecode(
+                                              regainAccessToken.body);
+                                          UserSecureStorage.setRefreshToken(
+                                            regainFunction['refresh_token'],
+                                          );
+                                          UserData.accessToken =
+                                              regainFunction['access_token'];
+                                          if (!mounted) return;
+                                          Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            '/profile',
+                                            (route) => false,
+                                          );
+                                        } else {
+                                          if (!mounted) return;
+                                          Alerts().alertSessionExpired(context);
+                                        }
                                       } else {
                                         oldPasswordController.text = '';
                                         if (!mounted) return;
@@ -342,6 +373,29 @@ class ProfileState extends State<ProfileScreen> {
                   if (!mounted) return;
                   Alerts().alert(context, 'Błąd połączenia z serwerem',
                       'Spróbuj ponownie za chwile', 'OK', false, false, false);
+                } else if (response.statusCode == 401) {
+                  final refreshToken = UserSecureStorage.getRefreshToken();
+                  // final regainFunction =
+                  //     regainAccessToken();
+                  Response regainAccessToken =
+                      await sendRefreshToken(refreshToken);
+
+                  if (regainAccessToken.statusCode == 200) {
+                    final regainFunction = jsonDecode(regainAccessToken.body);
+                    UserSecureStorage.setRefreshToken(
+                      regainFunction['refresh_token'],
+                    );
+                    UserData.accessToken = regainFunction['access_token'];
+                    if (!mounted) return;
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/profile',
+                      (route) => false,
+                    );
+                  } else {
+                    if (!mounted) return;
+                    Alerts().alertSessionExpired(context);
+                  }
                 } else {
                   if (!mounted) return;
                   Alerts().alert(context, 'Podano błędne dane',
@@ -569,6 +623,35 @@ class ProfileState extends State<ProfileScreen> {
                                               false,
                                               false,
                                               false);
+                                        } else if (response.statusCode == 401) {
+                                          final refreshToken = UserSecureStorage
+                                              .getRefreshToken();
+                                          // final regainFunction =
+                                          //     regainAccessToken();
+                                          Response regainAccessToken =
+                                              await sendRefreshToken(
+                                                  refreshToken);
+
+                                          if (regainAccessToken.statusCode ==
+                                              200) {
+                                            final regainFunction = jsonDecode(
+                                                regainAccessToken.body);
+                                            UserSecureStorage.setRefreshToken(
+                                              regainFunction['refresh_token'],
+                                            );
+                                            UserData.accessToken =
+                                                regainFunction['access_token'];
+                                            if (!mounted) return;
+                                            Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              '/profile',
+                                              (route) => false,
+                                            );
+                                          } else {
+                                            if (!mounted) return;
+                                            Alerts()
+                                                .alertSessionExpired(context);
+                                          }
                                         } else {
                                           if (!mounted) return;
                                           Alerts().alert(
@@ -739,8 +822,38 @@ class ProfileState extends State<ProfileScreen> {
                       false);
                 } else if (verification.statusCode == 408) {
                   if (!mounted) return;
-                  Alerts().alert(context, 'Błąd połączenia',
-                      'Spróbuj ponownie za chwile', 'OK', false, false, false);
+                  Alerts().alert(
+                    context,
+                    'Błąd połączenia',
+                    'Spróbuj ponownie za chwile',
+                    'OK',
+                    false,
+                    false,
+                    false,
+                  );
+                } else if (verification.statusCode == 401) {
+                  final refreshToken = UserSecureStorage.getRefreshToken();
+                  // final regainFunction =
+                  //     regainAccessToken();
+                  Response regainAccessToken =
+                      await sendRefreshToken(refreshToken);
+
+                  if (regainAccessToken.statusCode == 200) {
+                    final regainFunction = jsonDecode(regainAccessToken.body);
+                    UserSecureStorage.setRefreshToken(
+                      regainFunction['refresh_token'],
+                    );
+                    UserData.accessToken = regainFunction['access_token'];
+                    if (!mounted) return;
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/profile',
+                      (route) => false,
+                    );
+                  } else {
+                    if (!mounted) return;
+                    Alerts().alertSessionExpired(context);
+                  }
                 }
               },
             ),

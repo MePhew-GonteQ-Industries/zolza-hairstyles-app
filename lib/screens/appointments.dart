@@ -1,11 +1,17 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/appointment_data.dart';
+import 'package:hairdressing_salon_app/helpers/login.dart';
+import 'package:hairdressing_salon_app/helpers/user_data.dart';
+import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../helpers/appointments.dart';
 import '../helpers/appointments_api.dart';
 import '../helpers/service_data.dart';
+import '../widgets/alerts.dart';
 
 var currentSlotFits = 0;
 var requiredSlots = 0;
@@ -40,6 +46,30 @@ class AppointmentsState extends State<AppointmentsScreen> {
     super.dispose();
     currentDate = DateFormat("dd-MM-yyyy").format(DateTime.now());
     AppointmentData.date = currentDate;
+  }
+
+  regainAccessTokenFunction() async {
+    final refreshToken = UserSecureStorage.getRefreshToken();
+    // final regainFunction =
+    //     regainAccessToken();
+    Response regainAccessToken = await sendRefreshToken(refreshToken);
+
+    if (regainAccessToken.statusCode == 200) {
+      final regainFunction = jsonDecode(regainAccessToken.body);
+      UserSecureStorage.setRefreshToken(
+        regainFunction['refresh_token'],
+      );
+      UserData.accessToken = regainFunction['access_token'];
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/appointments',
+        (route) => false,
+      );
+    } else {
+      if (!mounted) return;
+      Alerts().alertSessionExpired(context);
+    }
   }
 
   final minTime = DateTime.now();
@@ -449,22 +479,30 @@ class AppointmentsState extends State<AppointmentsScreen> {
                   color: Theme.of(context).primaryColor,
                 ),
                 onTap: () {
-                  DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      minTime: minTime,
-                      maxTime: minTime.add(
-                        const Duration(days: 90),
-                      ),
-                      onChanged: (date) {}, onConfirm: (date) {
-                    setState(() {
-                      chosenDate = date;
-                      chosenDateString = DateFormat('yyyy-MM-dd').format(date);
-                      AppointmentData.date = chosenDateString;
-                    });
-                  }, currentTime: chosenDate, locale: LocaleType.pl);
+                  DatePicker.showDatePicker(
+                    context,
+                    showTitleActions: true,
+                    minTime: minTime,
+                    maxTime: minTime.add(
+                      const Duration(days: 90),
+                    ),
+                    onChanged: (date) {},
+                    onConfirm: (date) {
+                      setState(() {
+                        chosenDate = date;
+                        chosenDateString =
+                            DateFormat('yyyy-MM-dd').format(date);
+                        AppointmentData.date = chosenDateString;
+                      });
+                    },
+                    currentTime: chosenDate,
+                    locale: LocaleType.pl,
+                  );
                 },
               ),
-              const Padding(padding: EdgeInsets.only(right: 15)),
+              const Padding(
+                padding: EdgeInsets.only(right: 15),
+              ),
             ],
           ),
           Expanded(
@@ -472,8 +510,10 @@ class AppointmentsState extends State<AppointmentsScreen> {
             child: Align(
               alignment: Alignment.center,
               child: FutureBuilder<List<Appointment>>(
-                future:
-                    AppointmentsApi.getAppointments(context, chosenDateString),
+                future: AppointmentsApi.getAppointments(
+                  context,
+                  chosenDateString,
+                ),
                 builder: (context, snapshot) {
                   final appointments = snapshot.data;
                   switch (snapshot.connectionState) {
@@ -486,7 +526,9 @@ class AppointmentsState extends State<AppointmentsScreen> {
                       );
                     default:
                       if (snapshot.hasError) {
-                        // print(snapshot.error);
+                        if (snapshot.error == 401) {
+                          regainAccessTokenFunction();
+                        }
                         return Center(
                           child: Text(
                             'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',
@@ -495,6 +537,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
                             ),
                           ),
                         );
+                        // print(snapshot.error);
                       } else {
                         // print(snapshot.data);
                         return buildAppointments(appointments!);

@@ -3,11 +3,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/constants/globals.dart';
-import 'package:hairdressing_salon_app/widgets/drawer.dart';
+import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-
+import '../helpers/login.dart';
 import '../helpers/user_data.dart';
+import '../widgets/alerts.dart';
 import '../widgets/stateful_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,11 +30,36 @@ class HomeState extends State<HomeScreen> {
   }
 
   fetchAppointments() async {
-    var response =
-        await http.get(Uri.parse('$apiUrl/appointments/mine'), headers: {
-      'Authorization': 'Bearer ${UserData.accessToken}',
-      'Content-Type': 'application/json',
-    });
+    var response = await http.get(
+      Uri.parse('$apiUrl/appointments/mine'),
+      headers: {
+        'Authorization': 'Bearer ${UserData.accessToken}',
+        'Content-Type': 'application/json',
+      },
+    );
+    if (response.statusCode == 401) {
+      final refreshToken = UserSecureStorage.getRefreshToken();
+      // final regainFunction =
+      //     regainAccessToken();
+      http.Response regainAccessToken = await sendRefreshToken(refreshToken);
+
+      if (regainAccessToken.statusCode == 200) {
+        final regainFunction = jsonDecode(regainAccessToken.body);
+        UserSecureStorage.setRefreshToken(
+          regainFunction['refresh_token'],
+        );
+        UserData.accessToken = regainFunction['access_token'];
+        if (!mounted) return;
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/home',
+          (route) => false,
+        );
+      } else {
+        if (!mounted) return;
+        Alerts().alertSessionExpired(context);
+      }
+    }
     // print(response.statusCode);
     var body = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode == 200 && body != '[]') {
