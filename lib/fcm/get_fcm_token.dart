@@ -1,5 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:hairdressing_salon_app/FCM/send_fcm_token.dart';
+import 'package:hairdressing_salon_app/fcm/send_fcm_token.dart';
 import 'package:http/http.dart';
 import '../helpers/user_secure_storage.dart';
 
