@@ -21,18 +21,19 @@ class ProfileState extends State<ProfileScreen> {
   final surnameController = TextEditingController();
   final oldPasswordController = TextEditingController();
   bool valueChanged = false;
-  bool isEnabledName = false;
-  bool isEnabledSurname = false;
+  bool isEnabledName = true;
+  bool isEnabledSurname = true;
   late FocusNode nameFocusNode;
   late FocusNode surnameFocusNode;
 
   @override
   void initState() {
     super.initState();
+    print(UserData.gender);
     nameController.text = UserData.name;
     surnameController.text = UserData.surname;
-    isEnabledName = false;
-    isEnabledSurname = false;
+    isEnabledName = true;
+    isEnabledSurname = true;
     nameFocusNode = FocusNode();
     surnameFocusNode = FocusNode();
   }
@@ -93,8 +94,11 @@ class ProfileState extends State<ProfileScreen> {
                   testValue = 'other';
                   break;
               }
+              print(UserData.gender);
+              print(chosenValue);
 
-              if (testValue == UserData.gender || testValue == 'placeholder') {
+              if (chosenValue == UserData.gender ||
+                  testValue == 'placeholder') {
                 valueChanged = false;
               } else {
                 valueChanged = true;
@@ -240,7 +244,10 @@ class ProfileState extends State<ProfileScreen> {
                                           }
                                           UserData.gender = gender;
                                           passwordController.text = '';
-                                          valueChanged = false; // Dlaczego przycisk nie znika?
+                                          setState(() {
+                                            valueChanged =
+                                                false; // Dlaczego przycisk nie znika?
+                                          });
                                           buildSubmitButton();
                                           if (!mounted) return;
                                           Alerts().alert(
@@ -313,7 +320,10 @@ class ProfileState extends State<ProfileScreen> {
                       gender = 'Płeć';
                   }
                   UserData.gender = gender;
-                  valueChanged = false;
+                  // valueChanged = false;
+                  setState(() {
+                    valueChanged = false; // Dlaczego przycisk nie znika?
+                  });
                   buildSubmitButton(); // Dlaczego przycisk nie znika?
                   if (!mounted) return;
                   Alerts().alert(context, 'Operacja przebiegła pomyślnie',
@@ -667,8 +677,8 @@ class ProfileState extends State<ProfileScreen> {
               ),
               onTap: () {
                 setState(() {
-                  surnameFocusNode.requestFocus();
                   isEnabledSurname = true;
+                  surnameFocusNode.requestFocus();
                 });
               },
             ),
