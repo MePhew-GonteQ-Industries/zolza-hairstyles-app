@@ -188,16 +188,21 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
     Navigator.of(context).pop();
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/home');
+        // Navigator.pushNamed(context, '/home');
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
         break;
       case 1:
-        Navigator.pushNamed(context, '/services');
+        // Navigator.pushNamed(context, '/services');
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/services', (route) => false);
         break;
       // case 2:
       //   Navigator.pushNamed(context, '/services');
       //   break;
       case 3:
-        Navigator.pushNamed(context, '/contact');
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/contact', (route) => false);
+        // Navigator.pushNamed(context, '/contact');
         break;
     }
   }

@@ -4,7 +4,6 @@ import 'package:hairdressing_salon_app/helpers/create_appointment.dart';
 import 'package:hairdressing_salon_app/helpers/service_data.dart';
 import 'package:hairdressing_salon_app/widgets/alerts.dart';
 import 'package:http/http.dart';
-
 import '../helpers/appointment_data.dart';
 
 class ConfirmAppointment extends StatefulWidget {

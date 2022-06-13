@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
 import '../widgets/stateful_drawer.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -152,7 +150,7 @@ class ContactState extends State<ContactScreen> {
               ),
               onTap: () async {
                 launchUrlString(
-                    'https://google.pl/maps/place/Laskowa+916,+34-602+Laskowa/@49.7638655,20.4511658,17.64z/data=!4m5!3m4!1s0x47161c246be6b0d9:0x3b5fa2297e3fc12e!8m2!3d49.7638646!4d20.4522641');
+                    'http://google.pl/maps/place/Laskowa+916,+34-602+Laskowa/@49.7638655,20.4511658,17.64z/data=!4m5!3m4!1s0x47161c246be6b0d9:0x3b5fa2297e3fc12e!8m2!3d49.7638646!4d20.4522641');
               },
             ), //maps
           ],

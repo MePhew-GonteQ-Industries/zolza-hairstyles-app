@@ -325,6 +325,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
                             .toLocal()
                             .toString()
                             .substring(11, 16);
+                    AppointmentData.date = chosenDateString;
                     Navigator.pushNamed(context, '/confirmAppointment');
                   },
                 ),
@@ -471,7 +472,8 @@ class AppointmentsState extends State<AppointmentsScreen> {
             child: Align(
               alignment: Alignment.center,
               child: FutureBuilder<List<Appointment>>(
-                future: AppointmentsApi.getAppointments(context, chosenDateString),
+                future:
+                    AppointmentsApi.getAppointments(context, chosenDateString),
                 builder: (context, snapshot) {
                   final appointments = snapshot.data;
                   switch (snapshot.connectionState) {
