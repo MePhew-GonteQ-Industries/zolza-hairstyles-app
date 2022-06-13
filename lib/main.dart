@@ -110,6 +110,7 @@ class MyAppState extends State {
             ),
         cardColor: lightPrimaryColor,
         canvasColor: lightBackgroundColor,
+        hoverColor: lightAccentColor,
       ),
       darkTheme: ThemeData(
         primaryColor: darkPrimaryColor,
@@ -126,6 +127,7 @@ class MyAppState extends State {
             ),
         cardColor: lightComplementaryColor,
         canvasColor: lightBackgroundColor,
+        hoverColor: darkAccentColor,
       ).copyWith(
         scaffoldBackgroundColor: darkBackgroundColor,
       ),

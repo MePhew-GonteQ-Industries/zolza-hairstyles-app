@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:http/http.dart';
 import '../helpers/logout.dart';
 import '../helpers/user_data.dart';
@@ -16,12 +17,21 @@ class CustomDrawerWidget extends StatefulWidget {
 }
 
 class DrawerWidgetState extends State<CustomDrawerWidget> {
+  int activeIndex = GlobalState.drawerSelectedItem;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   activeIndex = 4;
+  // }
+
   buildMenuItem({
     required String text,
     required IconData icon,
     required int index,
+    required Color color,
   }) {
-    Color color = Theme.of(context).primaryColor;
+    // Color color = Theme.of(context).primaryColor;
     return ListTile(
       leading: Icon(
         icon,
@@ -151,12 +161,18 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
               text: 'Strona główna',
               icon: Icons.home_outlined,
               index: 0,
+              color: 0 == activeIndex
+                  ? Theme.of(context).hoverColor
+                  : Theme.of(context).primaryColor,
             ),
             const SizedBox(height: 6),
             buildMenuItem(
               text: 'Umów wizytę',
               icon: Icons.schedule,
               index: 1,
+              color: 1 == activeIndex
+                  ? Theme.of(context).hoverColor
+                  : Theme.of(context).primaryColor,
             ),
             // const SizedBox(height: 6),
             // buildMenuItem(
@@ -168,7 +184,10 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
             buildMenuItem(
               text: 'Kontakt',
               icon: Icons.contact_page_outlined,
-              index: 3,
+              index: 2,
+              color: 2 == activeIndex
+                  ? Theme.of(context).hoverColor
+                  : Theme.of(context).primaryColor,
             ),
             Divider(
               height: 100,
@@ -186,9 +205,13 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
 
   void selectedItem(BuildContext context, int index) {
     Navigator.of(context).pop();
+    setState(() {
+      GlobalState.drawerSelectedItem = index;
+    });
     switch (index) {
       case 0:
         // Navigator.pushNamed(context, '/home');
+        activeIndex = 0;
         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
         break;
       case 1:
@@ -199,7 +222,7 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
       // case 2:
       //   Navigator.pushNamed(context, '/services');
       //   break;
-      case 3:
+      case 2:
         Navigator.pushNamedAndRemoveUntil(
             context, '/contact', (route) => false);
         // Navigator.pushNamed(context, '/contact');
