@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/create_appointment.dart';
-import 'package:hairdressing_salon_app/helpers/refresh_access_token.dart';
 import 'package:hairdressing_salon_app/helpers/service_data.dart';
 import 'package:hairdressing_salon_app/widgets/alerts.dart';
 import 'package:http/http.dart';
@@ -190,9 +188,9 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
                             if (!mounted) return;
                             Alerts().alertEmailVerification(context);
                             if (!mounted) return;
-                          } else if (response.statusCode == 200) {
+                          } else if (response.statusCode == 201) {
                             if (!mounted) return;
-                            Alerts().alertHomeScreenRedirect(context);
+                            Alerts().alertAppointmentCreated(context);
                           } else {
                             if (!mounted) return;
                             Alerts().alert(
@@ -209,9 +207,9 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
                           if (!mounted) return;
                           Alerts().alertSessionExpired(context);
                         }
-                      } else if (response.statusCode == 200) {
+                      } else if (response.statusCode == 201) {
                         if (!mounted) return;
-                        Alerts().alertHomeScreenRedirect(context);
+                        Alerts().alertAppointmentCreated(context);
                       } else {
                         if (!mounted) return;
                         Alerts().alert(
