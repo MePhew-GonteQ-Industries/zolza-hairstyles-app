@@ -101,7 +101,8 @@ class Alerts {
         DialogButton(
           onPressed: () async {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/home', (route) => false);
           },
           color: Theme.of(context).primaryColorDark,
           child: Text(
@@ -131,7 +132,8 @@ class Alerts {
         DialogButton(
           onPressed: () async {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/appointments');
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/appointments', (route) => false);
           },
           color: Theme.of(context).primaryColorDark,
           child: Text(
@@ -161,7 +163,39 @@ class Alerts {
         DialogButton(
           onPressed: () async {
             Navigator.pop(context);
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/home', (route) => false);
+          },
+          color: Theme.of(context).primaryColorDark,
+          child: Text(
+            'OK',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ),
+      ],
+    ).show();
+  }
+
+  void alertSessionExpired(BuildContext context) {
+    Alert(
+      context: context,
+      style: const AlertStyle(
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        titleStyle: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      title: 'Sesja wygasła',
+      desc: 'Zaloguj się aby korzystać z aplikacji.',
+      buttons: [
+        DialogButton(
+          onPressed: () async {
+            Navigator.pop(context);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/login', (route) => false);
           },
           color: Theme.of(context).primaryColorDark,
           child: Text(

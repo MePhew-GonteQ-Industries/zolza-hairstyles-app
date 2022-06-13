@@ -30,8 +30,8 @@ class LoginScreenState extends State<LoginScreen> {
     email = emailController.text;
     password = passwordController.text;
     if (email == '' || password == '') {
-      Alerts().alert(context, 'Nie tak szybko...',
-          'Te pola nie mogą być puste', 'OK', false, false, false);
+      Alerts().alert(context, 'Nie tak szybko...', 'Te pola nie mogą być puste',
+          'OK', false, false, false);
       return false;
     } else {
       return true;
@@ -79,8 +79,7 @@ class LoginScreenState extends State<LoginScreen> {
               await UserSecureStorage.setRefreshToken(
                   parsedJson['refresh_token']);
               UserData.accessToken = parsedJson['access_token'];
-              Response getInfo =
-                  await getInfoRequest(UserData.accessToken);
+              Response getInfo = await getInfoRequest(UserData.accessToken);
               final parsedInfo = jsonDecode(utf8.decode(getInfo.bodyBytes));
               UserData.name = parsedInfo['name'];
               UserData.surname = parsedInfo['surname'];
@@ -119,12 +118,26 @@ class LoginScreenState extends State<LoginScreen> {
                   false);
             } else if (response.statusCode == 404) {
               if (!mounted) return;
-              Alerts().alert(context, 'Podano błędne dane logowania',
-                  'Spróbuj jeszcze raz', 'OK', false, false, false);
+              Alerts().alert(
+                context,
+                'Podano błędne dane logowania',
+                'Spróbuj jeszcze raz',
+                'OK',
+                false,
+                false,
+                false,
+              );
             } else if (response.statusCode == 408) {
               if (!mounted) return;
-              Alerts().alert(context, 'Błąd połączenia z serwerem',
-                  'Spróbuj ponownie za chwile', 'OK', false, false, false);
+              Alerts().alert(
+                context,
+                'Błąd połączenia z serwerem',
+                'Spróbuj ponownie za chwile',
+                'OK',
+                false,
+                false,
+                false,
+              );
             } else {
               if (!mounted) return;
               Alerts().alert(
