@@ -61,11 +61,8 @@ class AppointmentsState extends State<AppointmentsScreen> {
       );
       UserData.accessToken = regainFunction['access_token'];
       if (!mounted) return;
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        '/appointments',
-        (route) => false,
-      );
+      Navigator.pop(context);
+      Navigator.pushNamed(context, '/appointments');
     } else {
       if (!mounted) return;
       Alerts().alertSessionExpired(context);

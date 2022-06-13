@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/login.dart';
-import 'package:hairdressing_salon_app/helpers/refresh_access_token.dart';
 import 'package:hairdressing_salon_app/helpers/update_user_details.dart';
 import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
@@ -212,13 +211,14 @@ class ProfileState extends State<ProfileScreen> {
                                   onPressed: () async {
                                     if (passwordController.text == '') {
                                       Alerts().alert(
-                                          context,
-                                          'Nie tak szybko...',
-                                          'Te pola nie mogą być puste',
-                                          'OK',
-                                          false,
-                                          false,
-                                          false);
+                                        context,
+                                        'Nie tak szybko...',
+                                        'Te pola nie mogą być puste',
+                                        'OK',
+                                        false,
+                                        false,
+                                        false,
+                                      );
                                     } else {
                                       Response sudo = await enterSudoMode(
                                           passwordController.text);
@@ -254,35 +254,38 @@ class ProfileState extends State<ProfileScreen> {
                                           buildSubmitButton();
                                           if (!mounted) return;
                                           Alerts().alert(
-                                              context,
-                                              'Operacja przebiegła pomyślnie',
-                                              'Dane zostały zmienione',
-                                              'OK',
-                                              false,
-                                              false,
-                                              true);
+                                            context,
+                                            'Operacja przebiegła pomyślnie',
+                                            'Dane zostały zmienione',
+                                            'OK',
+                                            false,
+                                            false,
+                                            true,
+                                          );
                                         }
                                       } else if (response.statusCode == 500) {
                                         oldPasswordController.text = '';
                                         if (!mounted) return;
                                         Alerts().alert(
-                                            context,
-                                            'Błąd połączenia',
-                                            'Nie udało się nawiązać połączenia z serwerem',
-                                            'OK',
-                                            false,
-                                            false,
-                                            false);
+                                          context,
+                                          'Błąd połączenia',
+                                          'Nie udało się nawiązać połączenia z serwerem',
+                                          'OK',
+                                          false,
+                                          false,
+                                          false,
+                                        );
                                       } else if (response.statusCode == 408) {
                                         if (!mounted) return;
                                         Alerts().alert(
-                                            context,
-                                            'Błąd połączenia z serwerem',
-                                            'Spróbuj ponownie za chwile',
-                                            'OK',
-                                            false,
-                                            false,
-                                            false);
+                                          context,
+                                          'Błąd połączenia z serwerem',
+                                          'Spróbuj ponownie za chwile',
+                                          'OK',
+                                          false,
+                                          false,
+                                          false,
+                                        );
                                       } else if (response.statusCode == 401) {
                                         final refreshToken =
                                             UserSecureStorage.getRefreshToken();
@@ -302,11 +305,8 @@ class ProfileState extends State<ProfileScreen> {
                                           UserData.accessToken =
                                               regainFunction['access_token'];
                                           if (!mounted) return;
-                                          Navigator.pushNamedAndRemoveUntil(
-                                            context,
-                                            '/profile',
-                                            (route) => false,
-                                          );
+                                          Navigator.pushNamed(
+                                              context, '/profile');
                                         } else {
                                           if (!mounted) return;
                                           Alerts().alertSessionExpired(context);
@@ -315,13 +315,14 @@ class ProfileState extends State<ProfileScreen> {
                                         oldPasswordController.text = '';
                                         if (!mounted) return;
                                         Alerts().alert(
-                                            context,
-                                            'Podano błędne dane',
-                                            'Spróbuj jeszcze raz',
-                                            'OK',
-                                            false,
-                                            false,
-                                            false);
+                                          context,
+                                          'Podano błędne dane',
+                                          'Spróbuj jeszcze raz',
+                                          'OK',
+                                          false,
+                                          false,
+                                          false,
+                                        );
                                       }
                                     }
                                   },
@@ -362,17 +363,25 @@ class ProfileState extends State<ProfileScreen> {
                 } else if (response.statusCode == 500) {
                   if (!mounted) return;
                   Alerts().alert(
-                      context,
-                      'Błąd połączenia',
-                      'Nie udało się nawiązać połączenia z serwerem',
-                      'OK',
-                      false,
-                      false,
-                      false);
+                    context,
+                    'Błąd połączenia',
+                    'Nie udało się nawiązać połączenia z serwerem',
+                    'OK',
+                    false,
+                    false,
+                    false,
+                  );
                 } else if (response.statusCode == 408) {
                   if (!mounted) return;
-                  Alerts().alert(context, 'Błąd połączenia z serwerem',
-                      'Spróbuj ponownie za chwile', 'OK', false, false, false);
+                  Alerts().alert(
+                    context,
+                    'Błąd połączenia z serwerem',
+                    'Spróbuj ponownie za chwile',
+                    'OK',
+                    false,
+                    false,
+                    false,
+                  );
                 } else if (response.statusCode == 401) {
                   final refreshToken = UserSecureStorage.getRefreshToken();
                   // final regainFunction =
@@ -387,19 +396,22 @@ class ProfileState extends State<ProfileScreen> {
                     );
                     UserData.accessToken = regainFunction['access_token'];
                     if (!mounted) return;
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/profile',
-                      (route) => false,
-                    );
+                    Navigator.pushNamed(context, '/profile');
                   } else {
                     if (!mounted) return;
                     Alerts().alertSessionExpired(context);
                   }
                 } else {
                   if (!mounted) return;
-                  Alerts().alert(context, 'Podano błędne dane',
-                      'Spróbuj jeszcze raz', 'OK', false, false, false);
+                  Alerts().alert(
+                    context,
+                    'Podano błędne dane',
+                    'Spróbuj jeszcze raz',
+                    'OK',
+                    false,
+                    false,
+                    false,
+                  );
                 }
               }
             },
@@ -642,11 +654,8 @@ class ProfileState extends State<ProfileScreen> {
                                             UserData.accessToken =
                                                 regainFunction['access_token'];
                                             if (!mounted) return;
-                                            Navigator.pushNamedAndRemoveUntil(
-                                              context,
-                                              '/profile',
-                                              (route) => false,
-                                            );
+                                            Navigator.pushNamed(
+                                                context, '/profile');
                                           } else {
                                             if (!mounted) return;
                                             Alerts()
@@ -845,11 +854,7 @@ class ProfileState extends State<ProfileScreen> {
                     );
                     UserData.accessToken = regainFunction['access_token'];
                     if (!mounted) return;
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/profile',
-                      (route) => false,
-                    );
+                    Navigator.pushNamed(context, '/profile');
                   } else {
                     if (!mounted) return;
                     Alerts().alertSessionExpired(context);

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -184,11 +183,8 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/profile',
-                  (route) => false,
-                );
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/profile');
               },
               child: DrawerHeader(
                 decoration: BoxDecoration(
