@@ -9,7 +9,6 @@ import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../constants/globals.dart';
-import '../helpers/appointments.dart';
 import '../helpers/logout.dart';
 import '../helpers/service_data.dart';
 import '../widgets/alerts.dart';
@@ -64,7 +63,6 @@ class AppointmentsState extends State<AppointmentsScreen> {
       regainAccessTokenFunction();
     }
     var body = jsonDecode(utf8.decode(response.bodyBytes));
-    print(body);
     if (response.statusCode == 200 && body != '[]') {
       setState(() {
         appointmentsData = body;
@@ -76,8 +74,6 @@ class AppointmentsState extends State<AppointmentsScreen> {
 
   regainAccessTokenFunction() async {
     final refreshToken = UserSecureStorage.getRefreshToken();
-    // final regainFunction =
-    //     regainAccessToken();
     Response regainAccessToken = await sendRefreshToken(refreshToken);
 
     if (regainAccessToken.statusCode == 200) {
@@ -123,7 +119,6 @@ class AppointmentsState extends State<AppointmentsScreen> {
         physics: const BouncingScrollPhysics(),
         itemCount: appointmentsData.length,
         itemBuilder: (context, index) {
-          // return getAppointmentTile(appointmentsData[index]);
           final appointment = appointmentsData[index];
           currentSlotFits = 0;
           // print(currentSlotFits);
@@ -260,48 +255,11 @@ class AppointmentsState extends State<AppointmentsScreen> {
               ],
             );
           } else if (appointment['occupied']) {
-            // return Card(
-            //   elevation: 6,
-            //   color: Colors.red,
-            //   margin: const EdgeInsets.all(8),
-            //   shape: OutlineInputBorder(
-            //     borderRadius: BorderRadius.circular(25),
-            //     borderSide: const BorderSide(
-            //       color: Color(0x44FFFFFF),
-            //       width: 1,
-            //     ),
-            //   ),
-            //   child: ListTile(
-            //     leading: Icon(
-            //       Icons.free_cancellation,
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     title: Text(
-            //       'Zajęte',
-            //       style: TextStyle(
-            //         color: Theme.of(context).primaryColor,
-            //       ),
-            //     ),
-            //   ),
-            // );
             return const SizedBox.shrink();
           } else if (currentSlotFits == requiredSlots) {
             return Card(
-              // shape: OutlineInputBorder(
-              //   borderRadius: BorderRadius.circular(25),
-              //   borderSide: const BorderSide(
-              //     color: Color(0x44FFFFFF),
-              //     width: 1,
-              //   ),
-              // ),
               color: Theme.of(context).backgroundColor,
               elevation: 8,
-              // shape: CircleBorder(
-              //   side: BorderSide(
-              //     width: 1,
-              //     color: Color(0x44FFFFFF),
-              //   ),
-              // ),
               shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: const BorderSide(
@@ -312,23 +270,9 @@ class AppointmentsState extends State<AppointmentsScreen> {
               margin: const EdgeInsets.all(10),
               child: Center(
                 child: ListTile(
-                  // leading: Icon(
-                  //   Icons.access_time,
-                  //   color: Theme.of(context).primaryColor,
-                  // ),
                   title: Center(
                     child: Text(
                       "Od: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['start_time'], true).toLocal().toString().substring(11, 16)}",
-                      // +
-                      // ' - ' +
-                      // DateFormat("yyyy-MM-ddTHH:mm:ss")
-                      //     .parse(appointment.endTime, true)
-                      //     .add(Duration(
-                      //       minutes: 15 * (requiredSlots - 1),
-                      //     ))
-                      //     .toLocal()
-                      //     .toString()
-                      //     .substring(11, 16),
                       style: GoogleFonts.poppins(
                         color: Theme.of(context).primaryColor,
                         fontSize: 24,
@@ -363,7 +307,6 @@ class AppointmentsState extends State<AppointmentsScreen> {
             );
           } else if (hasSlots == 0) {
             return Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
                   height: 30,
@@ -396,393 +339,14 @@ class AppointmentsState extends State<AppointmentsScreen> {
               ],
             );
           } else {
-            // return Card(
-            //   elevation: 6,
-            //   color: Colors.red,
-            //   margin: const EdgeInsets.all(8),
-            //   shape: OutlineInputBorder(
-            //     borderRadius: BorderRadius.circular(25),
-            //     borderSide: const BorderSide(
-            //       color: Color(0x44FFFFFF),
-            //       width: 1,
-            //     ),
-            //   ),
-            //   child: ListTile(
-            //     leading: Icon(
-            //       Icons.free_cancellation,
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     title: Text(
-            //       'Brak wolnych miejsc',
-            //       style: TextStyle(
-            //         color: Theme.of(context).primaryColor,
-            //       ),
-            //     ),
-            //   ),
-            // );
             return const SizedBox.shrink();
           }
         },
       );
     }
   }
-
-  // Widget getAppointmentTile(index){
-
-  // }
 
   final minTime = DateTime.now();
-
-  Widget buildAppointments(List<Appointment> appointments) {
-    hasSlots = 0;
-    if (appointments.isEmpty) {
-      return Center(
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            Card(
-              elevation: 2,
-              color: Theme.of(context).backgroundColor,
-              margin: const EdgeInsets.all(8),
-              shape: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: Color(0x44FFFFFF),
-                  width: 1,
-                ),
-              ),
-              child: ListTile(
-                leading: const Icon(
-                  Icons.close,
-                  color: Colors.red,
-                ),
-                title: Text(
-                  'Brak wolnych miejsc',
-                  style: GoogleFonts.poppins(
-                    fontSize: 24,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    } else {
-      return areSlots(appointments);
-    }
-  }
-
-  Widget areSlots(List<Appointment> appointments) => ListView.builder(
-        // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        //   crossAxisCount: 3,
-        // ),
-        physics: const BouncingScrollPhysics(),
-        itemCount: appointments.length,
-        itemBuilder: (context, index) {
-          final appointment = appointments[index];
-          currentSlotFits = 0;
-          // print(currentSlotFits);
-          if (index + requiredSlots <= appointments.length) {
-            for (int i = index; i < (index + requiredSlots); i++) {
-              final slot = appointments[i];
-
-              if (slot.occupied) {
-                break;
-              }
-
-              if (slot.reserved) {
-                break;
-              }
-
-              if (slot.holiday) {
-                break;
-              }
-
-              if (slot.sunday) {
-                break;
-              }
-
-              if (slot.breakTime) {
-                break;
-              }
-
-              if (currentSlotFits == requiredSlots) {
-                break;
-              }
-              hasSlots++;
-              currentSlotFits++;
-            }
-          }
-          if (appointment.reserved) {
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Card(
-                  elevation: 2,
-                  color: Theme.of(context).backgroundColor,
-                  margin: const EdgeInsets.all(8),
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: const BorderSide(
-                      color: Color(0x44FFFFFF),
-                      width: 1,
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.miscellaneous_services,
-                      color: Colors.red,
-                    ),
-                    title: Text(
-                      appointment.reservedReason
-                          ? 'Zarezerwowane: ${appointment.reservedReason}'
-                          : 'Zarezerwowane',
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else if (appointment.holiday) {
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Card(
-                  elevation: 2,
-                  color: Theme.of(context).backgroundColor,
-                  margin: const EdgeInsets.all(8),
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Color(0x44FFFFFF),
-                      width: 1,
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.free_cancellation,
-                      color: Colors.red,
-                    ),
-                    title: Text(
-                      appointment.holidayName,
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else if (appointment.sunday) {
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Card(
-                  elevation: 2,
-                  color: Theme.of(context).backgroundColor,
-                  margin: const EdgeInsets.all(8),
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Color(0x44FFFFFF),
-                      width: 1,
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.free_cancellation,
-                      color: Colors.red,
-                    ),
-                    title: Text(
-                      'Niedziela',
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else if (appointment.occupied) {
-            // return Card(
-            //   elevation: 6,
-            //   color: Colors.red,
-            //   margin: const EdgeInsets.all(8),
-            //   shape: OutlineInputBorder(
-            //     borderRadius: BorderRadius.circular(25),
-            //     borderSide: const BorderSide(
-            //       color: Color(0x44FFFFFF),
-            //       width: 1,
-            //     ),
-            //   ),
-            //   child: ListTile(
-            //     leading: Icon(
-            //       Icons.free_cancellation,
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     title: Text(
-            //       'Zajęte',
-            //       style: TextStyle(
-            //         color: Theme.of(context).primaryColor,
-            //       ),
-            //     ),
-            //   ),
-            // );
-            return const SizedBox.shrink();
-          } else if (currentSlotFits == requiredSlots) {
-            return Card(
-              // shape: OutlineInputBorder(
-              //   borderRadius: BorderRadius.circular(25),
-              //   borderSide: const BorderSide(
-              //     color: Color(0x44FFFFFF),
-              //     width: 1,
-              //   ),
-              // ),
-              color: Theme.of(context).backgroundColor,
-              elevation: 8,
-              // shape: CircleBorder(
-              //   side: BorderSide(
-              //     width: 1,
-              //     color: Color(0x44FFFFFF),
-              //   ),
-              // ),
-              shape: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: Color(0x44FFFFFF),
-                  width: 1,
-                ),
-              ),
-              margin: const EdgeInsets.all(10),
-              child: Center(
-                child: ListTile(
-                  // leading: Icon(
-                  //   Icons.access_time,
-                  //   color: Theme.of(context).primaryColor,
-                  // ),
-                  title: Center(
-                    child: Text(
-                      'Od: ${DateFormat("yyyy-MM-ddTHH:mm:ss").parse(appointment.startTime, true).toLocal().toString().substring(11, 16)}',
-                      // +
-                      // ' - ' +
-                      // DateFormat("yyyy-MM-ddTHH:mm:ss")
-                      //     .parse(appointment.endTime, true)
-                      //     .add(Duration(
-                      //       minutes: 15 * (requiredSlots - 1),
-                      //     ))
-                      //     .toLocal()
-                      //     .toString()
-                      //     .substring(11, 16),
-                      style: GoogleFonts.poppins(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 24,
-                      ),
-                    ),
-                  ),
-                  subtitle: Center(
-                    child: Text(
-                      'Do: ${DateFormat("yyyy-MM-ddTHH:mm:ss").parse(appointment.endTime, true).add(
-                            Duration(
-                              minutes: 30 * (requiredSlots - 1),
-                            ),
-                          ).toLocal().toString().substring(11, 16)}',
-                      style: GoogleFonts.poppins(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  ),
-                  onTap: () {
-                    AppointmentData.id = appointment.id;
-                    AppointmentData.startHour =
-                        DateFormat("yyyy-MM-ddTHH:mm:ss")
-                            .parse(appointment.startTime, true)
-                            .toLocal()
-                            .toString()
-                            .substring(11, 16);
-                    AppointmentData.date = chosenDateString;
-                    Navigator.pushNamed(context, '/confirmAppointment');
-                  },
-                ),
-              ),
-            );
-          } else if (hasSlots == 0) {
-            return Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Card(
-                  elevation: 2,
-                  color: Theme.of(context).backgroundColor,
-                  margin: const EdgeInsets.all(8),
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Color(0x44FFFFFF),
-                      width: 1,
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
-                    title: Text(
-                      'Brak wolnych miejsc',
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            );
-          } else {
-            // return Card(
-            //   elevation: 6,
-            //   color: Colors.red,
-            //   margin: const EdgeInsets.all(8),
-            //   shape: OutlineInputBorder(
-            //     borderRadius: BorderRadius.circular(25),
-            //     borderSide: const BorderSide(
-            //       color: Color(0x44FFFFFF),
-            //       width: 1,
-            //     ),
-            //   ),
-            //   child: ListTile(
-            //     leading: Icon(
-            //       Icons.free_cancellation,
-            //       color: Theme.of(context).primaryColor,
-            //     ),
-            //     title: Text(
-            //       'Brak wolnych miejsc',
-            //       style: TextStyle(
-            //         color: Theme.of(context).primaryColor,
-            //       ),
-            //     ),
-            //   ),
-            // );
-            return const SizedBox.shrink();
-          }
-        },
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -867,45 +431,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
           ),
           Expanded(
             flex: 30,
-            child:
-                // alignment: Alignment.center,
-                getAppointmentsBody(),
-            // child: FutureBuilder<List<Appointment>>(
-            //   future: AppointmentsApi.getAppointments(
-            //     context,
-            //     chosenDateString,
-            //   ),
-            //   builder: (context, snapshot) {
-            //     final appointments = snapshot.data;
-            //     switch (snapshot.connectionState) {
-            //       case ConnectionState.waiting:
-            //         return const Center(
-            //           child: CircularProgressIndicator(
-            //             valueColor:
-            //                 AlwaysStoppedAnimation<Color>(Colors.blue),
-            //           ),
-            //         );
-            //       default:
-            //         if (snapshot.hasError) {
-            //           if (snapshot.error == 401) {
-            //             regainAccessTokenFunction();
-            //           }
-            //           return Center(
-            //             child: Text(
-            //               'Wystąpił błąd przy pobieraniu danych. Spróbuj ponownie później.',
-            //               style: GoogleFonts.poppins(
-            //                 color: Theme.of(context).primaryColor,
-            //               ),
-            //             ),
-            //           );
-            //           // print(snapshot.error);
-            //         } else {
-            //           // print(snapshot.data);
-            //           return buildAppointments(appointments!);
-            //         }
-            //     }
-            //   },
-            // ),
+            child: getAppointmentsBody(),
           ),
           const Padding(padding: EdgeInsets.only(bottom: 15)),
         ],

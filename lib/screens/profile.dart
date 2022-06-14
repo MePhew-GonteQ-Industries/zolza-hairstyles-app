@@ -32,7 +32,6 @@ class ProfileState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    print(UserData.gender);
     nameController.text = UserData.name;
     surnameController.text = UserData.surname;
     isEnabledName = true;
@@ -361,9 +360,6 @@ class ProfileState extends State<ProfileScreen> {
                   testValue = 'other';
                   break;
               }
-              print(UserData.gender);
-              print(chosenValue);
-
               if (chosenValue == UserData.gender ||
                   testValue == 'placeholder') {
                 valueChanged = false;
@@ -385,7 +381,6 @@ class ProfileState extends State<ProfileScreen> {
   }
 
   buildSubmitButton() {
-    print(valueChanged);
     if (valueChanged) {
       switch (chosenValue) {
         case 'male':

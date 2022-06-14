@@ -106,7 +106,6 @@ class ServicesState extends State<ServicesScreen> {
               );
             default:
               if (snapshot.hasError) {
-                print(snapshot.error);
                 if (snapshot.error == 401) {
                   regainAccessTokenFunction();
                 }
