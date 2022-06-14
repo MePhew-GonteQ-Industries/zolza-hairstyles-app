@@ -7,6 +7,7 @@ import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../helpers/login.dart';
+import '../helpers/logout.dart';
 import '../helpers/user_data.dart';
 import '../widgets/alerts.dart';
 import '../widgets/stateful_drawer.dart';
@@ -50,12 +51,11 @@ class HomeState extends State<HomeScreen> {
         );
         UserData.accessToken = regainFunction['access_token'];
         if (!mounted) return;
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          '/home',
-          (route) => false,
-        );
+        fetchAppointments();
       } else {
+        await logOutUser();
+        UserSecureStorage.setRefreshToken('null');
+        UserData.accessToken = 'null';
         if (!mounted) return;
         Alerts().alertSessionExpired(context);
       }

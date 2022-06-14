@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:hairdressing_salon_app/helpers/verify_user.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../screens/check_for_logged_in_user.dart';
@@ -196,6 +197,7 @@ class Alerts {
         DialogButton(
           onPressed: () async {
             Navigator.pop(context);
+            GlobalState.drawerSelectedItem = 0;
             Navigator.pushNamedAndRemoveUntil(
                 context, '/login', (route) => false);
           },

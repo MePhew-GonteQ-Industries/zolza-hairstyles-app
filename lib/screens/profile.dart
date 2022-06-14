@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/login.dart';
+import 'package:hairdressing_salon_app/helpers/logout.dart';
 import 'package:hairdressing_salon_app/helpers/update_user_details.dart';
 import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
@@ -45,6 +46,270 @@ class ProfileState extends State<ProfileScreen> {
     nameFocusNode.dispose();
     surnameFocusNode.dispose();
     super.dispose();
+  }
+
+  updateUserDetailsFunction() async {
+    String name = nameController.text;
+    String surname = surnameController.text;
+    if (name == '') {
+      name = UserData.name;
+    }
+    if (surname == '') {
+      surname = UserData.surname;
+    }
+    Response response = await updateUserDetails(
+      name,
+      surname,
+      chosenValue,
+    );
+    var responseBody = jsonDecode(response.body);
+    if (response.statusCode == 403 &&
+        responseBody['detail'] ==
+            'Additional authentication required; Authenticate using https://zolza-hairstyles.pl/api/auth/enter-sudo-mode') {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Theme.of(context).backgroundColor,
+            content: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: 'Podaj hasło',
+                        hintStyle: GoogleFonts.poppins(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      style: GoogleFonts.poppins(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      child: Text(
+                        "Zapisz zmiany",
+                        style: GoogleFonts.poppins(),
+                      ),
+                      onPressed: () async {
+                        if (passwordController.text == '') {
+                          Alerts().alert(
+                            context,
+                            'Nie tak szybko...',
+                            'Te pola nie mogą być puste',
+                            'OK',
+                            false,
+                            false,
+                            false,
+                          );
+                        } else {
+                          Response sudo =
+                              await enterSudoMode(passwordController.text);
+                          if (sudo.statusCode == 200) {
+                            Response response = await updateUserDetails(
+                              name,
+                              surname,
+                              chosenValue,
+                            );
+
+                            passwordController.text = '';
+                            if (response.statusCode == 200) {
+                              UserData.name = name;
+                              UserData.surname = surname;
+                              String gender = 'Płeć';
+                              switch (chosenValue) {
+                                case 'Mężczyzna':
+                                  gender = 'male';
+                                  break;
+                                case 'Kobieta':
+                                  gender = 'female';
+                                  break;
+                                case 'Inna':
+                                  gender = 'other';
+                                  break;
+                                default:
+                                  gender = 'Płeć';
+                              }
+                              UserData.gender = gender;
+                              passwordController.text = '';
+                              setState(() {
+                                valueChanged =
+                                    false; // Dlaczego przycisk nie znika?
+                              });
+                              buildSubmitButton();
+                              if (!mounted) return;
+                              Alerts().alert(
+                                context,
+                                'Operacja przebiegła pomyślnie',
+                                'Dane zostały zmienione',
+                                'OK',
+                                false,
+                                false,
+                                true,
+                              );
+                            }
+                          } else if (response.statusCode == 500) {
+                            oldPasswordController.text = '';
+                            if (!mounted) return;
+                            Alerts().alert(
+                              context,
+                              'Błąd połączenia',
+                              'Nie udało się nawiązać połączenia z serwerem',
+                              'OK',
+                              false,
+                              false,
+                              false,
+                            );
+                          } else if (response.statusCode == 408) {
+                            if (!mounted) return;
+                            Alerts().alert(
+                              context,
+                              'Błąd połączenia z serwerem',
+                              'Spróbuj ponownie za chwile',
+                              'OK',
+                              false,
+                              false,
+                              false,
+                            );
+                          } else if (response.statusCode == 401) {
+                            final refreshToken =
+                                UserSecureStorage.getRefreshToken();
+                            // final regainFunction =
+                            //     regainAccessToken();
+                            Response regainAccessToken =
+                                await sendRefreshToken(refreshToken);
+
+                            if (regainAccessToken.statusCode == 200) {
+                              final regainFunction =
+                                  jsonDecode(regainAccessToken.body);
+                              UserSecureStorage.setRefreshToken(
+                                regainFunction['refresh_token'],
+                              );
+                              UserData.accessToken =
+                                  regainFunction['access_token'];
+                              if (!mounted) return;
+                              Navigator.pushNamed(context, '/profile');
+                            } else {
+                              if (!mounted) return;
+                              Alerts().alertSessionExpired(context);
+                            }
+                          } else {
+                            oldPasswordController.text = '';
+                            if (!mounted) return;
+                            Alerts().alert(
+                              context,
+                              'Podano błędne dane',
+                              'Spróbuj jeszcze raz',
+                              'OK',
+                              false,
+                              false,
+                              false,
+                            );
+                          }
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    } else if (response.statusCode == 200) {
+      UserData.name = name;
+      UserData.surname = surname;
+      String gender = 'Płeć';
+      switch (chosenValue) {
+        case 'Mężczyzna':
+          gender = 'male';
+          break;
+        case 'Kobieta':
+          gender = 'female';
+          break;
+        case 'Inna':
+          gender = 'other';
+          break;
+        default:
+          gender = 'Płeć';
+      }
+      UserData.gender = gender;
+      // valueChanged = false;
+      setState(() {
+        valueChanged = false; // Dlaczego przycisk nie znika?
+      });
+      buildSubmitButton(); // Dlaczego przycisk nie znika?
+      if (!mounted) return;
+      Alerts().alert(
+        context,
+        'Operacja przebiegła pomyślnie',
+        'Dane zostały zmienione',
+        'OK',
+        false,
+        false,
+        false,
+      );
+    } else if (response.statusCode == 500) {
+      if (!mounted) return;
+      Alerts().alert(
+        context,
+        'Błąd połączenia',
+        'Nie udało się nawiązać połączenia z serwerem',
+        'OK',
+        false,
+        false,
+        false,
+      );
+    } else if (response.statusCode == 408) {
+      if (!mounted) return;
+      Alerts().alert(
+        context,
+        'Błąd połączenia z serwerem',
+        'Spróbuj ponownie za chwile',
+        'OK',
+        false,
+        false,
+        false,
+      );
+    } else if (response.statusCode == 401) {
+      final refreshToken = UserSecureStorage.getRefreshToken();
+      // final regainFunction =
+      //     regainAccessToken();
+      Response regainAccessToken = await sendRefreshToken(refreshToken);
+
+      if (regainAccessToken.statusCode == 200) {
+        final regainFunction = jsonDecode(regainAccessToken.body);
+        UserSecureStorage.setRefreshToken(
+          regainFunction['refresh_token'],
+        );
+        UserData.accessToken = regainFunction['access_token'];
+        updateUserDetailsFunction();
+      } else {
+        await logOutUser();
+        UserSecureStorage.setRefreshToken('null');
+        UserData.accessToken = 'null';
+        if (!mounted) return;
+        Alerts().alertSessionExpired(context);
+      }
+    } else {
+      if (!mounted) return;
+      Alerts().alert(
+        context,
+        'Podano błędne dane',
+        'Spróbuj jeszcze raz',
+        'OK',
+        false,
+        false,
+        false,
+      );
+    }
   }
 
   String chosenValue = UserData.gender;
@@ -162,257 +427,7 @@ class ProfileState extends State<ProfileScreen> {
                   false,
                 );
               } else {
-                String name = nameController.text;
-                String surname = surnameController.text;
-                if (name == '') {
-                  name = UserData.name;
-                }
-                if (surname == '') {
-                  surname = UserData.surname;
-                }
-                Response response =
-                    await updateUserDetails(name, surname, chosenValue);
-                var responseBody = jsonDecode(response.body);
-                if (response.statusCode == 403 &&
-                    responseBody['detail'] ==
-                        'Additional authentication required; Authenticate using https://zolza-hairstyles.pl/api/auth/enter-sudo-mode') {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        backgroundColor: Theme.of(context).backgroundColor,
-                        content: Form(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextField(
-                                  controller: passwordController,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    hintText: 'Podaj hasło',
-                                    hintStyle: GoogleFonts.poppins(
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                  style: GoogleFonts.poppins(
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ElevatedButton(
-                                  child: Text(
-                                    "Zapisz zmiany",
-                                    style: GoogleFonts.poppins(),
-                                  ),
-                                  onPressed: () async {
-                                    if (passwordController.text == '') {
-                                      Alerts().alert(
-                                        context,
-                                        'Nie tak szybko...',
-                                        'Te pola nie mogą być puste',
-                                        'OK',
-                                        false,
-                                        false,
-                                        false,
-                                      );
-                                    } else {
-                                      Response sudo = await enterSudoMode(
-                                          passwordController.text);
-                                      if (sudo.statusCode == 200) {
-                                        Response response =
-                                            await updateUserDetails(
-                                                name, surname, chosenValue);
-
-                                        passwordController.text = '';
-                                        if (response.statusCode == 200) {
-                                          UserData.name = name;
-                                          UserData.surname = surname;
-                                          String gender = 'Płeć';
-                                          switch (chosenValue) {
-                                            case 'Mężczyzna':
-                                              gender = 'male';
-                                              break;
-                                            case 'Kobieta':
-                                              gender = 'female';
-                                              break;
-                                            case 'Inna':
-                                              gender = 'other';
-                                              break;
-                                            default:
-                                              gender = 'Płeć';
-                                          }
-                                          UserData.gender = gender;
-                                          passwordController.text = '';
-                                          setState(() {
-                                            valueChanged =
-                                                false; // Dlaczego przycisk nie znika?
-                                          });
-                                          buildSubmitButton();
-                                          if (!mounted) return;
-                                          Alerts().alert(
-                                            context,
-                                            'Operacja przebiegła pomyślnie',
-                                            'Dane zostały zmienione',
-                                            'OK',
-                                            false,
-                                            false,
-                                            true,
-                                          );
-                                        }
-                                      } else if (response.statusCode == 500) {
-                                        oldPasswordController.text = '';
-                                        if (!mounted) return;
-                                        Alerts().alert(
-                                          context,
-                                          'Błąd połączenia',
-                                          'Nie udało się nawiązać połączenia z serwerem',
-                                          'OK',
-                                          false,
-                                          false,
-                                          false,
-                                        );
-                                      } else if (response.statusCode == 408) {
-                                        if (!mounted) return;
-                                        Alerts().alert(
-                                          context,
-                                          'Błąd połączenia z serwerem',
-                                          'Spróbuj ponownie za chwile',
-                                          'OK',
-                                          false,
-                                          false,
-                                          false,
-                                        );
-                                      } else if (response.statusCode == 401) {
-                                        final refreshToken =
-                                            UserSecureStorage.getRefreshToken();
-                                        // final regainFunction =
-                                        //     regainAccessToken();
-                                        Response regainAccessToken =
-                                            await sendRefreshToken(
-                                                refreshToken);
-
-                                        if (regainAccessToken.statusCode ==
-                                            200) {
-                                          final regainFunction = jsonDecode(
-                                              regainAccessToken.body);
-                                          UserSecureStorage.setRefreshToken(
-                                            regainFunction['refresh_token'],
-                                          );
-                                          UserData.accessToken =
-                                              regainFunction['access_token'];
-                                          if (!mounted) return;
-                                          Navigator.pushNamed(
-                                              context, '/profile');
-                                        } else {
-                                          if (!mounted) return;
-                                          Alerts().alertSessionExpired(context);
-                                        }
-                                      } else {
-                                        oldPasswordController.text = '';
-                                        if (!mounted) return;
-                                        Alerts().alert(
-                                          context,
-                                          'Podano błędne dane',
-                                          'Spróbuj jeszcze raz',
-                                          'OK',
-                                          false,
-                                          false,
-                                          false,
-                                        );
-                                      }
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                } else if (response.statusCode == 200) {
-                  UserData.name = name;
-                  UserData.surname = surname;
-                  String gender = 'Płeć';
-                  switch (chosenValue) {
-                    case 'Mężczyzna':
-                      gender = 'male';
-                      break;
-                    case 'Kobieta':
-                      gender = 'female';
-                      break;
-                    case 'Inna':
-                      gender = 'other';
-                      break;
-                    default:
-                      gender = 'Płeć';
-                  }
-                  UserData.gender = gender;
-                  // valueChanged = false;
-                  setState(() {
-                    valueChanged = false; // Dlaczego przycisk nie znika?
-                  });
-                  buildSubmitButton(); // Dlaczego przycisk nie znika?
-                  if (!mounted) return;
-                  Alerts().alert(context, 'Operacja przebiegła pomyślnie',
-                      'Dane zostały zmienione', 'OK', false, false, false);
-                } else if (response.statusCode == 500) {
-                  if (!mounted) return;
-                  Alerts().alert(
-                    context,
-                    'Błąd połączenia',
-                    'Nie udało się nawiązać połączenia z serwerem',
-                    'OK',
-                    false,
-                    false,
-                    false,
-                  );
-                } else if (response.statusCode == 408) {
-                  if (!mounted) return;
-                  Alerts().alert(
-                    context,
-                    'Błąd połączenia z serwerem',
-                    'Spróbuj ponownie za chwile',
-                    'OK',
-                    false,
-                    false,
-                    false,
-                  );
-                } else if (response.statusCode == 401) {
-                  final refreshToken = UserSecureStorage.getRefreshToken();
-                  // final regainFunction =
-                  //     regainAccessToken();
-                  Response regainAccessToken =
-                      await sendRefreshToken(refreshToken);
-
-                  if (regainAccessToken.statusCode == 200) {
-                    final regainFunction = jsonDecode(regainAccessToken.body);
-                    UserSecureStorage.setRefreshToken(
-                      regainFunction['refresh_token'],
-                    );
-                    UserData.accessToken = regainFunction['access_token'];
-                    if (!mounted) return;
-                    Navigator.pushNamed(context, '/profile');
-                  } else {
-                    if (!mounted) return;
-                    Alerts().alertSessionExpired(context);
-                  }
-                } else {
-                  if (!mounted) return;
-                  Alerts().alert(
-                    context,
-                    'Podano błędne dane',
-                    'Spróbuj jeszcze raz',
-                    'OK',
-                    false,
-                    false,
-                    false,
-                  );
-                }
+                updateUserDetailsFunction();
               }
             },
             child: Text(
@@ -465,7 +480,8 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             leading: Icon(
               Icons.email,
-              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).primaryColor,
+              color: Theme.of(context).textTheme.bodyText2?.color,
             ),
             title: Text(
               'E-mail',
@@ -481,7 +497,8 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             leading: Icon(
               Icons.lock,
-              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).primaryColor,
+              color: Theme.of(context).textTheme.bodyText2?.color,
             ),
             title: Text(
               'Hasło',
@@ -690,7 +707,8 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             leading: Icon(
               Icons.person,
-              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).primaryColor,
+              color: Theme.of(context).textTheme.bodyText2?.color,
             ),
             title: Text(
               'Imię',
@@ -734,7 +752,8 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             leading: Icon(
               Icons.person,
-              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).primaryColor,
+              color: Theme.of(context).textTheme.bodyText2?.color,
             ),
             title: Text(
               'Nazwisko',
@@ -778,7 +797,8 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             leading: Icon(
               Icons.person,
-              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).primaryColor,
+              color: Theme.of(context).textTheme.bodyText2?.color,
             ),
             title: Text(
               'Płeć',

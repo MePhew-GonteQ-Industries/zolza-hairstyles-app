@@ -27,6 +27,67 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
   //   activeIndex = 4;
   // }
 
+  logOutUserFunction() async {
+    Response logOut = await logOutUser();
+    print(logOut.statusCode);
+    print(logOut.body);
+    if (logOut.statusCode == 200) {
+      UserSecureStorage.setRefreshToken('null');
+      UserData.accessToken = 'null';
+      UserSecureStorage.setFCMToken('null');
+      UserSecureStorage.setIsLoggedIn('false');
+      if (!mounted) return;
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+          (route) => false);
+    } else if (logOut.statusCode == 408) {
+      if (!mounted) return;
+      Alerts().alert(
+        context,
+        'Błąd połączenia z serwerem',
+        'Spróbuj ponownie za chwile',
+        'OK',
+        false,
+        false,
+        false,
+      );
+    } else if (logOut.statusCode == 401) {
+      final refreshToken = UserSecureStorage.getRefreshToken();
+      // final regainFunction =
+      //     regainAccessToken();
+      Response regainAccessToken = await sendRefreshToken(refreshToken);
+
+      if (regainAccessToken.statusCode == 200) {
+        final regainFunction = jsonDecode(regainAccessToken.body);
+        UserSecureStorage.setRefreshToken(
+          regainFunction['refresh_token'],
+        );
+        UserData.accessToken = regainFunction['access_token'];
+        logOutUserFunction();
+      } else {
+        await logOutUser();
+        UserSecureStorage.setRefreshToken('null');
+        UserData.accessToken = 'null';
+        if (!mounted) return;
+        Alerts().alertSessionExpired(context);
+      }
+    } else {
+      if (!mounted) return;
+      Alerts().alert(
+        context,
+        'Błąd połączenia z serwerem',
+        'Spróbuj jeszcze raz',
+        'OK',
+        false,
+        false,
+        false,
+      );
+    }
+  }
+
   buildMenuItem({
     required String text,
     required IconData icon,
@@ -78,96 +139,7 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
               false,
               false);
         } else {
-          Response logOut = await logOutUser();
-          print(logOut.statusCode);
-          print(logOut.body);
-          if (logOut.statusCode == 200) {
-            UserSecureStorage.setRefreshToken('null');
-            UserData.accessToken = 'null';
-            UserSecureStorage.setFCMToken('null');
-            UserSecureStorage.setIsLoggedIn('false');
-            if (!mounted) return;
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
-                ),
-                (route) => false);
-          } else if (logOut.statusCode == 408) {
-            if (!mounted) return;
-            Alerts().alert(
-              context,
-              'Błąd połączenia z serwerem',
-              'Spróbuj ponownie za chwile',
-              'OK',
-              false,
-              false,
-              false,
-            );
-          } else if (logOut.statusCode == 401) {
-            final refreshToken = UserSecureStorage.getRefreshToken();
-            // final regainFunction =
-            //     regainAccessToken();
-            Response regainAccessToken = await sendRefreshToken(refreshToken);
-
-            if (regainAccessToken.statusCode == 200) {
-              final regainFunction = jsonDecode(regainAccessToken.body);
-              UserSecureStorage.setRefreshToken(
-                regainFunction['refresh_token'],
-              );
-              UserData.accessToken = regainFunction['access_token'];
-              Response logOut = await logOutUser();
-              if (logOut.statusCode == 200) {
-                UserSecureStorage.setRefreshToken('null');
-                UserData.accessToken = 'null';
-                UserSecureStorage.setFCMToken('null');
-                UserSecureStorage.setIsLoggedIn('false');
-                if (!mounted) return;
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
-                    ),
-                    (route) => false);
-              } else if (logOut.statusCode == 408) {
-                if (!mounted) return;
-                Alerts().alert(
-                  context,
-                  'Błąd połączenia z serwerem',
-                  'Spróbuj ponownie za chwile',
-                  'OK',
-                  false,
-                  false,
-                  false,
-                );
-              } else {
-                if (!mounted) return;
-                Alerts().alert(
-                  context,
-                  'Błąd połączenia z serwerem',
-                  'Spróbuj jeszcze raz',
-                  'OK',
-                  false,
-                  false,
-                  false,
-                );
-              }
-            } else {
-              if (!mounted) return;
-              Alerts().alertSessionExpired(context);
-            }
-          } else {
-            if (!mounted) return;
-            Alerts().alert(
-              context,
-              'Błąd połączenia z serwerem',
-              'Spróbuj jeszcze raz',
-              'OK',
-              false,
-              false,
-              false,
-            );
-          }
+          logOutUserFunction();
         }
       },
     );

@@ -7,6 +7,7 @@ import 'package:hairdressing_salon_app/widgets/alerts.dart';
 import 'package:http/http.dart';
 import '../helpers/appointment_data.dart';
 import '../helpers/login.dart';
+import '../helpers/logout.dart';
 import '../helpers/user_data.dart';
 import '../helpers/user_secure_storage.dart';
 
@@ -18,6 +19,57 @@ class ConfirmAppointment extends StatefulWidget {
 }
 
 class ConfirmAppointmentState extends State<ConfirmAppointment> {
+  createAppointmentFunction() async {
+    Response response = await createAppointment();
+    // print(response.statusCode);
+    // print(response.body);
+    if (response.statusCode == 400) {
+      if (!mounted) return;
+      Alerts().alertNotEnoughTime(context);
+    } else if (response.statusCode == 201) {
+      if (!mounted) return;
+      Alerts().alertAppointmentCreated(context);
+    } else if (response.statusCode == 403) {
+      if (!mounted) return;
+      Alerts().alertEmailVerification(context);
+      if (!mounted) return;
+    } else if (response.statusCode == 401) {
+      final refreshToken = UserSecureStorage.getRefreshToken();
+      // final regainFunction =
+      //     regainAccessToken();
+      Response regainAccessToken = await sendRefreshToken(refreshToken);
+
+      if (regainAccessToken.statusCode == 200) {
+        final regainFunction = jsonDecode(regainAccessToken.body);
+        UserSecureStorage.setRefreshToken(
+          regainFunction['refresh_token'],
+        );
+        UserData.accessToken = regainFunction['access_token'];
+        createAppointmentFunction();
+      } else {
+        await logOutUser();
+        UserSecureStorage.setRefreshToken('null');
+        UserData.accessToken = 'null';
+        if (!mounted) return;
+        Alerts().alertSessionExpired(context);
+      }
+    } else if (response.statusCode == 201) {
+      if (!mounted) return;
+      Alerts().alertAppointmentCreated(context);
+    } else {
+      if (!mounted) return;
+      Alerts().alert(
+        context,
+        'Błąd połączenia z serwerem',
+        'Spróbuj ponownie później.',
+        'OK',
+        false,
+        false,
+        false,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,80 +200,8 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
                   width: double.infinity,
                   height: 45,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      Response response = await createAppointment();
-                      // print(response.statusCode);
-                      // print(response.body);
-                      if (response.statusCode == 400) {
-                        if (!mounted) return;
-                        Alerts().alertNotEnoughTime(context);
-                      } else if (response.statusCode == 201) {
-                        if (!mounted) return;
-                        Alerts().alertAppointmentCreated(context);
-                      } else if (response.statusCode == 403) {
-                        if (!mounted) return;
-                        Alerts().alertEmailVerification(context);
-                        if (!mounted) return;
-                      } else if (response.statusCode == 401) {
-                        final refreshToken =
-                            UserSecureStorage.getRefreshToken();
-                        // final regainFunction =
-                        //     regainAccessToken();
-                        Response regainAccessToken =
-                            await sendRefreshToken(refreshToken);
-
-                        if (regainAccessToken.statusCode == 200) {
-                          final regainFunction =
-                              jsonDecode(regainAccessToken.body);
-                          UserSecureStorage.setRefreshToken(
-                            regainFunction['refresh_token'],
-                          );
-                          UserData.accessToken = regainFunction['access_token'];
-                          Response response = await createAppointment();
-                          if (response.statusCode == 400) {
-                            if (!mounted) return;
-                            Alerts().alertNotEnoughTime(context);
-                          } else if (response.statusCode == 201) {
-                            if (!mounted) return;
-                            Alerts().alertAppointmentCreated(context);
-                          } else if (response.statusCode == 403) {
-                            if (!mounted) return;
-                            Alerts().alertEmailVerification(context);
-                            if (!mounted) return;
-                          } else if (response.statusCode == 201) {
-                            if (!mounted) return;
-                            Alerts().alertAppointmentCreated(context);
-                          } else {
-                            if (!mounted) return;
-                            Alerts().alert(
-                              context,
-                              'Błąd połączenia z serwerem',
-                              'Spróbuj ponownie później.',
-                              'OK',
-                              false,
-                              false,
-                              false,
-                            );
-                          }
-                        } else {
-                          if (!mounted) return;
-                          Alerts().alertSessionExpired(context);
-                        }
-                      } else if (response.statusCode == 201) {
-                        if (!mounted) return;
-                        Alerts().alertAppointmentCreated(context);
-                      } else {
-                        if (!mounted) return;
-                        Alerts().alert(
-                          context,
-                          'Błąd połączenia z serwerem',
-                          'Spróbuj ponownie później.',
-                          'OK',
-                          false,
-                          false,
-                          false,
-                        );
-                      }
+                    onPressed: () {
+                      createAppointmentFunction();
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).primaryColorDark,
