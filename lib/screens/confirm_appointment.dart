@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:hairdressing_salon_app/helpers/create_appointment.dart';
 import 'package:hairdressing_salon_app/helpers/service_data.dart';
 import 'package:hairdressing_salon_app/widgets/alerts.dart';
@@ -27,6 +28,7 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
       if (!mounted) return;
       Alerts().alertNotEnoughTime(context);
     } else if (response.statusCode == 201) {
+      GlobalState.drawerSelectedItem = 0;
       if (!mounted) return;
       Alerts().alertAppointmentCreated(context);
     } else if (response.statusCode == 403) {
