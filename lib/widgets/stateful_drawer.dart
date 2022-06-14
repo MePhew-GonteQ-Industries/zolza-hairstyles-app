@@ -147,7 +147,11 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, '/profile');
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/profile',
+                  (route) => false,
+                );
               },
               child: DrawerHeader(
                 decoration: BoxDecoration(

@@ -6,6 +6,7 @@ import 'package:hairdressing_salon_app/helpers/logout.dart';
 import 'package:hairdressing_salon_app/helpers/update_user_details.dart';
 import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
+import 'package:hairdressing_salon_app/widgets/stateful_drawer.dart';
 import 'package:http/http.dart';
 import '../helpers/verify_user.dart';
 import '../widgets/alerts.dart';
@@ -459,6 +460,7 @@ class ProfileState extends State<ProfileScreen> {
           ),
         ),
       ),
+      drawer: const CustomDrawerWidget(),
       body: ListView(
         children: [
           ListTile(

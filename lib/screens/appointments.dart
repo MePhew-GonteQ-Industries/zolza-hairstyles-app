@@ -114,6 +114,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
         ),
       );
     } else {
+      hasSlots = 0;
       return ListView.builder(
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
