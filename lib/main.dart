@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:hairdressing_salon_app/screens/check_for_logged_in_user.dart';
 import 'package:hairdressing_salon_app/screens/confirm_appointment.dart';
 import 'package:hairdressing_salon_app/screens/select_hours.dart';
@@ -15,6 +16,7 @@ import 'screens/registration.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'widgets/alerts.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -60,9 +62,10 @@ void main() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
     print('Message data: ${message.data}');
-
     if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
+      print(
+          'Message also contained a notification: ${message.notification!.title}');
+      print(message.notification!.body);
     }
   });
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

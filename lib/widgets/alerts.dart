@@ -135,8 +135,9 @@ class Alerts {
         DialogButton(
           onPressed: () async {
             Navigator.pop(context);
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/appointments', (route) => false);
+            // Navigator.pushNamedAndRemoveUntil(
+            //     context, '/home', (route) => false);
+            Navigator.pop(context);
           },
           color: Theme.of(context).primaryColorDark,
           child: Text(

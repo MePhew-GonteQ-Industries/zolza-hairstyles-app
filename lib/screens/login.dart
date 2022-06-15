@@ -84,6 +84,7 @@ class LoginScreenState extends State<LoginScreen> {
               UserData.name = parsedInfo['name'];
               UserData.surname = parsedInfo['surname'];
               UserData.email = parsedInfo['email'];
+              UserData.verified = parsedInfo['verified'];
               switch (parsedInfo['gender']) {
                 case 'male':
                   UserData.gender = 'Mężczyzna';

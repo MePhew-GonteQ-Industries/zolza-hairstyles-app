@@ -2,7 +2,6 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_svg/svg.dart';
 import 'package:hairdressing_salon_app/helpers/login.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
 import 'package:hairdressing_salon_app/screens/login.dart';
@@ -159,6 +158,23 @@ void loginLoop(BuildContext context) async {
       Response getInfo = await getInfoRequest(UserData.accessToken);
       final parsedInfo = jsonDecode(utf8.decode(getInfo.bodyBytes));
       UserData.name = parsedInfo['name'];
+      UserData.surname = parsedInfo['surname'];
+      UserData.email = parsedInfo['email'];
+      UserData.verified = parsedInfo['verified'];
+      switch (parsedInfo['gender']) {
+        case 'male':
+          UserData.gender = 'Mężczyzna';
+          break;
+        case 'female':
+          UserData.gender = 'Kobieta';
+          break;
+        case 'other':
+          UserData.gender = 'Inna';
+          break;
+        default:
+          UserData.gender = 'Płeć';
+      }
+      await GetFcmToken().setUpToken();
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => const HomeScreen()),

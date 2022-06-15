@@ -146,6 +146,7 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
           children: <Widget>[
             GestureDetector(
               onTap: () {
+                GlobalState.drawerSelectedItem = 0;
                 Navigator.pop(context);
                 Navigator.pushNamedAndRemoveUntil(
                   context,
@@ -155,7 +156,10 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
               },
               child: DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
+                  // color: Theme.of(context).cardColor,
+                  color: 0 == GlobalState.drawerSelectedItem
+                      ? Theme.of(context).hoverColor
+                      : Theme.of(context).cardColor,
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,8 +188,8 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
             buildMenuItem(
               text: 'Strona główna',
               icon: Icons.home_outlined,
-              index: 0,
-              color: 0 == activeIndex
+              index: 1,
+              color: 1 == activeIndex
                   ? Theme.of(context).hoverColor
                   : Theme.of(context).primaryColor,
             ),
@@ -193,8 +197,8 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
             buildMenuItem(
               text: 'Umów wizytę',
               icon: Icons.schedule,
-              index: 1,
-              color: 1 == activeIndex
+              index: 2,
+              color: 2 == activeIndex
                   ? Theme.of(context).hoverColor
                   : Theme.of(context).primaryColor,
             ),
@@ -208,8 +212,8 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
             buildMenuItem(
               text: 'Kontakt',
               icon: Icons.contact_page_outlined,
-              index: 2,
-              color: 2 == activeIndex
+              index: 3,
+              color: 3 == activeIndex
                   ? Theme.of(context).hoverColor
                   : Theme.of(context).primaryColor,
             ),
@@ -233,12 +237,12 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
       GlobalState.drawerSelectedItem = index;
     });
     switch (index) {
-      case 0:
+      case 1:
         // Navigator.pushNamed(context, '/home');
-        activeIndex = 0;
+        activeIndex = 1;
         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
         break;
-      case 1:
+      case 2:
         // Navigator.pushNamed(context, '/services');
         Navigator.pushNamedAndRemoveUntil(
             context, '/services', (route) => false);
@@ -246,7 +250,7 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
       // case 2:
       //   Navigator.pushNamed(context, '/services');
       //   break;
-      case 2:
+      case 3:
         Navigator.pushNamedAndRemoveUntil(
             context, '/contact', (route) => false);
         // Navigator.pushNamed(context, '/contact');

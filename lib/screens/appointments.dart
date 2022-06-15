@@ -96,22 +96,37 @@ class AppointmentsState extends State<AppointmentsScreen> {
 
   Widget getAppointmentsBody() {
     if (appointmentsData.isEmpty) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Wystąpił problem połącznia z serwerem, spróbuj ponownie później.',
-                style: GoogleFonts.poppins(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 22,
-                ),
-              )
-            ],
+      return Column(
+        children: [
+          const SizedBox(
+            height: 30,
           ),
-        ),
+          Card(
+            elevation: 2,
+            color: Theme.of(context).backgroundColor,
+            margin: const EdgeInsets.all(8),
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Color(0x44FFFFFF),
+                width: 1,
+              ),
+            ),
+            child: ListTile(
+              leading: const Icon(
+                Icons.close,
+                color: Colors.red,
+              ),
+              title: Text(
+                'Brak wolnych miejsc',
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          )
+        ],
       );
     } else {
       hasSlots = 0;
@@ -306,40 +321,42 @@ class AppointmentsState extends State<AppointmentsScreen> {
                 ),
               ),
             );
-          } else if (hasSlots == 0) {
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Card(
-                  elevation: 2,
-                  color: Theme.of(context).backgroundColor,
-                  margin: const EdgeInsets.all(8),
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Color(0x44FFFFFF),
-                      width: 1,
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
-                    title: Text(
-                      'Brak wolnych miejsc',
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            );
-          } else {
+          }
+          // else if (hasSlots == 0) {
+          //   return Column(
+          //     children: [
+          //       const SizedBox(
+          //         height: 30,
+          //       ),
+          //       Card(
+          //         elevation: 2,
+          //         color: Theme.of(context).backgroundColor,
+          //         margin: const EdgeInsets.all(8),
+          //         shape: OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(12),
+          //           borderSide: const BorderSide(
+          //             color: Color(0x44FFFFFF),
+          //             width: 1,
+          //           ),
+          //         ),
+          //         child: ListTile(
+          //           leading: const Icon(
+          //             Icons.close,
+          //             color: Colors.red,
+          //           ),
+          //           title: Text(
+          //             'Brak wolnych miejsc',
+          //             style: GoogleFonts.poppins(
+          //               fontSize: 24,
+          //               color: Colors.red,
+          //             ),
+          //           ),
+          //         ),
+          //       )
+          //     ],
+          //   );
+          // }
+          else {
             return const SizedBox.shrink();
           }
         },

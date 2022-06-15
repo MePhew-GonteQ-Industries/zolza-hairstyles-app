@@ -28,7 +28,7 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
       if (!mounted) return;
       Alerts().alertNotEnoughTime(context);
     } else if (response.statusCode == 201) {
-      GlobalState.drawerSelectedItem = 0;
+      GlobalState.drawerSelectedItem = 1;
       if (!mounted) return;
       Alerts().alertAppointmentCreated(context);
     } else if (response.statusCode == 403) {
