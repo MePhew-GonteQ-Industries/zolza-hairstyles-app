@@ -42,7 +42,7 @@ class HomeState extends State<HomeScreen> {
     );
     if (response.statusCode == 401) {
       print('regaining token');
-      final refreshToken = UserSecureStorage.getRefreshToken();
+      final refreshToken = await UserSecureStorage.getRefreshToken();
       // final regainFunction =
       //     regainAccessToken();
       http.Response regainAccessToken = await sendRefreshToken(refreshToken);

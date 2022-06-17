@@ -279,7 +279,7 @@ class ProfileState extends State<ProfileScreen> {
         false,
       );
     } else if (response.statusCode == 401) {
-      final refreshToken = UserSecureStorage.getRefreshToken();
+      final refreshToken = await UserSecureStorage.getRefreshToken();
       // final regainFunction =
       //     regainAccessToken();
       Response regainAccessToken = await sendRefreshToken(refreshToken);

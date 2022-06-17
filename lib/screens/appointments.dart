@@ -79,10 +79,12 @@ class AppointmentsState extends State<AppointmentsScreen> {
   }
 
   regainAccessTokenFunction() async {
-    final refreshToken = UserSecureStorage.getRefreshToken();
+    print('regaining access token');
+    final refreshToken = await UserSecureStorage.getRefreshToken();
     Response regainAccessToken = await sendRefreshToken(refreshToken);
-
+    print(regainAccessToken);
     if (regainAccessToken.statusCode == 200) {
+      print('token regained');
       final regainFunction = jsonDecode(regainAccessToken.body);
       UserSecureStorage.setRefreshToken(
         regainFunction['refresh_token'],
@@ -328,42 +330,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
                   ),
                 ),
               );
-            }
-            // else if (hasSlots == 0) {
-            //   return Column(
-            //     children: [
-            //       const SizedBox(
-            //         height: 30,
-            //       ),
-            //       Card(
-            //         elevation: 2,
-            //         color: Theme.of(context).backgroundColor,
-            //         margin: const EdgeInsets.all(8),
-            //         shape: OutlineInputBorder(
-            //           borderRadius: BorderRadius.circular(12),
-            //           borderSide: const BorderSide(
-            //             color: Color(0x44FFFFFF),
-            //             width: 1,
-            //           ),
-            //         ),
-            //         child: ListTile(
-            //           leading: const Icon(
-            //             Icons.close,
-            //             color: Colors.red,
-            //           ),
-            //           title: Text(
-            //             'Brak wolnych miejsc',
-            //             style: GoogleFonts.poppins(
-            //               fontSize: 24,
-            //               color: Colors.red,
-            //             ),
-            //           ),
-            //         ),
-            //       )
-            //     ],
-            //   );
-            // }
-            else {
+            } else {
               return const SizedBox.shrink();
             }
           },
