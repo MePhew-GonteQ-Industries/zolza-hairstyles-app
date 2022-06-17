@@ -7,6 +7,6 @@ class GetFcmToken {
     String? token = await FirebaseMessaging.instance.getToken();
     await sendFCMToken(token!);
     await UserSecureStorage.setFCMToken(token);
-    print(token);
+    // print(token);
   }
 }

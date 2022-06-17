@@ -79,12 +79,12 @@ class AppointmentsState extends State<AppointmentsScreen> {
   }
 
   regainAccessTokenFunction() async {
-    print('regaining access token');
+    // print('regaining access token');
     final refreshToken = await UserSecureStorage.getRefreshToken();
     Response regainAccessToken = await sendRefreshToken(refreshToken);
-    print(regainAccessToken);
+    // print(regainAccessToken);
     if (regainAccessToken.statusCode == 200) {
-      print('token regained');
+      // print('token regained');
       final regainFunction = jsonDecode(regainAccessToken.body);
       UserSecureStorage.setRefreshToken(
         regainFunction['refresh_token'],
