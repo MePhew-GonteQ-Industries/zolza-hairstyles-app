@@ -149,8 +149,9 @@ class ContactState extends State<ContactScreen> {
                 ),
               ),
               onTap: () async {
-                launchUrlString(
-                    'http://google.pl/maps/place/Laskowa+916,+34-602+Laskowa/@49.7638655,20.4511658,17.64z/data=!4m5!3m4!1s0x47161c246be6b0d9:0x3b5fa2297e3fc12e!8m2!3d49.7638646!4d20.4522641');
+                // launchUrlString(
+                //     'http://google.pl/maps/place/Laskowa+916,+34-602+Laskowa/@49.7638655,20.4511658,17.64z/data=!4m5!3m4!1s0x47161c246be6b0d9:0x3b5fa2297e3fc12e!8m2!3d49.7638646!4d20.4522641');
+                launchUrlString('https://goo.gl/maps/CjFED1cwCwg4H8yi6');
               },
             ), //maps
           ],

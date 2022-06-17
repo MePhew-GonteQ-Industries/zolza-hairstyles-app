@@ -30,7 +30,8 @@ class AppointmentsState extends State<AppointmentsScreen> {
   late DateTime now;
   late String chosenDateString;
   late DateTime chosenDate;
-  List appointmentsData = [];
+  late List appointmentsData;
+  bool isDataFetchedAppointmentsScreen = false;
   @override
   void initState() {
     super.initState();
@@ -42,6 +43,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
     hasSlots = 0;
     requiredSlots = ServiceData.requiredSlots;
     fetchAppointmentsData();
+    isDataFetchedAppointmentsScreen = false;
   }
 
   @override
@@ -66,9 +68,13 @@ class AppointmentsState extends State<AppointmentsScreen> {
     if (response.statusCode == 200 && body != '[]') {
       setState(() {
         appointmentsData = body;
+        isDataFetchedAppointmentsScreen = true;
       });
     } else {
-      appointmentsData = [];
+      setState(() {
+        appointmentsData = [];
+        isDataFetchedAppointmentsScreen = true;
+      });
     }
   }
 
@@ -95,187 +101,17 @@ class AppointmentsState extends State<AppointmentsScreen> {
   }
 
   Widget getAppointmentsBody() {
-    if (appointmentsData.isEmpty) {
-      return Column(
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Card(
-            elevation: 2,
-            color: Theme.of(context).backgroundColor,
-            margin: const EdgeInsets.all(8),
-            shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: Color(0x44FFFFFF),
-                width: 1,
-              ),
+    if (isDataFetchedAppointmentsScreen) {
+      if (appointmentsData.isEmpty) {
+        return Column(
+          children: [
+            const SizedBox(
+              height: 30,
             ),
-            child: ListTile(
-              leading: const Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-              title: Text(
-                'Brak wolnych miejsc',
-                style: GoogleFonts.poppins(
-                  fontSize: 24,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-          )
-        ],
-      );
-    } else {
-      hasSlots = 0;
-      return ListView.builder(
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        itemCount: appointmentsData.length,
-        itemBuilder: (context, index) {
-          final appointment = appointmentsData[index];
-          currentSlotFits = 0;
-          // print(currentSlotFits);
-          if (index + requiredSlots <= appointmentsData.length) {
-            for (int i = index; i < (index + requiredSlots); i++) {
-              final slot = appointmentsData[i];
-
-              if (slot['occupied']) {
-                break;
-              }
-
-              if (slot['reserved']) {
-                break;
-              }
-
-              if (slot['holiday']) {
-                break;
-              }
-
-              if (slot['sunday']) {
-                break;
-              }
-
-              if (slot['break_time']) {
-                break;
-              }
-
-              if (currentSlotFits == requiredSlots) {
-                break;
-              }
-              hasSlots++;
-              currentSlotFits++;
-            }
-          }
-          if (appointment['reserved']) {
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Card(
-                  elevation: 2,
-                  color: Theme.of(context).backgroundColor,
-                  margin: const EdgeInsets.all(8),
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: const BorderSide(
-                      color: Color(0x44FFFFFF),
-                      width: 1,
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.miscellaneous_services,
-                      color: Colors.red,
-                    ),
-                    title: Text(
-                      appointment['reserved_reason']
-                          ? "Zarezerwowane: ${appointment['reserved_reason']}"
-                          : 'Zarezerwowane',
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else if (appointment['holiday']) {
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Card(
-                  elevation: 2,
-                  color: Theme.of(context).backgroundColor,
-                  margin: const EdgeInsets.all(8),
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Color(0x44FFFFFF),
-                      width: 1,
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.free_cancellation,
-                      color: Colors.red,
-                    ),
-                    title: Text(
-                      appointment['holiday_name'],
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else if (appointment['sunday']) {
-            return Column(
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Card(
-                  elevation: 2,
-                  color: Theme.of(context).backgroundColor,
-                  margin: const EdgeInsets.all(8),
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Color(0x44FFFFFF),
-                      width: 1,
-                    ),
-                  ),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.free_cancellation,
-                      color: Colors.red,
-                    ),
-                    title: Text(
-                      'Niedziela',
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else if (appointment['occupied']) {
-            return const SizedBox.shrink();
-          } else if (currentSlotFits == requiredSlots) {
-            return Card(
+            Card(
+              elevation: 2,
               color: Theme.of(context).backgroundColor,
-              elevation: 8,
+              margin: const EdgeInsets.all(8),
               shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: const BorderSide(
@@ -283,83 +119,261 @@ class AppointmentsState extends State<AppointmentsScreen> {
                   width: 1,
                 ),
               ),
-              margin: const EdgeInsets.all(10),
-              child: Center(
-                child: ListTile(
-                  title: Center(
-                    child: Text(
-                      "Od: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['start_time'], true).toLocal().toString().substring(11, 16)}",
-                      style: GoogleFonts.poppins(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 24,
-                      ),
-                    ),
+              child: ListTile(
+                leading: const Icon(
+                  Icons.close,
+                  color: Colors.red,
+                ),
+                title: Text(
+                  'Brak wolnych miejsc',
+                  style: GoogleFonts.poppins(
+                    fontSize: 24,
+                    color: Colors.red,
                   ),
-                  subtitle: Center(
-                    child: Text(
-                      "Do: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['end_time'], true).add(
-                            Duration(
-                              minutes: 30 * (requiredSlots - 1),
-                            ),
-                          ).toLocal().toString().substring(11, 16)}",
-                      style: GoogleFonts.poppins(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  ),
-                  onTap: () {
-                    AppointmentData.id = appointment['id'];
-                    AppointmentData.startHour =
-                        DateFormat("yyyy-MM-ddTHH:mm:ss")
-                            .parse(appointment['start_time'], true)
-                            .toLocal()
-                            .toString()
-                            .substring(11, 16);
-                    AppointmentData.date = chosenDateString;
-                    Navigator.pushNamed(context, '/confirmAppointment');
-                  },
                 ),
               ),
-            );
-          }
-          // else if (hasSlots == 0) {
-          //   return Column(
-          //     children: [
-          //       const SizedBox(
-          //         height: 30,
-          //       ),
-          //       Card(
-          //         elevation: 2,
-          //         color: Theme.of(context).backgroundColor,
-          //         margin: const EdgeInsets.all(8),
-          //         shape: OutlineInputBorder(
-          //           borderRadius: BorderRadius.circular(12),
-          //           borderSide: const BorderSide(
-          //             color: Color(0x44FFFFFF),
-          //             width: 1,
-          //           ),
-          //         ),
-          //         child: ListTile(
-          //           leading: const Icon(
-          //             Icons.close,
-          //             color: Colors.red,
-          //           ),
-          //           title: Text(
-          //             'Brak wolnych miejsc',
-          //             style: GoogleFonts.poppins(
-          //               fontSize: 24,
-          //               color: Colors.red,
-          //             ),
-          //           ),
-          //         ),
-          //       )
-          //     ],
-          //   );
-          // }
-          else {
-            return const SizedBox.shrink();
-          }
-        },
+            )
+          ],
+        );
+      } else {
+        hasSlots = 0;
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
+          itemCount: appointmentsData.length,
+          itemBuilder: (context, index) {
+            final appointment = appointmentsData[index];
+            currentSlotFits = 0;
+            // print(currentSlotFits);
+            if (index + requiredSlots <= appointmentsData.length) {
+              for (int i = index; i < (index + requiredSlots); i++) {
+                final slot = appointmentsData[i];
+
+                if (slot['occupied']) {
+                  break;
+                }
+
+                if (slot['reserved']) {
+                  break;
+                }
+
+                if (slot['holiday']) {
+                  break;
+                }
+
+                if (slot['sunday']) {
+                  break;
+                }
+
+                if (slot['break_time']) {
+                  break;
+                }
+
+                if (currentSlotFits == requiredSlots) {
+                  break;
+                }
+                hasSlots++;
+                currentSlotFits++;
+              }
+            }
+            if (appointment['reserved']) {
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Card(
+                    elevation: 2,
+                    color: Theme.of(context).backgroundColor,
+                    margin: const EdgeInsets.all(8),
+                    shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: const BorderSide(
+                        color: Color(0x44FFFFFF),
+                        width: 1,
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.miscellaneous_services,
+                        color: Colors.red,
+                      ),
+                      title: Text(
+                        appointment['reserved_reason']
+                            ? "Zarezerwowane: ${appointment['reserved_reason']}"
+                            : 'Zarezerwowane',
+                        style: GoogleFonts.poppins(
+                          fontSize: 24,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            } else if (appointment['holiday']) {
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Card(
+                    elevation: 2,
+                    color: Theme.of(context).backgroundColor,
+                    margin: const EdgeInsets.all(8),
+                    shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Color(0x44FFFFFF),
+                        width: 1,
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.free_cancellation,
+                        color: Colors.red,
+                      ),
+                      title: Text(
+                        appointment['holiday_name'],
+                        style: GoogleFonts.poppins(
+                          fontSize: 24,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            } else if (appointment['sunday']) {
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Card(
+                    elevation: 2,
+                    color: Theme.of(context).backgroundColor,
+                    margin: const EdgeInsets.all(8),
+                    shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Color(0x44FFFFFF),
+                        width: 1,
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.free_cancellation,
+                        color: Colors.red,
+                      ),
+                      title: Text(
+                        'Niedziela',
+                        style: GoogleFonts.poppins(
+                          fontSize: 24,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            } else if (appointment['occupied']) {
+              return const SizedBox.shrink();
+            } else if (currentSlotFits == requiredSlots) {
+              return Card(
+                color: Theme.of(context).backgroundColor,
+                elevation: 8,
+                shape: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(
+                    color: Color(0x44FFFFFF),
+                    width: 1,
+                  ),
+                ),
+                margin: const EdgeInsets.all(10),
+                child: Center(
+                  child: ListTile(
+                    title: Center(
+                      child: Text(
+                        "Od: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['start_time'], true).toLocal().toString().substring(11, 16)}",
+                        style: GoogleFonts.poppins(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 24,
+                        ),
+                      ),
+                    ),
+                    subtitle: Center(
+                      child: Text(
+                        "Do: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['end_time'], true).add(
+                              Duration(
+                                minutes: 30 * (requiredSlots - 1),
+                              ),
+                            ).toLocal().toString().substring(11, 16)}",
+                        style: GoogleFonts.poppins(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      AppointmentData.id = appointment['id'];
+                      AppointmentData.startHour =
+                          DateFormat("yyyy-MM-ddTHH:mm:ss")
+                              .parse(appointment['start_time'], true)
+                              .toLocal()
+                              .toString()
+                              .substring(11, 16);
+                      AppointmentData.date = chosenDateString;
+                      Navigator.pushNamed(context, '/confirmAppointment');
+                    },
+                  ),
+                ),
+              );
+            }
+            // else if (hasSlots == 0) {
+            //   return Column(
+            //     children: [
+            //       const SizedBox(
+            //         height: 30,
+            //       ),
+            //       Card(
+            //         elevation: 2,
+            //         color: Theme.of(context).backgroundColor,
+            //         margin: const EdgeInsets.all(8),
+            //         shape: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(12),
+            //           borderSide: const BorderSide(
+            //             color: Color(0x44FFFFFF),
+            //             width: 1,
+            //           ),
+            //         ),
+            //         child: ListTile(
+            //           leading: const Icon(
+            //             Icons.close,
+            //             color: Colors.red,
+            //           ),
+            //           title: Text(
+            //             'Brak wolnych miejsc',
+            //             style: GoogleFonts.poppins(
+            //               fontSize: 24,
+            //               color: Colors.red,
+            //             ),
+            //           ),
+            //         ),
+            //       )
+            //     ],
+            //   );
+            // }
+            else {
+              return const SizedBox.shrink();
+            }
+          },
+        );
+      }
+    } else {
+      return const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+        ),
       );
     }
   }
@@ -434,6 +448,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
                         chosenDateString =
                             DateFormat('yyyy-MM-dd').format(date);
                         AppointmentData.date = chosenDateString;
+                        isDataFetchedAppointmentsScreen = false;
                         fetchAppointmentsData();
                       });
                     },

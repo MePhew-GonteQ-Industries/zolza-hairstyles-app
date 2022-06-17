@@ -20,14 +20,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeState extends State<HomeScreen> {
-  List fetchedAppointments = [];
+  late List fetchedAppointments;
   bool connected = false;
+  bool isDataFetchedHomeScreen = false;
 
   @override
   void initState() {
     super.initState();
     checkForInternetConnection();
     fetchAppointments();
+    isDataFetchedHomeScreen = false;
   }
 
   fetchAppointments() async {
@@ -39,12 +41,14 @@ class HomeState extends State<HomeScreen> {
       },
     );
     if (response.statusCode == 401) {
+      print('regaining token');
       final refreshToken = UserSecureStorage.getRefreshToken();
       // final regainFunction =
       //     regainAccessToken();
       http.Response regainAccessToken = await sendRefreshToken(refreshToken);
 
       if (regainAccessToken.statusCode == 200) {
+        print('token regained');
         final regainFunction = jsonDecode(regainAccessToken.body);
         UserSecureStorage.setRefreshToken(
           regainFunction['refresh_token'],
@@ -65,81 +69,91 @@ class HomeState extends State<HomeScreen> {
     if (response.statusCode == 200 && body != '[]') {
       setState(() {
         fetchedAppointments = body;
+        isDataFetchedHomeScreen = true;
         // print(fetchedAppointments);
         // print(fetchedAppointments.length);
       });
     } else {
       setState(() {
         fetchedAppointments = [];
+        isDataFetchedHomeScreen = true;
       });
     }
   }
 
   Widget getBody() {
-    if (fetchedAppointments.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Wygląda na to,\nże nie masz umówionej wizyty,\nkliknij przycisk aby to zrobić',
-              style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
-                fontSize: 22,
-                // fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 5,
-                padding: const EdgeInsets.all(13),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                primary: Theme.of(context).primaryColorDark,
-                shadowColor: const Color(0xCC007AF3),
-              ),
-              child: Text(
-                'Umów wizytę',
+    if (isDataFetchedHomeScreen) {
+      if (fetchedAppointments.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Wygląda na to,\nże nie masz umówionej wizyty,\nkliknij przycisk aby to zrobić',
                 style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontSize: 18,
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 22,
+                  // fontWeight: FontWeight.bold,
                 ),
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/services');
-              },
-            ),
-          ],
-        ),
-      );
-    } else {
-      return Column(
-        children: [
-          ListTile(
-            title: Text(
-              'Nadchodzące wizyty',
-              style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
-                fontSize: 24,
+              const SizedBox(
+                height: 40,
               ),
-              textAlign: TextAlign.center,
-            ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  padding: const EdgeInsets.all(13),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  primary: Theme.of(context).primaryColorDark,
+                  shadowColor: const Color(0xCC007AF3),
+                ),
+                child: Text(
+                  'Umów wizytę',
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/services');
+                },
+              ),
+            ],
           ),
-          Expanded(
-            child: ListView.builder(
-                shrinkWrap: true,
-                // physics: const NeverScrollableScrollPhysics(),
-                physics: const BouncingScrollPhysics(),
-                itemCount: fetchedAppointments.length,
-                itemBuilder: (context, index) {
-                  return getTile(fetchedAppointments[index]);
-                }),
-          )
-        ],
+        );
+      } else {
+        return Column(
+          children: [
+            ListTile(
+              title: Text(
+                'Nadchodzące wizyty',
+                style: GoogleFonts.poppins(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 24,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  // physics: const NeverScrollableScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: fetchedAppointments.length,
+                  itemBuilder: (context, index) {
+                    return getTile(fetchedAppointments[index]);
+                  }),
+            )
+          ],
+        );
+      }
+    } else {
+      return const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+        ),
       );
     }
   }
