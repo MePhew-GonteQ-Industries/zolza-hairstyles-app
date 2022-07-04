@@ -30,6 +30,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
   late DateTime now;
   late String chosenDateString;
   late DateTime chosenDate;
+  late String chosenDateWeekDay;
   late List appointmentsData;
   bool isDataFetchedAppointmentsScreen = false;
   @override
@@ -39,6 +40,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
     currentDate = DateFormat("dd-MM-yyyy").format(now);
     chosenDate = now;
     chosenDateString = DateFormat('yyyy-MM-dd').format(chosenDate);
+    chosenDateWeekDay = DateFormat('EEEE').format(now);
     currentSlotFits = 0;
     hasSlots = 0;
     requiredSlots = ServiceData.requiredSlots;
@@ -74,17 +76,22 @@ class AppointmentsState extends State<AppointmentsScreen> {
       setState(() {
         appointmentsData = [];
         isDataFetchedAppointmentsScreen = true;
+        retryFetchingAppointments();
       });
     }
   }
 
+  retryFetchingAppointments() {
+    Future.delayed(
+      const Duration(seconds: 5),
+    );
+    fetchAppointmentsData();
+  }
+
   regainAccessTokenFunction() async {
-    print('regaining access token');
     final refreshToken = await UserSecureStorage.getRefreshToken();
     Response regainAccessToken = await sendRefreshToken(refreshToken);
-    print(regainAccessToken);
     if (regainAccessToken.statusCode == 200) {
-      print('token regained');
       final regainFunction = jsonDecode(regainAccessToken.body);
       UserSecureStorage.setRefreshToken(
         regainFunction['refresh_token'],
@@ -282,54 +289,97 @@ class AppointmentsState extends State<AppointmentsScreen> {
             } else if (appointment['occupied']) {
               return const SizedBox.shrink();
             } else if (currentSlotFits == requiredSlots) {
-              return Card(
-                color: Theme.of(context).backgroundColor,
-                elevation: 8,
-                shape: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: Color(0x44FFFFFF),
-                    width: 1,
+              if (chosenDateWeekDay != 'Saturday') {
+                return Card(
+                  color: Theme.of(context).backgroundColor,
+                  elevation: 8,
+                  shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Color(0x44FFFFFF),
+                      width: 1,
+                    ),
                   ),
-                ),
-                margin: const EdgeInsets.all(10),
-                child: Center(
-                  child: ListTile(
-                    title: Center(
-                      child: Text(
-                        "Od: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['start_time'], true).toLocal().toString().substring(11, 16)}",
-                        style: GoogleFonts.poppins(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 24,
+                  margin: const EdgeInsets.all(10),
+                  child: Center(
+                    child: ListTile(
+                      title: Center(
+                        child: Text(
+                          "Od: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['start_time'], true).toLocal().toString().substring(11, 16)}",
+                          style: GoogleFonts.poppins(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 24,
+                          ),
                         ),
                       ),
-                    ),
-                    subtitle: Center(
-                      child: Text(
-                        "Do: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['end_time'], true).add(
-                              Duration(
-                                minutes: 30 * (requiredSlots - 1),
-                              ),
-                            ).toLocal().toString().substring(11, 16)}",
-                        style: GoogleFonts.poppins(
-                          color: Theme.of(context).primaryColor,
+                      subtitle: Center(
+                        child: Text(
+                          "Do: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['end_time'], true).add(
+                                Duration(
+                                  minutes: 30 * (requiredSlots - 1),
+                                ),
+                              ).toLocal().toString().substring(11, 16)}",
+                          style: GoogleFonts.poppins(
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
                       ),
+                      onTap: () {
+                        AppointmentData.id = appointment['id'];
+                        AppointmentData.startHour =
+                            DateFormat("yyyy-MM-ddTHH:mm:ss")
+                                .parse(appointment['start_time'], true)
+                                .toLocal()
+                                .toString()
+                                .substring(11, 16);
+                        AppointmentData.date = chosenDateString;
+                        Navigator.pushNamed(context, '/confirmAppointment');
+                      },
                     ),
-                    onTap: () {
-                      AppointmentData.id = appointment['id'];
-                      AppointmentData.startHour =
-                          DateFormat("yyyy-MM-ddTHH:mm:ss")
-                              .parse(appointment['start_time'], true)
-                              .toLocal()
-                              .toString()
-                              .substring(11, 16);
-                      AppointmentData.date = chosenDateString;
-                      Navigator.pushNamed(context, '/confirmAppointment');
-                    },
                   ),
-                ),
-              );
+                );
+              } else {
+                return Card(
+                  color: Theme.of(context).backgroundColor,
+                  elevation: 8,
+                  shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Color(0x44FFFFFF),
+                      width: 1,
+                    ),
+                  ),
+                  margin: const EdgeInsets.all(10),
+                  child: Center(
+                    child: ListTile(
+                      title: Center(
+                        child: Text(
+                          "Od: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['start_time'], true).toLocal().toString().substring(11, 16)}",
+                          style: GoogleFonts.poppins(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          "Do: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['end_time'], true).add(
+                                Duration(
+                                  minutes: 30 * (requiredSlots - 1),
+                                ),
+                              ).toLocal().toString().substring(11, 16)}",
+                          style: GoogleFonts.poppins(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        Alerts.alertSaturday(context);
+                      },
+                    ),
+                  ),
+                );
+              }
             } else {
               return const SizedBox.shrink();
             }
@@ -414,6 +464,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
                         chosenDate = date;
                         chosenDateString =
                             DateFormat('yyyy-MM-dd').format(date);
+                        chosenDateWeekDay = DateFormat('EEEE').format(date);
                         AppointmentData.date = chosenDateString;
                         isDataFetchedAppointmentsScreen = false;
                         fetchAppointmentsData();

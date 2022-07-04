@@ -41,14 +41,10 @@ class HomeState extends State<HomeScreen> {
       },
     );
     if (response.statusCode == 401) {
-      print('regaining token');
       final refreshToken = await UserSecureStorage.getRefreshToken();
-      // final regainFunction =
-      //     regainAccessToken();
       http.Response regainAccessToken = await sendRefreshToken(refreshToken);
 
       if (regainAccessToken.statusCode == 200) {
-        print('token regained');
         final regainFunction = jsonDecode(regainAccessToken.body);
         UserSecureStorage.setRefreshToken(
           regainFunction['refresh_token'],
@@ -77,8 +73,16 @@ class HomeState extends State<HomeScreen> {
       setState(() {
         fetchedAppointments = [];
         isDataFetchedHomeScreen = true;
+        retryFetchingAppointmentsHomeScreen();
       });
     }
+  }
+
+  retryFetchingAppointmentsHomeScreen() {
+    Future.delayed(
+      const Duration(seconds: 5),
+    );
+    fetchAppointments();
   }
 
   Widget getBody() {

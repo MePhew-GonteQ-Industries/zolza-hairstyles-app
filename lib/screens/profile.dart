@@ -819,7 +819,8 @@ class ProfileState extends State<ProfileScreen> {
             ),
             trailing: Icon(
               Icons.outbound_outlined,
-              color: Theme.of(context).textTheme.bodyText2?.color,
+              // color: Theme.of(context).textTheme.bodyText2?.color,
+              color: Theme.of(context).primaryColor,
             ),
             onTap: () async {
               launchUrlString('https://zolza-hairstyles.pl/privacy-policy');

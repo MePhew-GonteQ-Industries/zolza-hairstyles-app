@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:hairdressing_salon_app/helpers/verify_user.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../screens/check_for_logged_in_user.dart';
 
 class Alerts {
@@ -205,6 +206,49 @@ class Alerts {
           color: Theme.of(context).primaryColorDark,
           child: Text(
             'OK',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ),
+      ],
+    ).show();
+  }
+
+  static void alertSaturday(BuildContext context) {
+    Alert(
+      context: context,
+      style: const AlertStyle(
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        titleStyle: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      title: 'Sobotnie wizyty',
+      desc:
+          'Aby umówić się na wizytę w sobotę skontaktuj się przez wiadomość prywatną.',
+      buttons: [
+        DialogButton(
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          color: Theme.of(context).primaryColorDark,
+          child: Text(
+            'Zrezygnuj',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ),
+        DialogButton(
+          onPressed: () async {
+            launchUrlString('http://m.me/110103241392161');
+            Navigator.pop(context);
+          },
+          color: Theme.of(context).primaryColorDark,
+          child: Text(
+            'Wiadomość',
             style: TextStyle(
               color: Theme.of(context).primaryColor,
             ),
