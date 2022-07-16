@@ -109,10 +109,10 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                   mode = 'light';
               }
               Response response = await signUpUser(
-                nameController.text,
-                surnameController.text,
-                emailController.text,
-                passwordController.text,
+                nameController.text.trim(),
+                surnameController.text.trim(),
+                emailController.text.trim(),
+                passwordController.text.trim(),
                 chosenValue,
                 mode,
               );
