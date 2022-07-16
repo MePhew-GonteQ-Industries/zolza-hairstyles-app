@@ -374,10 +374,12 @@ class AppointmentsState extends State<AppointmentsScreen> {
           Expanded(
             flex: 3,
             child: Text(
-              'Maksymalnie trzy miesiące do przodu:',
+              'Maksymalnie miesiąc do przodu!',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
-                fontSize: 18,
+                // color: Theme.of(context).primaryColor,
+                color: Theme.of(context).textTheme.bodyText2?.color,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -406,7 +408,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
                     showTitleActions: true,
                     minTime: minTime,
                     maxTime: minTime.add(
-                      const Duration(days: 90),
+                      const Duration(days: 31),
                     ),
                     onChanged: (date) {},
                     onConfirm: (date) {

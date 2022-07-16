@@ -72,8 +72,8 @@ class LoginScreenState extends State<LoginScreen> {
         ),
         onPressed: () async {
           if (checkForEmptyTextField()) {
-            Response response =
-                await loginUser(emailController.text, passwordController.text);
+            Response response = await loginUser(
+                emailController.text.trim(), passwordController.text.trim());
             if (response.statusCode == 200) {
               final parsedJson = jsonDecode(response.body);
               await UserSecureStorage.setRefreshToken(
@@ -213,7 +213,8 @@ class LoginScreenState extends State<LoginScreen> {
   buildSignUpBtn() {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/registration');
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/registration', (route) => false);
       },
       child: RichText(
         text: TextSpan(

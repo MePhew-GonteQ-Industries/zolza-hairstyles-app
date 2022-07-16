@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:http/http.dart' as http;
 import '../helpers/user_data.dart';

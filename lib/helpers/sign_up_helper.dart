@@ -27,11 +27,11 @@ Future<http.Response> signUpUser(String name, String surname, String email,
     },
     body: jsonEncode(
       <String, String>{
-        'email': email,
-        'name': name,
-        'surname': surname,
+        'email': email.trim(),
+        'name': name.trim(),
+        'surname': surname.trim(),
         'gender': gender,
-        'password': password,
+        'password': password.trim(),
       },
     ),
   )

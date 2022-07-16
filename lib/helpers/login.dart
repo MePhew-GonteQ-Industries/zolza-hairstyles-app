@@ -10,8 +10,8 @@ Future<http.Response> loginUser(String email, String password) async {
     Uri.parse('$apiUrl/auth/login'),
     body: {
       'grant_type': 'password',
-      'username': email,
-      'password': password,
+      'username': email.trim(),
+      'password': password.trim(),
     },
   ).timeout(
     const Duration(seconds: 10),
