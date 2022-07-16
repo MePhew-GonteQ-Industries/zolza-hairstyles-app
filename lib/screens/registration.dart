@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/widgets/text_field.dart';
 import 'package:http/http.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../helpers/sign_up_helper.dart';
 import '../widgets/alerts.dart';
 
@@ -28,6 +30,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
   final repeatPasswordController = TextEditingController();
+  bool agreement = false;
 
   bool checkForEmptyTextField() {
     String email, password, name, surname, repeatPassword;
@@ -92,64 +95,84 @@ class RegistrationScreenState extends State<RegistrationScreen> {
           shadowColor: const Color(0xCC007AF3),
         ),
         onPressed: () async {
-          if (checkForEmptyTextField()) {
-            var brightness =
-                SchedulerBinding.instance.window.platformBrightness;
-            bool isDarkMode = brightness == Brightness.dark;
-            String mode = 'light';
-            switch (isDarkMode) {
-              case true:
-                mode = 'dark';
-                break;
-              default:
-                mode = 'light';
+          if (agreement) {
+            if (checkForEmptyTextField()) {
+              var brightness =
+                  SchedulerBinding.instance.window.platformBrightness;
+              bool isDarkMode = brightness == Brightness.dark;
+              String mode = 'light';
+              switch (isDarkMode) {
+                case true:
+                  mode = 'dark';
+                  break;
+                default:
+                  mode = 'light';
+              }
+              Response response = await signUpUser(
+                nameController.text,
+                surnameController.text,
+                emailController.text,
+                passwordController.text,
+                chosenValue,
+                mode,
+              );
+              if (response.statusCode == 201) {
+                if (!mounted) return;
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/login', (route) => false);
+                Alerts().alert(
+                    context,
+                    'Zarejestrowano pomyślnie',
+                    'Zaloguj się aby korzystać z aplikacji',
+                    'OK',
+                    false,
+                    false,
+                    false);
+              } else if (response.statusCode == 404 ||
+                  response.statusCode == 500) {
+                if (!mounted) return;
+                Alerts().alert(
+                    context,
+                    'Błąd połączenia',
+                    'Nie udało się nawiązać połączenia z serwerem',
+                    'OK',
+                    false,
+                    false,
+                    false);
+              } else if (response.statusCode == 408) {
+                if (!mounted) return;
+                Alerts().alert(
+                    context,
+                    'Błąd połączenia',
+                    'Nie udało się nawiązać połączenia z serwerem',
+                    'Spróbuj ponownie',
+                    true,
+                    false,
+                    false);
+              } else {
+                // print(response.statusCode);
+                if (!mounted) return;
+                Alerts().alert(
+                  context,
+                  'Podano błędne dane rejestracji',
+                  'Spróbuj jeszcze raz',
+                  'OK',
+                  false,
+                  false,
+                  false,
+                );
+              }
             }
-            Response response = await signUpUser(
-              nameController.text,
-              surnameController.text,
-              emailController.text,
-              passwordController.text,
-              chosenValue,
-              mode,
+          } else {
+            Alerts().alert(
+              context,
+              'Akceptacja regulaminu',
+              'Aby się zarejestrować należy zaakceptować regulamin',
+              'OK',
+              false,
+              false,
+              false,
             );
-            if (response.statusCode == 201) {
-              if (!mounted) return;
-              Navigator.pushNamed(context, '/login');
-              Alerts().alert(
-                  context,
-                  'Zarejestrowano pomyślnie',
-                  'Zaloguj się aby korzystać z aplikacji',
-                  'OK',
-                  false,
-                  false,
-                  false);
-            } else if (response.statusCode == 404 ||
-                response.statusCode == 500) {
-              if (!mounted) return;
-              Alerts().alert(
-                  context,
-                  'Błąd połączenia',
-                  'Nie udało się nawiązać połączenia z serwerem',
-                  'OK',
-                  false,
-                  false,
-                  false);
-            } else if (response.statusCode == 408) {
-              if (!mounted) return;
-              Alerts().alert(
-                  context,
-                  'Błąd połączenia',
-                  'Nie udało się nawiązać połączenia z serwerem',
-                  'Spróbuj ponownie',
-                  true,
-                  false,
-                  false);
-            } else {
-              // print(response.statusCode);
-              if (!mounted) return;
-              Alerts().alert(context, 'Podano błędne dane rejestracji',
-                  'Spróbuj jeszcze raz', 'OK', false, false, false);
-            }
           }
         },
         child: Text(
@@ -167,7 +190,11 @@ class RegistrationScreenState extends State<RegistrationScreen> {
   buildLogInBtn() {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/login');
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/login',
+          (route) => false,
+        );
       },
       child: RichText(
         text: TextSpan(
@@ -300,7 +327,79 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         true,
                         TextInputType.text,
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Wrap(
+                          children: <Widget>[
+                            Checkbox(
+                              activeColor: Theme.of(context).primaryColor,
+                              checkColor: Theme.of(context).backgroundColor,
+                              side: MaterialStateBorderSide.resolveWith(
+                                (states) => BorderSide(
+                                  width: 1.0,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                              value: agreement,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  agreement = value!;
+                                });
+                              },
+                            ),
+                            Wrap(
+                              children: <Widget>[
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Akceptuję ',
+                                    style: GoogleFonts.poppins(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'regulamin serwisu',
+                                    style: GoogleFonts.poppins(
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrlString(
+                                            'https://zolza-hairstyles.pl/terms-of-use');
+                                      },
+                                  ),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: ' i ',
+                                    style: GoogleFonts.poppins(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'politykę prywatności',
+                                    style: GoogleFonts.poppins(
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        launchUrlString(
+                                            'https://zolza-hairstyles.pl/privacy-policy');
+                                      },
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       buildSignUpBtn(),
                       const SizedBox(height: 20),
                       buildLogInBtn(),

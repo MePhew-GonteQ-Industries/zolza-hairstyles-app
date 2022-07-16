@@ -8,7 +8,6 @@ import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
 import 'package:hairdressing_salon_app/widgets/stateful_drawer.dart';
 import 'package:http/http.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import '../helpers/verify_user.dart';
 import '../widgets/alerts.dart';
 
@@ -805,26 +804,6 @@ class ProfileState extends State<ProfileScreen> {
               ),
             ),
             trailing: buildDropDown(),
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.privacy_tip_outlined,
-              color: Theme.of(context).textTheme.bodyText2?.color,
-            ),
-            title: Text(
-              'Polityka prywatności',
-              style: GoogleFonts.poppins(
-                color: Theme.of(context).textTheme.bodyText2?.color,
-              ),
-            ),
-            trailing: Icon(
-              Icons.outbound_outlined,
-              // color: Theme.of(context).textTheme.bodyText2?.color,
-              color: Theme.of(context).primaryColor,
-            ),
-            onTap: () async {
-              launchUrlString('https://zolza-hairstyles.pl/privacy-policy');
-            },
           ),
           if (!UserData.verified)
             ListTile(

@@ -213,7 +213,8 @@ class LoginScreenState extends State<LoginScreen> {
   buildSignUpBtn() {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/registration');
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/registration', (route) => false);
       },
       child: RichText(
         text: TextSpan(
