@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/login.dart';
@@ -821,8 +822,30 @@ class ProfileState extends State<ProfileScreen> {
               Icons.outbond_outlined,
               color: Theme.of(context).primaryColor,
             ),
-            onTap: () =>
-                launchUrlString('https://zolza-hairstyles.pl/privacy-policy'),
+            onTap: () => launchUrlString(
+              'https://zolza-hairstyles.pl/privacy-policy',
+            ),
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.cancel,
+              color: Colors.red,
+            ),
+            title: Text(
+              'Usuń konto',
+              style: GoogleFonts.poppins(
+                color: Colors.red,
+              ),
+            ),
+            trailing: GestureDetector(
+              child: Icon(
+                Icons.outbond_outlined,
+                color: Theme.of(context).primaryColor,
+              ),
+              onTap: () => launchUrlString(
+                'https://zolza-hairstyles.pl/settings/account',
+              ),
+            ),
           ),
           if (!UserData.verified)
             ListTile(
