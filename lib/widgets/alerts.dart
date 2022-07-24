@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:hairdressing_salon_app/helpers/verify_user.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../screens/check_for_logged_in_user.dart';
 
 class Alerts {
@@ -41,7 +42,7 @@ class Alerts {
           child: Text(
             confirm,
             style: GoogleFonts.poppins(
-              color: Theme.of(context).primaryColor,
+              color: Colors.white,
             ),
           ),
         ),
@@ -76,7 +77,7 @@ class Alerts {
           child: Text(
             'OK',
             style: GoogleFonts.poppins(
-              color: Theme.of(context).primaryColor,
+              color: Colors.white,
             ),
           ),
         ),
@@ -111,7 +112,7 @@ class Alerts {
           child: Text(
             'OK',
             style: GoogleFonts.poppins(
-              color: Theme.of(context).primaryColor,
+              color: Colors.white,
             ),
           ),
         ),
@@ -122,10 +123,10 @@ class Alerts {
   void alertNotEnoughTime(BuildContext context) {
     Alert(
       context: context,
-      style: const AlertStyle(
+      style: AlertStyle(
         isCloseButton: false,
         isOverlayTapDismiss: false,
-        titleStyle: TextStyle(
+        titleStyle: GoogleFonts.poppins(
           color: Colors.black,
         ),
       ),
@@ -142,8 +143,8 @@ class Alerts {
           color: Theme.of(context).primaryColorDark,
           child: Text(
             'OK',
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
+            style: GoogleFonts.poppins(
+              color: Colors.white,
             ),
           ),
         ),
@@ -154,10 +155,10 @@ class Alerts {
   void alertHomeScreenRedirect(BuildContext context) {
     Alert(
       context: context,
-      style: const AlertStyle(
+      style: AlertStyle(
         isCloseButton: false,
         isOverlayTapDismiss: false,
-        titleStyle: TextStyle(
+        titleStyle: GoogleFonts.poppins(
           color: Colors.black,
         ),
       ),
@@ -173,8 +174,8 @@ class Alerts {
           color: Theme.of(context).primaryColorDark,
           child: Text(
             'OK',
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
+            style: GoogleFonts.poppins(
+              color: Colors.white,
             ),
           ),
         ),
@@ -185,10 +186,10 @@ class Alerts {
   void alertSessionExpired(BuildContext context) {
     Alert(
       context: context,
-      style: const AlertStyle(
+      style: AlertStyle(
         isCloseButton: false,
         isOverlayTapDismiss: false,
-        titleStyle: TextStyle(
+        titleStyle: GoogleFonts.poppins(
           color: Colors.black,
         ),
       ),
@@ -205,8 +206,51 @@ class Alerts {
           color: Theme.of(context).primaryColorDark,
           child: Text(
             'OK',
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    ).show();
+  }
+
+  static void alertSaturday(BuildContext context) {
+    Alert(
+      context: context,
+      style: AlertStyle(
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+        titleStyle: GoogleFonts.poppins(
+          color: Colors.black,
+        ),
+      ),
+      title: 'Sobotnie wizyty',
+      desc:
+          'Aby umówić się na wizytę w sobotę skontaktuj się przez wiadomość prywatną.',
+      buttons: [
+        DialogButton(
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          color: Theme.of(context).primaryColorDark,
+          child: Text(
+            'Zrezygnuj',
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+            ),
+          ),
+        ),
+        DialogButton(
+          onPressed: () async {
+            launchUrlString('http://m.me/110103241392161');
+            Navigator.pop(context);
+          },
+          color: Theme.of(context).primaryColorDark,
+          child: Text(
+            'Wiadomość',
+            style: GoogleFonts.poppins(
+              color: Colors.white,
             ),
           ),
         ),

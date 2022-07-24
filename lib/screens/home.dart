@@ -32,6 +32,13 @@ class HomeState extends State<HomeScreen> {
     isDataFetchedHomeScreen = false;
   }
 
+  retryFetchingAppointmentsHomeScreen() {
+    Future.delayed(
+      const Duration(seconds: 5),
+    );
+    fetchAppointments();
+  }
+
   fetchAppointments() async {
     var response = await http.get(
       Uri.parse('$apiUrl/appointments/mine'),
@@ -76,7 +83,8 @@ class HomeState extends State<HomeScreen> {
     } else {
       setState(() {
         fetchedAppointments = [];
-        isDataFetchedHomeScreen = true;
+        isDataFetchedHomeScreen = false;
+        retryFetchingAppointmentsHomeScreen();
       });
     }
   }

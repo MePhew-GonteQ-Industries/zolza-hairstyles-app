@@ -27,6 +27,7 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
       UserData.accessToken = 'null';
       UserSecureStorage.setFCMToken('null');
       UserSecureStorage.setIsLoggedIn('false');
+      GlobalState.drawerSelectedItem = 1;
       if (!mounted) return;
       Navigator.pushAndRemoveUntil(
           context,
@@ -56,6 +57,7 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
         UserSecureStorage.setRefreshToken(
           regainFunction['refresh_token'],
         );
+        GlobalState.drawerSelectedItem = 1;
         UserData.accessToken = regainFunction['access_token'];
         logOutUserFunction();
       } else {

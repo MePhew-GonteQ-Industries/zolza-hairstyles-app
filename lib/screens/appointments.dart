@@ -53,6 +53,36 @@ class AppointmentsState extends State<AppointmentsScreen> {
     AppointmentData.date = currentDate;
   }
 
+  retryFetchingAppointments() {
+    Future.delayed(
+      const Duration(seconds: 5),
+    );
+    fetchAppointmentsData();
+  }
+
+  showDateTimePicker() {
+    DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      minTime: minTime,
+      maxTime: minTime.add(
+        const Duration(days: 31),
+      ),
+      onChanged: (date) {},
+      onConfirm: (date) {
+        setState(() {
+          chosenDate = date;
+          chosenDateString = DateFormat('yyyy-MM-dd').format(date);
+          AppointmentData.date = chosenDateString;
+          isDataFetchedAppointmentsScreen = false;
+          fetchAppointmentsData();
+        });
+      },
+      currentTime: chosenDate,
+      locale: LocaleType.pl,
+    );
+  }
+
   fetchAppointmentsData() async {
     var response = await http.get(
       Uri.parse('$apiUrl/appointments/slots?date=$chosenDateString'),
@@ -73,7 +103,8 @@ class AppointmentsState extends State<AppointmentsScreen> {
     } else {
       setState(() {
         appointmentsData = [];
-        isDataFetchedAppointmentsScreen = true;
+        isDataFetchedAppointmentsScreen = false;
+        retryFetchingAppointments();
       });
     }
   }
@@ -317,15 +348,19 @@ class AppointmentsState extends State<AppointmentsScreen> {
                       ),
                     ),
                     onTap: () {
-                      AppointmentData.id = appointment['id'];
-                      AppointmentData.startHour =
-                          DateFormat("yyyy-MM-ddTHH:mm:ss")
-                              .parse(appointment['start_time'], true)
-                              .toLocal()
-                              .toString()
-                              .substring(11, 16);
-                      AppointmentData.date = chosenDateString;
-                      Navigator.pushNamed(context, '/confirmAppointment');
+                      if (DateFormat('EEEE').format(chosenDate) != 'Saturday') {
+                        AppointmentData.id = appointment['id'];
+                        AppointmentData.startHour =
+                            DateFormat("yyyy-MM-ddTHH:mm:ss")
+                                .parse(appointment['start_time'], true)
+                                .toLocal()
+                                .toString()
+                                .substring(11, 16);
+                        AppointmentData.date = chosenDateString;
+                        Navigator.pushNamed(context, '/confirmAppointment');
+                      } else {
+                        Alerts.alertSaturday(context);
+                      }
                     },
                   ),
                 ),
@@ -384,52 +419,30 @@ class AppointmentsState extends State<AppointmentsScreen> {
             ),
           ),
           const Padding(padding: EdgeInsets.only(top: 15)),
-          Row(
-            children: [
-              const Padding(padding: EdgeInsets.only(left: 15)),
-              Expanded(
-                flex: 1,
-                child: Text(
-                  chosenDateString,
-                  style: GoogleFonts.poppins(
-                    fontSize: 24,
-                    color: Theme.of(context).primaryColor,
+          GestureDetector(
+            onTap: (() => showDateTimePicker()),
+            child: Row(
+              children: [
+                const Padding(padding: EdgeInsets.only(left: 15)),
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    chosenDateString,
+                    style: GoogleFonts.poppins(
+                      fontSize: 24,
+                      color: Theme.of(context).primaryColor,
+                    ),
                   ),
                 ),
-              ),
-              GestureDetector(
-                child: Icon(
+                Icon(
                   Icons.calendar_month_outlined,
                   color: Theme.of(context).primaryColor,
                 ),
-                onTap: () {
-                  DatePicker.showDatePicker(
-                    context,
-                    showTitleActions: true,
-                    minTime: minTime,
-                    maxTime: minTime.add(
-                      const Duration(days: 31),
-                    ),
-                    onChanged: (date) {},
-                    onConfirm: (date) {
-                      setState(() {
-                        chosenDate = date;
-                        chosenDateString =
-                            DateFormat('yyyy-MM-dd').format(date);
-                        AppointmentData.date = chosenDateString;
-                        isDataFetchedAppointmentsScreen = false;
-                        fetchAppointmentsData();
-                      });
-                    },
-                    currentTime: chosenDate,
-                    locale: LocaleType.pl,
-                  );
-                },
-              ),
-              const Padding(
-                padding: EdgeInsets.only(right: 15),
-              ),
-            ],
+                const Padding(
+                  padding: EdgeInsets.only(right: 15),
+                ),
+              ],
+            ),
           ),
           Expanded(
             flex: 30,
