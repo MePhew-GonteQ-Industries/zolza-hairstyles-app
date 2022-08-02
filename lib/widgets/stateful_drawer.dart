@@ -36,6 +36,7 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
           ),
           (route) => false);
     } else if (logOut.statusCode == 408) {
+      print(logOut.statusCode);
       if (!mounted) return;
       Alerts().alert(
         context,

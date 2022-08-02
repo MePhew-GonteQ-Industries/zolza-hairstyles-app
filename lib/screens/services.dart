@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/constants/globals.dart';
+import 'package:hairdressing_salon_app/helpers/user_data.dart';
+import 'package:hairdressing_salon_app/widgets/user_not_verified_widget.dart';
 import 'package:http/http.dart' as http;
 import '../helpers/service_data.dart';
 import '../widgets/stateful_drawer.dart';
@@ -64,6 +66,7 @@ class ServicesState extends State<ServicesScreen> {
       if (sercvicesList.isEmpty) {
         return Column(
           children: [
+            // if (!UserData.verified) const UserNotVerified(),
             const SizedBox(
               height: 30,
             ),
@@ -175,8 +178,21 @@ class ServicesState extends State<ServicesScreen> {
         ),
       ),
       drawer: const CustomDrawerWidget(),
-      body: Center(
-        child: getServicesBody(),
+      body: Column(
+        children: [
+          if (!UserData.verified)
+            const Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: UserNotVerified(),
+            ),
+          Flexible(
+            flex: 5,
+            child: Center(
+              child: getServicesBody(),
+            ),
+          ),
+        ],
       ),
     );
   }

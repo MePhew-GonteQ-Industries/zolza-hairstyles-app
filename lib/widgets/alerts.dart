@@ -33,7 +33,9 @@ class Alerts {
             if (isLoop) {
               loginLoop(context);
             } else if (isLoginRedirect) {
-              Navigator.pushNamed(context, '/login');
+              // Navigator.pushNamed(context, '/login');
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (route) => false);
             } else if (isPoppedSecondTime) {
               Navigator.pop(context);
             }
@@ -128,6 +130,7 @@ class Alerts {
         isOverlayTapDismiss: false,
         titleStyle: GoogleFonts.poppins(
           color: Colors.black,
+          fontWeight: FontWeight.bold,
         ),
       ),
       title: 'Nie udało się',

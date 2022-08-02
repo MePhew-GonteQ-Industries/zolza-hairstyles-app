@@ -95,8 +95,8 @@ class RegistrationScreenState extends State<RegistrationScreen> {
           shadowColor: const Color(0xCC007AF3),
         ),
         onPressed: () async {
-          if (agreement) {
-            if (checkForEmptyTextField()) {
+          if (checkForEmptyTextField()) {
+            if (agreement) {
               var brightness =
                   SchedulerBinding.instance.window.platformBrightness;
               bool isDarkMode = brightness == Brightness.dark;
@@ -118,15 +118,15 @@ class RegistrationScreenState extends State<RegistrationScreen> {
               );
               if (response.statusCode == 201) {
                 if (!mounted) return;
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/login', (route) => false);
+                // Navigator.pushNamedAndRemoveUntil(
+                // context, '/login', (route) => false);
                 Alerts().alert(
                     context,
                     'Zarejestrowano pomyślnie',
                     'Zaloguj się aby korzystać z aplikacji',
                     'OK',
                     false,
-                    false,
+                    true,
                     false);
               } else if (response.statusCode == 404 ||
                   response.statusCode == 500) {

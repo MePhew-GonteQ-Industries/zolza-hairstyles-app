@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hairdressing_salon_app/helpers/user_data.dart';
+import 'package:hairdressing_salon_app/widgets/user_not_verified_widget.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../widgets/stateful_drawer.dart';
 
@@ -33,6 +35,7 @@ class ContactState extends State<ContactScreen> {
       body: Center(
         child: ListView(
           children: [
+            if (!UserData.verified) const UserNotVerified(),
             ListTile(
               leading: Icon(
                 Icons.phone,

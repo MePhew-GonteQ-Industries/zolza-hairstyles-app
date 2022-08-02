@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hairdressing_salon_app/screens/check_for_logged_in_user.dart';
 import 'package:hairdressing_salon_app/screens/confirm_appointment.dart';
-import 'package:hairdressing_salon_app/screens/select_hours.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'constants/colors.dart';
 import 'screens/appointments.dart';
@@ -147,7 +146,6 @@ class MyAppState extends State {
         '/profile': (context) => const ProfileScreen(),
         '/checkForLoggedIn': (context) => const CheckForLoggedUserScreen(),
         '/forgotPassword': (context) => const ForgotPasswordScreen(),
-        '/selectHour': (context) => const SelectHourScreen(),
         '/confirmAppointment': (context) => const ConfirmAppointment(),
       },
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
+import 'package:hairdressing_salon_app/widgets/user_not_verified_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../helpers/login.dart';
@@ -92,48 +93,63 @@ class HomeState extends State<HomeScreen> {
   Widget getBody() {
     if (isDataFetchedHomeScreen) {
       if (fetchedAppointments.isEmpty) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Wygląda na to,\nże nie masz umówionej wizyty,\nkliknij przycisk aby to zrobić',
-                style: GoogleFonts.poppins(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 22,
-                  // fontWeight: FontWeight.bold,
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (!UserData.verified)
+              const Flexible(
+                flex: 1,
+                fit: FlexFit.tight,
+                child: UserNotVerified(),
+              ),
+            Flexible(
+              flex: 5,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Wygląda na to,\nże nie masz umówionej wizyty,\nkliknij przycisk aby to zrobić',
+                      style: GoogleFonts.poppins(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 22,
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 5,
+                        padding: const EdgeInsets.all(13),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        primary: Theme.of(context).primaryColorDark,
+                        shadowColor: const Color(0xCC007AF3),
+                      ),
+                      child: Text(
+                        'Umów wizytę',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/services');
+                      },
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 40,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                  padding: const EdgeInsets.all(13),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  primary: Theme.of(context).primaryColorDark,
-                  shadowColor: const Color(0xCC007AF3),
-                ),
-                child: Text(
-                  'Umów wizytę',
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/services');
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         );
       } else {
         return Column(
           children: [
+            if (!UserData.verified) const UserNotVerified(),
             ListTile(
               title: Text(
                 'Nadchodzące wizyty',

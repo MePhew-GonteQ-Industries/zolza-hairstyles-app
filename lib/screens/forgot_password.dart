@@ -23,8 +23,8 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
     String email;
     email = emailController.text;
     if (email == '') {
-      Alerts().alert(context, 'Nie tak szybko...',
-          'Te pola nie mogą być puste', 'OK', false, false, false);
+      Alerts().alert(context, 'Nie tak szybko...', 'Te pola nie mogą być puste',
+          'OK', false, false, false);
       return false;
     } else {
       return true;
@@ -51,8 +51,8 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
       poprawnaForma = 'kilka sekund';
       retryRequest = 'Można spróbować ponownie za $poprawnaForma';
     }
-    Alerts().alert(context, 'Wiadomość została już wysłana', retryRequest,
-        'OK', false, true, false);
+    Alerts().alert(context, 'Wiadomość została już wysłana', retryRequest, 'OK',
+        false, true, false);
   }
 
   buildForgotPasswordBtn() {
@@ -71,9 +71,11 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
         onPressed: () async {
           final ConnectivityResult result =
               await Connectivity().checkConnectivity();
-          if (result == ConnectivityResult.none) {
+          if (!(result == ConnectivityResult.none)) {
             if (checkForEmptyTextField()) {
-              Response response = await forgotPassword(emailController.text);
+              Response response =
+                  await forgotPassword(emailController.text.trim());
+              print(response.statusCode);
               if (response.statusCode == 202) {
                 if (!mounted) return;
                 Alerts().alert(
@@ -109,6 +111,17 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
                 throw Exception('Podano błędny adres E-mail');
               }
             }
+          } else {
+            if (!mounted) return;
+            Alerts().alert(
+              context,
+              'Brak połączenia z internetem',
+              'Podłącz się do internetu i spróbuj ponownie',
+              'OK',
+              false,
+              false,
+              false,
+            );
           }
         },
         child: Text(

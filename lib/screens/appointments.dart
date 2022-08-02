@@ -6,6 +6,7 @@ import 'package:hairdressing_salon_app/helpers/appointment_data.dart';
 import 'package:hairdressing_salon_app/helpers/login.dart';
 import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:hairdressing_salon_app/helpers/user_secure_storage.dart';
+import 'package:hairdressing_salon_app/widgets/user_not_verified_widget.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../constants/globals.dart';
@@ -16,7 +17,7 @@ import 'package:http/http.dart' as http;
 
 var currentSlotFits = 0;
 var requiredSlots = 0;
-var hasSlots = 0;
+var slotsOccupied = 0;
 
 class AppointmentsScreen extends StatefulWidget {
   const AppointmentsScreen({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
     chosenDate = now;
     chosenDateString = DateFormat('yyyy-MM-dd').format(chosenDate);
     currentSlotFits = 0;
-    hasSlots = 0;
+    slotsOccupied = 0;
     requiredSlots = ServiceData.requiredSlots;
     fetchAppointmentsData();
     isDataFetchedAppointmentsScreen = false;
@@ -91,6 +92,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
         'Content-Type': 'application/json',
       },
     );
+    print(response.body);
     if (response.statusCode == 401) {
       regainAccessTokenFunction();
     }
@@ -169,7 +171,8 @@ class AppointmentsState extends State<AppointmentsScreen> {
           ],
         );
       } else {
-        hasSlots = 0;
+        slotsOccupied = 0;
+        print(appointmentsData.length);
         return ListView.builder(
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
@@ -205,7 +208,6 @@ class AppointmentsState extends State<AppointmentsScreen> {
                 if (currentSlotFits == requiredSlots) {
                   break;
                 }
-                hasSlots++;
                 currentSlotFits++;
               }
             }
@@ -311,6 +313,35 @@ class AppointmentsState extends State<AppointmentsScreen> {
                 ],
               );
             } else if (appointment['occupied']) {
+              slotsOccupied++;
+              if ((slotsOccupied == (appointmentsData.length - 1)) &&
+                  appointment['occupied']) {
+                return Card(
+                  elevation: 2,
+                  color: Theme.of(context).backgroundColor,
+                  margin: const EdgeInsets.all(8),
+                  shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                      color: Color(0x44FFFFFF),
+                      width: 1,
+                    ),
+                  ),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                    title: Text(
+                      'Brak wolnych miejsc',
+                      style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                );
+              }
               return const SizedBox.shrink();
             } else if (currentSlotFits == requiredSlots) {
               return Card(
@@ -400,6 +431,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
       ),
       body: Column(
         children: [
+          if (!UserData.verified) const UserNotVerified(),
           const Expanded(
             flex: 1,
             child: Padding(

@@ -5,6 +5,7 @@ import 'package:hairdressing_salon_app/constants/globals.dart';
 import 'package:hairdressing_salon_app/helpers/create_appointment.dart';
 import 'package:hairdressing_salon_app/helpers/service_data.dart';
 import 'package:hairdressing_salon_app/widgets/alerts.dart';
+import 'package:hairdressing_salon_app/widgets/user_not_verified_widget.dart';
 import 'package:http/http.dart';
 import '../helpers/appointment_data.dart';
 import '../helpers/login.dart';
@@ -89,143 +90,156 @@ class ConfirmAppointmentState extends State<ConfirmAppointment> {
           ),
         ),
       ),
-      body: Center(
-        child: Align(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            // physics: const NeverScrollableScrollPhysics(),
-            children: [
-              ListTile(
-                title: Text(
-                  'Umówioną wizytę może anulować tylko administrator!'
-                      .toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    color: Colors.red,
-                    fontSize: 24,
-                    // fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.calendar_month,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  'Data:',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 24,
-                  ),
-                ),
-                subtitle: Text(
-                  AppointmentData.date,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 24,
-                  ),
-                ),
-                trailing: Icon(
-                  Icons.check,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.access_time,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  'Godzina:',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 24,
-                  ),
-                ),
-                subtitle: Text(
-                  AppointmentData.startHour,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 24,
-                  ),
-                ),
-                trailing: Icon(
-                  Icons.check,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.design_services_rounded,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  'Usługa:',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 24,
-                  ),
-                ),
-                subtitle: Text(
-                  ServiceData.name,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 24,
-                  ),
-                ),
-                trailing: Icon(
-                  Icons.check,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 60,
-                  right: 60,
-                ),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 45,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      createAppointmentFunction();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColorDark,
-                      shadowColor: const Color(0xCC007AF3),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+      body: Column(
+        children: [
+          if (!UserData.verified)
+            const Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: UserNotVerified(),
+            ),
+          Flexible(
+            flex: 5,
+            child: Center(
+              child: Align(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  // physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    ListTile(
+                      title: Text(
+                        'Umówioną wizytę może anulować tylko administrator!'
+                            .toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: Colors.red,
+                          fontSize: 24,
+                          // fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    child: Text(
-                      'Potwierdź wizytę',
-                      style: GoogleFonts.poppins(
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.calendar_month,
                         color: Theme.of(context).primaryColor,
-                        fontSize: 24,
+                      ),
+                      title: Text(
+                        'Data:',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 24,
+                        ),
+                      ),
+                      subtitle: Text(
+                        AppointmentData.date,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 24,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.check,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
-                  ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.access_time,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      title: Text(
+                        'Godzina:',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 24,
+                        ),
+                      ),
+                      subtitle: Text(
+                        AppointmentData.startHour,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 24,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.check,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.design_services_rounded,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      title: Text(
+                        'Usługa:',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 24,
+                        ),
+                      ),
+                      subtitle: Text(
+                        ServiceData.name,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 24,
+                        ),
+                      ),
+                      trailing: Icon(
+                        Icons.check,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 60,
+                        right: 60,
+                      ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 45,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            createAppointmentFunction();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColorDark,
+                            shadowColor: const Color(0xCC007AF3),
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: Text(
+                            'Potwierdź wizytę',
+                            style: GoogleFonts.poppins(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 24,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
