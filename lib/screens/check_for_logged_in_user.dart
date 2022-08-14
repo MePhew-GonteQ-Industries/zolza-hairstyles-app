@@ -79,14 +79,22 @@ class CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
               (route) => false);
         } else if (refreshToken.statusCode == 401) {
           if (!mounted) return;
-          Navigator.pushNamed(context, '/login');
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/login',
+            ((route) => false),
+          );
         } else {
           if (!mounted) return;
           loginLoop(context);
         }
       } else {
         if (!mounted) return;
-        Navigator.pushNamed(context, '/login');
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/login',
+          ((route) => false),
+        );
       }
     }
   }
