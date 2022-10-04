@@ -93,11 +93,14 @@ class _UserNotVerifiedState extends State<UserNotVerified> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Icon(
-                    Icons.warning_amber_rounded,
-                    color: color,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 10),
+                    child: Icon(
+                      Icons.warning_amber_rounded,
+                      color: color,
+                    ),
                   ),
                   Text(
                     'Nie zweryfikowane konto',
