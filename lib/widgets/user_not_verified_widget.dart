@@ -86,7 +86,7 @@ class _UserNotVerifiedState extends State<UserNotVerified> {
             // borderRadius: BorderRadius.circular(20),
             color: Color.fromRGBO(255, 180, 0, 0.2),
           ),
-          height: 100,
+          // height: 200,
           width: double.infinity,
           alignment: Alignment.center,
           child: Column(

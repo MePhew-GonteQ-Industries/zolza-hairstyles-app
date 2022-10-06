@@ -841,9 +841,10 @@ class ProfileState extends State<ProfileScreen> {
                 Icons.outbond_outlined,
                 color: Theme.of(context).primaryColor,
               ),
-              onTap: () => launchUrlString(
-                'https://zolza-hairstyles.pl/settings/account',
-              ),
+              onTap: () {
+                // 'https://zolza-hairstyles.pl/settings/account',
+                Navigator.pushNamed(context, '/deleteAccount');
+              },
             ),
           ),
           if (!UserData.verified)

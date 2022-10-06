@@ -50,7 +50,7 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
         false,
       );
     } else if (logOut.statusCode == 401) {
-      final refreshToken = UserSecureStorage.getRefreshToken();
+      final refreshToken = await UserSecureStorage.getRefreshToken();
       // final regainFunction =
       //     regainAccessToken();
       Response regainAccessToken = await sendRefreshToken(refreshToken);

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'constants/colors.dart';
 import 'screens/appointments.dart';
 import 'screens/contact.dart';
+import 'screens/delete_account.dart';
 import 'screens/forgot_password.dart';
 import 'screens/login.dart';
 import 'screens/profile.dart';
@@ -147,6 +148,7 @@ class MyAppState extends State {
         '/checkForLoggedIn': (context) => const CheckForLoggedUserScreen(),
         '/forgotPassword': (context) => const ForgotPasswordScreen(),
         '/confirmAppointment': (context) => const ConfirmAppointment(),
+        '/deleteAccount': (context) => const DeleteAccount(),
       },
     );
   }

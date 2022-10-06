@@ -103,7 +103,7 @@ class HomeState extends State<HomeScreen> {
                 child: UserNotVerified(),
               ),
             Flexible(
-              flex: 5,
+              flex: 4,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

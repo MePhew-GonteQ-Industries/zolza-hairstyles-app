@@ -438,10 +438,12 @@ class AppointmentsState extends State<AppointmentsScreen> {
               padding: EdgeInsets.only(top: 15),
             ),
           ),
-          Expanded(
-            flex: 3,
+          Flexible(
+            flex: 5,
+            // fit: FlexFit.tight,
             child: Text(
               'Maksymalnie miesiąc do przodu!',
+              textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 // color: Theme.of(context).primaryColor,
                 color: Theme.of(context).textTheme.bodyText2?.color,
@@ -450,7 +452,13 @@ class AppointmentsState extends State<AppointmentsScreen> {
               ),
             ),
           ),
-          const Padding(padding: EdgeInsets.only(top: 15)),
+          const Expanded(
+            flex: 1,
+            child: Padding(
+              padding: EdgeInsets.only(top: 15),
+            ),
+          ),
+          // const Padding(padding: EdgeInsets.only(top: 15)),
           GestureDetector(
             onTap: (() => showDateTimePicker()),
             child: Row(
@@ -476,8 +484,9 @@ class AppointmentsState extends State<AppointmentsScreen> {
               ],
             ),
           ),
-          Expanded(
-            flex: 30,
+          Flexible(
+            flex: 32,
+            fit: FlexFit.tight,
             child: getAppointmentsBody(),
           ),
           const Padding(padding: EdgeInsets.only(bottom: 15)),
