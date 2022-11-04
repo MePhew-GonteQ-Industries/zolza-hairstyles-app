@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/delete_account.dart';
 import 'package:hairdressing_salon_app/helpers/user_data.dart';
 import 'package:hairdressing_salon_app/widgets/alerts.dart';
-import 'package:hairdressing_salon_app/widgets/stateful_drawer.dart';
 import 'package:hairdressing_salon_app/widgets/text_field.dart';
 import 'package:http/http.dart';
 
@@ -77,7 +76,6 @@ class _DeleteAccountState extends State<DeleteAccount> {
             if (checkForMatchingPassword()) {
               Response response = await deleteUserAccount(
                   passwordController.text.trim(), UserData.accessToken);
-              print(response.statusCode);
               if (response.statusCode == 200) {
                 if (!mounted) return;
                 Navigator.pushNamedAndRemoveUntil(
@@ -119,7 +117,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
           ),
         ),
       ),
-      drawer: const CustomDrawerWidget(),
+      // drawer: const CustomDrawerWidget(),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Column(

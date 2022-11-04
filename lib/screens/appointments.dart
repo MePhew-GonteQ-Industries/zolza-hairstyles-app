@@ -92,7 +92,6 @@ class AppointmentsState extends State<AppointmentsScreen> {
         'Content-Type': 'application/json',
       },
     );
-    print(response.body);
     if (response.statusCode == 401) {
       regainAccessTokenFunction();
     }
@@ -172,7 +171,6 @@ class AppointmentsState extends State<AppointmentsScreen> {
         );
       } else {
         slotsOccupied = 0;
-        print(appointmentsData.length);
         return ListView.builder(
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),

@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeState extends State<HomeScreen> {
   late List fetchedAppointments;
+  List fetchedAppointmentsFiltered = [];
   bool connected = false;
   bool isDataFetchedHomeScreen = false;
 
@@ -77,6 +78,12 @@ class HomeState extends State<HomeScreen> {
     if (response.statusCode == 200 && body != '[]') {
       setState(() {
         fetchedAppointments = body;
+        fetchedAppointmentsFiltered.addAll(fetchedAppointments);
+        fetchedAppointmentsFiltered
+            .retainWhere((element) => !element['archival']);
+        fetchedAppointmentsFiltered
+            .retainWhere((element) => !element['canceled']);
+        print(fetchedAppointmentsFiltered);
         isDataFetchedHomeScreen = true;
         // print(fetchedAppointments);
         // print(fetchedAppointments.length);
@@ -92,7 +99,7 @@ class HomeState extends State<HomeScreen> {
 
   Widget getBody() {
     if (isDataFetchedHomeScreen) {
-      if (fetchedAppointments.isEmpty) {
+      if (fetchedAppointmentsFiltered.isEmpty) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -126,7 +133,7 @@ class HomeState extends State<HomeScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        primary: Theme.of(context).primaryColorDark,
+                        backgroundColor: Theme.of(context).primaryColorDark,
                         shadowColor: const Color(0xCC007AF3),
                       ),
                       child: Text(
@@ -137,6 +144,7 @@ class HomeState extends State<HomeScreen> {
                         ),
                       ),
                       onPressed: () {
+                        GlobalState.drawerSelectedItem = 2;
                         Navigator.pushNamed(context, '/services');
                       },
                     ),
@@ -165,9 +173,9 @@ class HomeState extends State<HomeScreen> {
                   shrinkWrap: true,
                   // physics: const NeverScrollableScrollPhysics(),
                   physics: const BouncingScrollPhysics(),
-                  itemCount: fetchedAppointments.length,
+                  itemCount: fetchedAppointmentsFiltered.length,
                   itemBuilder: (context, index) {
-                    return getTile(fetchedAppointments[index]);
+                    return getTile(fetchedAppointmentsFiltered[index]);
                   }),
             )
           ],
@@ -185,45 +193,40 @@ class HomeState extends State<HomeScreen> {
   Widget getTile(index) {
     var service = index['service']['name'];
     var date = index['start_slot']['start_time'];
-    var archival = index['archival'];
-    if (!archival) {
-      return Card(
-        color: Theme.of(context).backgroundColor,
-        elevation: 3,
-        shape: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(25),
-          borderSide: const BorderSide(
-            color: Color(0x44FFFFFF),
-            width: 1,
-          ),
+    return Card(
+      color: Theme.of(context).backgroundColor,
+      elevation: 3,
+      shape: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(25),
+        borderSide: const BorderSide(
+          color: Color(0x44FFFFFF),
+          width: 1,
         ),
-        margin: const EdgeInsets.all(4),
-        child: ListTile(
-          title: Center(
-            child: Text(
-              service,
-              style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-          ),
-          subtitle: Center(
-            child: Text(
-              DateFormat("yyyy-MM-ddTHH:mm:ss")
-                  .parse(date, true)
-                  .toLocal()
-                  .toString()
-                  .substring(0, 16),
-              style: GoogleFonts.poppins(
-                color: Theme.of(context).primaryColor,
-              ),
+      ),
+      margin: const EdgeInsets.all(4),
+      child: ListTile(
+        title: Center(
+          child: Text(
+            service,
+            style: GoogleFonts.poppins(
+              color: Theme.of(context).primaryColor,
             ),
           ),
         ),
-      );
-    } else {
-      throw Exception();
-    }
+        subtitle: Center(
+          child: Text(
+            DateFormat("yyyy-MM-ddTHH:mm:ss")
+                .parse(date, true)
+                .toLocal()
+                .toString()
+                .substring(0, 16),
+            style: GoogleFonts.poppins(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void checkForInternetConnection() async {

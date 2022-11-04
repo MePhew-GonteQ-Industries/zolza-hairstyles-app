@@ -75,7 +75,6 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
             if (checkForEmptyTextField()) {
               Response response =
                   await forgotPassword(emailController.text.trim());
-              print(response.statusCode);
               if (response.statusCode == 202) {
                 if (!mounted) return;
                 Alerts().alert(

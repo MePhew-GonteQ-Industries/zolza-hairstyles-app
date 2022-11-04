@@ -22,8 +22,6 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
   int activeIndex = GlobalState.drawerSelectedItem;
   logOutUserFunction() async {
     Response logOut = await logOutUser();
-    print(logOut.statusCode);
-    print(logOut.body);
     if (logOut.statusCode == 200) {
       UserSecureStorage.setRefreshToken('null');
       UserData.accessToken = 'null';
@@ -38,7 +36,6 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
           ),
           (route) => false);
     } else if (logOut.statusCode == 408) {
-      print(logOut.statusCode);
       if (!mounted) return;
       Alerts().alert(
         context,
