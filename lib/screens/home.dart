@@ -50,14 +50,10 @@ class HomeState extends State<HomeScreen> {
       },
     );
     if (response.statusCode == 401) {
-      // print('regaining token');
       final refreshToken = await UserSecureStorage.getRefreshToken();
-      // final regainFunction =
-      //     regainAccessToken();
       http.Response regainAccessToken = await sendRefreshToken(refreshToken);
 
       if (regainAccessToken.statusCode == 200) {
-        // print('token regained');
         final regainFunction = jsonDecode(regainAccessToken.body);
         UserSecureStorage.setRefreshToken(
           regainFunction['refresh_token'],
@@ -73,7 +69,6 @@ class HomeState extends State<HomeScreen> {
         Alerts().alertSessionExpired(context);
       }
     }
-    // print(response.statusCode);
     var body = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode == 200 && body != '[]') {
       setState(() {
@@ -83,10 +78,7 @@ class HomeState extends State<HomeScreen> {
             .retainWhere((element) => !element['archival']);
         fetchedAppointmentsFiltered
             .retainWhere((element) => !element['canceled']);
-        print(fetchedAppointmentsFiltered);
         isDataFetchedHomeScreen = true;
-        // print(fetchedAppointments);
-        // print(fetchedAppointments.length);
       });
     } else {
       setState(() {
@@ -120,7 +112,6 @@ class HomeState extends State<HomeScreen> {
                       style: GoogleFonts.poppins(
                         color: Theme.of(context).primaryColor,
                         fontSize: 22,
-                        // fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(
@@ -171,7 +162,6 @@ class HomeState extends State<HomeScreen> {
             Expanded(
               child: ListView.builder(
                   shrinkWrap: true,
-                  // physics: const NeverScrollableScrollPhysics(),
                   physics: const BouncingScrollPhysics(),
                   itemCount: fetchedAppointmentsFiltered.length,
                   itemBuilder: (context, index) {
@@ -259,7 +249,6 @@ class HomeState extends State<HomeScreen> {
           ),
         ),
       ),
-      // drawer: DrawerWidget().drawer(context),
       drawer: const CustomDrawerWidget(),
       body: Align(
         alignment: Alignment.center,
