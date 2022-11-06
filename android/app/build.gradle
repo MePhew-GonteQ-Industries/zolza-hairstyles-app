@@ -59,6 +59,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'pl.zolza_hairstyles.app'
 }
 
 flutter {
