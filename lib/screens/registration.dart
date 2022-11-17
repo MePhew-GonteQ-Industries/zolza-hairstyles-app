@@ -319,9 +319,9 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         TextInputType.text,
                       ),
                       const SizedBox(height: 10),
-                      const Text(
+                      Text(
                         'Hasło musi zawierać małą oraz dużą literę, cyfrę oraz znak specjanlny, np: #, @, !, >.',
-                        style: TextStyle(color: Colors.red),
+                        style: TextStyle(color: Theme.of(context).primaryColor),
                       ),
                       TextFieldWidget().textField(
                         context,
