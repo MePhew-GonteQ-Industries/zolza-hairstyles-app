@@ -67,7 +67,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
       showTitleActions: true,
       minTime: minTime,
       maxTime: minTime.add(
-        const Duration(days: 31),
+        const Duration(days: 30),
       ),
       onChanged: (date) {},
       onConfirm: (date) {
