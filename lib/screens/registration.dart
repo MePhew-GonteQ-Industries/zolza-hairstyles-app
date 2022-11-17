@@ -87,11 +87,11 @@ class RegistrationScreenState extends State<RegistrationScreen> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 5,
+          backgroundColor: Theme.of(context).primaryColorDark,
           padding: const EdgeInsets.all(13),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          primary: Theme.of(context).primaryColorDark,
           shadowColor: const Color(0xCC007AF3),
         ),
         onPressed: () async {
@@ -267,7 +267,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 25,
-                    vertical: 90,
+                    vertical: 85,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -280,9 +280,9 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 30),
                       buildDropDown(),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       TextFieldWidget().textField(
                         context,
                         nameController,
@@ -291,7 +291,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         false,
                         TextInputType.text,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       TextFieldWidget().textField(
                         context,
                         surnameController,
@@ -300,7 +300,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         false,
                         TextInputType.text,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       TextFieldWidget().textField(
                         context,
                         emailController,
@@ -309,7 +309,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         false,
                         TextInputType.emailAddress,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       TextFieldWidget().textField(
                         context,
                         passwordController,
@@ -318,7 +318,11 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         true,
                         TextInputType.text,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Hasło musi zawierać małą oraz dużą literę, cyfrę oraz znak specjanlny, np: #, @, !, >.',
+                        style: TextStyle(color: Colors.red),
+                      ),
                       TextFieldWidget().textField(
                         context,
                         repeatPasswordController,
@@ -327,7 +331,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         true,
                         TextInputType.text,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       SizedBox(
                         width: double.infinity,
                         child: Wrap(
@@ -398,10 +402,10 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       buildSignUpBtn(),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       buildLogInBtn(),
                     ],
                   ),
