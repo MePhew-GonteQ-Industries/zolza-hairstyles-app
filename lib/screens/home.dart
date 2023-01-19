@@ -25,6 +25,7 @@ class HomeState extends State<HomeScreen> {
   List fetchedAppointmentsFiltered = [];
   bool connected = false;
   bool isDataFetchedHomeScreen = false;
+  bool serverError = false;
 
   @override
   void initState() {
@@ -69,6 +70,14 @@ class HomeState extends State<HomeScreen> {
         Alerts().alertSessionExpired(context);
       }
     }
+    if (response.statusCode == 500) {
+      setState(() {
+        serverError = true;
+        isDataFetchedHomeScreen = true;
+        fetchedAppointments = [];
+        retryFetchingAppointmentsHomeScreen();
+      });
+    }
     var body = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode == 200 && body != '[]') {
       setState(() {
@@ -91,7 +100,7 @@ class HomeState extends State<HomeScreen> {
 
   Widget getBody() {
     if (isDataFetchedHomeScreen) {
-      if (fetchedAppointmentsFiltered.isEmpty) {
+      if (fetchedAppointmentsFiltered.isEmpty && !serverError) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -141,6 +150,27 @@ class HomeState extends State<HomeScreen> {
                     ),
                   ],
                 ),
+              ),
+            ),
+          ],
+        );
+      } else if (fetchedAppointments.isEmpty && serverError) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Błąd połączenia z serwerem!',
+              style: GoogleFonts.poppins(
+                color: Colors.red,
+                fontSize: 22,
+              ),
+            ),
+            Text(
+              'Spróbuj ponownie za chwilę.',
+              style: GoogleFonts.poppins(
+                color: Colors.red,
+                fontSize: 18,
               ),
             ),
           ],
@@ -207,7 +237,6 @@ class HomeState extends State<HomeScreen> {
           child: Text(
             DateFormat("yyyy-MM-ddTHH:mm:ss")
                 .parse(date, true)
-                .toLocal()
                 .toString()
                 .substring(0, 16),
             style: GoogleFonts.poppins(
