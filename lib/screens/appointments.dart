@@ -357,7 +357,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
                   child: ListTile(
                     title: Center(
                       child: Text(
-                        "Od: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['start_time'], true).toLocal().toString().substring(11, 16)}",
+                        "Od: ${DateFormat('yyyy-MM-ddTHH:mm:ss').parse(appointment['start_time'], true).toString().substring(11, 16)}",
                         style: GoogleFonts.poppins(
                           color: Theme.of(context).primaryColor,
                           fontSize: 24,
@@ -370,7 +370,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
                               Duration(
                                 minutes: 30 * (requiredSlots - 1),
                               ),
-                            ).toLocal().toString().substring(11, 16)}",
+                            ).toString().substring(11, 16)}",
                         style: GoogleFonts.poppins(
                           color: Theme.of(context).primaryColor,
                         ),
@@ -382,7 +382,6 @@ class AppointmentsState extends State<AppointmentsScreen> {
                         AppointmentData.startHour =
                             DateFormat("yyyy-MM-ddTHH:mm:ss")
                                 .parse(appointment['start_time'], true)
-                                .toLocal()
                                 .toString()
                                 .substring(11, 16);
                         AppointmentData.date = chosenDateString;
