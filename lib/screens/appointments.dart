@@ -209,42 +209,44 @@ class AppointmentsState extends State<AppointmentsScreen> {
                 currentSlotFits++;
               }
             }
-            if (appointment['reserved']) {
-              return Column(
-                children: [
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Card(
-                    elevation: 2,
-                    color: Theme.of(context).backgroundColor,
-                    margin: const EdgeInsets.all(8),
-                    shape: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: const BorderSide(
-                        color: Color(0x44FFFFFF),
-                        width: 1,
-                      ),
-                    ),
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.miscellaneous_services,
-                        color: Colors.red,
-                      ),
-                      title: Text(
-                        appointment['reserved_reason']
-                            ? "Zarezerwowane: ${appointment['reserved_reason']}"
-                            : 'Zarezerwowane',
-                        style: GoogleFonts.poppins(
-                          fontSize: 24,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            } else if (appointment['holiday']) {
+            // if (appointment['reserved']) {
+            // return Column(
+            //   children: [
+            //     const SizedBox(
+            //       height: 30,
+            //     ),
+            //     Card(
+            //       elevation: 2,
+            //       color: Theme.of(context).backgroundColor,
+            //       margin: const EdgeInsets.all(8),
+            //       shape: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(25),
+            //         borderSide: const BorderSide(
+            //           color: Color(0x44FFFFFF),
+            //           width: 1,
+            //         ),
+            //       ),
+            //       child: ListTile(
+            //         leading: const Icon(
+            //           Icons.miscellaneous_services,
+            //           color: Colors.red,
+            //         ),
+            //         title: Text(
+            //           appointment['reserved_reason']
+            //               ? "Zarezerwowane: ${appointment['reserved_reason']}"
+            //               : 'Zarezerwowane',
+            //           style: GoogleFonts.poppins(
+            //             fontSize: 24,
+            //             color: Colors.red,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // );
+            // return const SizedBox.shrink();
+            // }
+            if (appointment['holiday']) {
               return Column(
                 children: [
                   const SizedBox(
@@ -310,10 +312,10 @@ class AppointmentsState extends State<AppointmentsScreen> {
                   ),
                 ],
               );
-            } else if (appointment['occupied']) {
+            } else if (appointment['occupied'] || appointment['reserved']) {
               slotsOccupied++;
               if ((slotsOccupied == (appointmentsData.length - 1)) &&
-                  appointment['occupied']) {
+                  (appointment['occupied'] || appointment['reserved'])) {
                 return Card(
                   elevation: 2,
                   color: Theme.of(context).backgroundColor,
