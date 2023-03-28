@@ -145,7 +145,11 @@ class HomeState extends State<HomeScreen> {
                       ),
                       onPressed: () {
                         GlobalState.drawerSelectedItem = 2;
-                        Navigator.pushNamed(context, '/services');
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/services',
+                          ((route) => false),
+                        );
                       },
                     ),
                   ],
