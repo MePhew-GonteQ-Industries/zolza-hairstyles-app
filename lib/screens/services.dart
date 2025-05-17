@@ -72,7 +72,7 @@ class ServicesState extends State<ServicesScreen> {
             ),
             Card(
               elevation: 2,
-              color: Theme.of(context).backgroundColor,
+              color: Theme.of(context).scaffoldBackgroundColor,
               margin: const EdgeInsets.all(8),
               shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -111,7 +111,7 @@ class ServicesState extends State<ServicesScreen> {
             final minPrice = service['min_price'].toString();
             final maxPrice = service['max_price'].toString();
             return Card(
-              color: Theme.of(context).backgroundColor,
+              color: Theme.of(context).scaffoldBackgroundColor,
               elevation: 6,
               shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -167,12 +167,12 @@ class ServicesState extends State<ServicesScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         iconTheme: IconThemeData(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
         title: Text(
           'Wybierz usługę',
           style: GoogleFonts.poppins(
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             fontSize: 28,
           ),
         ),

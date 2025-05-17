@@ -21,12 +21,12 @@ class ContactState extends State<ContactScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         iconTheme: IconThemeData(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
         title: Text(
           'Kontakt',
           style: GoogleFonts.poppins(
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             fontSize: 28,
           ),
         ),

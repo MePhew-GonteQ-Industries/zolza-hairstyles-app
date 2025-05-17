@@ -67,7 +67,9 @@ class LoginScreenState extends State<LoginScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          primary: Theme.of(context).primaryColorDark,
+          // ba: Theme.of(context).primaryColorDark,
+          // foregroundColor: Theme.of(context).primaryColorDark,
+          backgroundColor: Theme.of(context).primaryColorDark,
           shadowColor: const Color(0xCC007AF3),
         ),
         onPressed: () async {
@@ -181,7 +183,8 @@ class LoginScreenState extends State<LoginScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          primary: color,
+          // primary: color,
+          backgroundColor: color,
           shadowColor: const Color(0xCC007AF3),
         ),
         onPressed: () async {
@@ -244,7 +247,7 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
@@ -254,7 +257,7 @@ class LoginScreenState extends State<LoginScreen> {
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(

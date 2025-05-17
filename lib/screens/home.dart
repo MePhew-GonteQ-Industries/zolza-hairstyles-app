@@ -218,7 +218,7 @@ class HomeState extends State<HomeScreen> {
     var service = index['service']['name'];
     var date = index['start_slot']['start_time'];
     return Card(
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).scaffoldBackgroundColor,
       elevation: 3,
       shape: OutlineInputBorder(
         borderRadius: BorderRadius.circular(25),
@@ -253,8 +253,8 @@ class HomeState extends State<HomeScreen> {
   }
 
   void checkForInternetConnection() async {
-    final ConnectivityResult result = await Connectivity().checkConnectivity();
-    if (result == ConnectivityResult.none) {
+    final List<ConnectivityResult> result = await Connectivity().checkConnectivity();
+    if (result.contains(ConnectivityResult.none)) {
       setState(() {
         connected = false;
       });
@@ -272,12 +272,12 @@ class HomeState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         iconTheme: IconThemeData(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
         title: Text(
           'Zołza Hairstyles',
           style: GoogleFonts.poppins(
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             fontSize: 28,
           ),
         ),

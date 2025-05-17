@@ -68,7 +68,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
             borderRadius: BorderRadius.circular(20),
           ),
           // primary: Theme.of(context).primaryColorDark,
-          primary: const Color.fromRGBO(255, 76, 81, 0.3),
+          backgroundColor: const Color.fromRGBO(255, 76, 81, 0.3),
           // shadowColor: const Color(0xCC007AF3),
         ),
         onPressed: () async {
@@ -106,13 +106,13 @@ class _DeleteAccountState extends State<DeleteAccount> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           'Usuń konto',
           style: GoogleFonts.poppins(
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             fontSize: 28,
           ),
         ),

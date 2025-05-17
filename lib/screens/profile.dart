@@ -71,7 +71,7 @@ class ProfileState extends State<ProfileScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             content: Form(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -335,7 +335,7 @@ class ProfileState extends State<ProfileScreen> {
     }
     return Theme(
       data: Theme.of(context).copyWith(
-        canvasColor: Theme.of(context).backgroundColor,
+        canvasColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       child: DropdownButton(
           alignment: Alignment.center,
@@ -409,7 +409,7 @@ class ProfileState extends State<ProfileScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              primary: Theme.of(context).primaryColorDark,
+              backgroundColor: Theme.of(context).primaryColorDark,
               shadowColor: const Color(0xCC007AF3),
             ),
             onPressed: () async {
@@ -450,13 +450,13 @@ class ProfileState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           'Profil użytkownika',
           style: GoogleFonts.poppins(
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             fontSize: 28,
           ),
         ),
@@ -478,30 +478,32 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             leading: Icon(
               Icons.email,
-              // color: Theme.of(context).primaryColor,
-              color: Theme.of(context).textTheme.bodyText2?.color,
+              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).textTheme.bodyText2?.color,
             ),
             title: Text(
               'E-mail',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).textTheme.bodyText2?.color,
+                color: Theme.of(context).hoverColor,
               ),
             ),
             subtitle: Text(
               UserData.email,
-              style: GoogleFonts.poppins(),
+              style: GoogleFonts.poppins(
+                color: Theme.of(context).primaryColor,
+              ),
             ),
           ),
           ListTile(
             leading: Icon(
               Icons.lock,
-              // color: Theme.of(context).primaryColor,
-              color: Theme.of(context).textTheme.bodyText2?.color,
+              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).textTheme.bodyText2?.color,
             ),
             title: Text(
               'Hasło',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).textTheme.bodyText2?.color,
+                color: Theme.of(context).hoverColor,
               ),
             ),
             subtitle: TextField(
@@ -530,7 +532,7 @@ class ProfileState extends State<ProfileScreen> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          backgroundColor: Theme.of(context).backgroundColor,
+                          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                           content: Form(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -705,13 +707,13 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             leading: Icon(
               Icons.person,
-              // color: Theme.of(context).primaryColor,
-              color: Theme.of(context).textTheme.bodyText2?.color,
+              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).textTheme.bodyText2?.color,
             ),
             title: Text(
               'Imię',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).textTheme.bodyText2?.color,
+                color: Theme.of(context).hoverColor,
               ),
             ),
             subtitle: TextField(
@@ -750,13 +752,13 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             leading: Icon(
               Icons.person,
-              // color: Theme.of(context).primaryColor,
-              color: Theme.of(context).textTheme.bodyText2?.color,
+              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).textTheme.bodyText2?.color,
             ),
             title: Text(
               'Nazwisko',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).textTheme.bodyText2?.color,
+                color: Theme.of(context).hoverColor,
               ),
             ),
             subtitle: TextField(
@@ -795,13 +797,13 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             leading: Icon(
               Icons.person,
-              // color: Theme.of(context).primaryColor,
-              color: Theme.of(context).textTheme.bodyText2?.color,
+              color: Theme.of(context).primaryColor,
+              // color: Theme.of(context).textTheme.bodyText2?.color,
             ),
             title: Text(
               'Płeć',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).textTheme.bodyText2?.color,
+                color: Theme.of(context).primaryColor,
               ),
             ),
             trailing: buildDropDown(),
@@ -809,12 +811,12 @@ class ProfileState extends State<ProfileScreen> {
           ListTile(
             leading: Icon(
               Icons.privacy_tip,
-              color: Theme.of(context).textTheme.bodyText2?.color,
+              color: Theme.of(context).hoverColor,
             ),
             title: Text(
               'Polityka prywatności',
               style: GoogleFonts.poppins(
-                color: Theme.of(context).textTheme.bodyText2?.color,
+                color: Theme.of(context).hoverColor,
               ),
             ),
             trailing: Icon(
@@ -856,7 +858,7 @@ class ProfileState extends State<ProfileScreen> {
               title: Text(
                 'Ponów weryfikację',
                 style: GoogleFonts.poppins(
-                  color: Theme.of(context).textTheme.bodyText2?.color,
+                  // color: Theme.of(context).textTheme.bodyText2?.color,
                 ),
               ),
               subtitle: Text(

@@ -24,16 +24,16 @@ class TextFieldWidget {
           height: 50,
           child: TextField(
             controller: controller,
-            cursorColor: Theme.of(context).backgroundColor,
+            cursorColor: Theme.of(context).scaffoldBackgroundColor,
             style: GoogleFonts.poppins(
-              color: Theme.of(context).backgroundColor,
+              color: Theme.of(context).scaffoldBackgroundColor,
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: const EdgeInsets.only(top: 12),
               prefixIcon: Icon(
                 icon,
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).scaffoldBackgroundColor,
               ),
               hintText: hint,
               hintStyle: GoogleFonts.poppins(

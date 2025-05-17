@@ -33,8 +33,8 @@ class CheckForLoggedUserScreenState extends State<CheckForLoggedUserScreen> {
   }
 
   void checkForLoggedUser() async {
-    final ConnectivityResult result = await Connectivity().checkConnectivity();
-    if (result == ConnectivityResult.none) {
+    final List<ConnectivityResult> result = await Connectivity().checkConnectivity();
+    if (result.contains(ConnectivityResult.none)) {
       if (!mounted) return;
       Alerts().alert(
           context,

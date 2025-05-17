@@ -119,9 +119,9 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
         ),
       ),
       onTap: () async {
-        final ConnectivityResult result =
+        final List<ConnectivityResult> result =
             await Connectivity().checkConnectivity();
-        if (result == ConnectivityResult.none) {
+        if (result.contains(ConnectivityResult.none)) {
           if (!mounted) return;
           Alerts().alert(
               context,
@@ -142,7 +142,7 @@ class DrawerWidgetState extends State<CustomDrawerWidget> {
   Widget build(context) {
     return Drawer(
       child: Material(
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[

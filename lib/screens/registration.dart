@@ -224,7 +224,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
   buildDropDown() {
     return Theme(
       data: Theme.of(context).copyWith(
-        canvasColor: Theme.of(context).backgroundColor,
+        canvasColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       child: DropdownButton(
           alignment: Alignment.center,
@@ -262,7 +262,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(
@@ -338,7 +338,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                           children: <Widget>[
                             Checkbox(
                               activeColor: Theme.of(context).primaryColor,
-                              checkColor: Theme.of(context).backgroundColor,
+                              checkColor: Theme.of(context).scaffoldBackgroundColor,
                               side: MaterialStateBorderSide.resolveWith(
                                 (states) => BorderSide(
                                   width: 1.0,

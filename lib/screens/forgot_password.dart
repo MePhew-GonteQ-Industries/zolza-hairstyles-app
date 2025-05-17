@@ -65,13 +65,14 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          primary: Theme.of(context).primaryColorDark,
+          // backgroundBuilder: Theme.of(context).primaryColorDark,
+          backgroundColor: Theme.of(context).primaryColorDark,
           shadowColor: const Color(0xCC007AF3),
         ),
         onPressed: () async {
-          final ConnectivityResult result =
+          final List<ConnectivityResult> result =
               await Connectivity().checkConnectivity();
-          if (!(result == ConnectivityResult.none)) {
+          if (!(result.contains(ConnectivityResult.none))) {
             if (checkForEmptyTextField()) {
               Response response =
                   await forgotPassword(emailController.text.trim());
@@ -141,12 +142,12 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         iconTheme: IconThemeData(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
         title: Text(
           'Nie pamiętam hasła',
           style: GoogleFonts.poppins(
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             fontSize: 28,
           ),
         ),
@@ -160,7 +161,7 @@ class ForgotPasswordState extends State<ForgotPasswordScreen> {
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(

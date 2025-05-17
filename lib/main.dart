@@ -99,16 +99,16 @@ class MyAppState extends State {
       theme: ThemeData(
         primaryColor: lightPrimaryColor,
         shadowColor: lightPrimaryColorShadow,
-        backgroundColor: lightBackgroundColor,
+        // backgroundColor: lightBackgroundColor,
         hintColor: lightBackgroundColorShadow,
         primaryColorDark: lightComplementaryColor,
         scaffoldBackgroundColor: lightBackgroundColor,
-        bottomAppBarColor: Colors.black,
-        textTheme: ThemeData.light().textTheme.copyWith(
-              bodyText2: const TextStyle(
-                color: lightAccentColor,
-              ),
-            ),
+        // bottomAppBarColor: Colors.black,
+        // textTheme: ThemeData.light().textTheme.copyWith(
+        //       bodyText2: const TextStyle(
+        //         color: lightAccentColor,
+        //       ),
+        //     ),
         cardColor: lightPrimaryColor,
         canvasColor: lightBackgroundColor,
         hoverColor: lightAccentColor,
@@ -116,16 +116,16 @@ class MyAppState extends State {
       darkTheme: ThemeData(
         primaryColor: darkPrimaryColor,
         shadowColor: darkPrimaryColorShadow,
-        backgroundColor: darkBackgroundColor,
+        // backgroundColor: darkBackgroundColor,
         hintColor: darkBackgroundColorShadow,
         primaryColorDark: lightComplementaryColor,
         scaffoldBackgroundColor: darkBackgroundColor,
-        bottomAppBarColor: lightBackgroundColor,
-        textTheme: ThemeData.dark().textTheme.copyWith(
-              bodyText2: const TextStyle(
-                color: darkAccentColor,
-              ),
-            ),
+        // bottomAppBarColor: lightBackgroundColor,
+        // textTheme: ThemeData.dark().textTheme.copyWith(
+        //       bodyText2: const TextStyle(
+        //         color: darkAccentColor,
+        //       ),
+        //     ),
         cardColor: lightComplementaryColor,
         canvasColor: lightBackgroundColor,
         hoverColor: darkAccentColor,

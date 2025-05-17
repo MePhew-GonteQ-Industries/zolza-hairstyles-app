@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hairdressing_salon_app/helpers/appointment_data.dart';
 import 'package:hairdressing_salon_app/helpers/login.dart';
@@ -144,7 +145,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
             ),
             Card(
               elevation: 2,
-              color: Theme.of(context).backgroundColor,
+              color: Theme.of(context).scaffoldBackgroundColor,
               margin: const EdgeInsets.all(8),
               shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -203,6 +204,10 @@ class AppointmentsState extends State<AppointmentsScreen> {
                   break;
                 }
 
+                if(slot['temporary_closure']) {
+                  break;
+                }
+
                 if (currentSlotFits == requiredSlots) {
                   break;
                 }
@@ -254,7 +259,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
                   ),
                   Card(
                     elevation: 2,
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     margin: const EdgeInsets.all(8),
                     shape: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -287,7 +292,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
                   ),
                   Card(
                     elevation: 2,
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     margin: const EdgeInsets.all(8),
                     shape: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -312,13 +317,53 @@ class AppointmentsState extends State<AppointmentsScreen> {
                   ),
                 ],
               );
+            } else if(appointment['temporary_closure']) {
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Card(
+                    elevation: 2,
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    margin: const EdgeInsets.all(8),
+                    shape: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Color(0x44FFFFFF),
+                        width: 1,
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.free_cancellation,
+                        color: Colors.red,
+                      ),
+                      title: Text(
+                        'Salon chwilowo nieczynny',
+                        style: GoogleFonts.poppins(
+                          fontSize: 24,
+                          color: Colors.red,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "Wszelkie ważne informacje będą umieszczane na instagramie. W razie pytań prosimy o kontakt.",
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
             } else if (appointment['occupied'] || appointment['reserved']) {
               slotsOccupied++;
               if ((slotsOccupied == (appointmentsData.length - 1)) &&
                   (appointment['occupied'] || appointment['reserved'])) {
                 return Card(
                   elevation: 2,
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   margin: const EdgeInsets.all(8),
                   shape: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -345,7 +390,7 @@ class AppointmentsState extends State<AppointmentsScreen> {
               return const SizedBox.shrink();
             } else if (currentSlotFits == requiredSlots) {
               return Card(
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 elevation: 8,
                 shape: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -418,12 +463,12 @@ class AppointmentsState extends State<AppointmentsScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         iconTheme: IconThemeData(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
         title: Text(
           'Wybierz datę',
           style: GoogleFonts.poppins(
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             fontSize: 28,
           ),
         ),
@@ -444,8 +489,8 @@ class AppointmentsState extends State<AppointmentsScreen> {
               'Maksymalnie miesiąc do przodu!',
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
-                // color: Theme.of(context).primaryColor,
-                color: Theme.of(context).textTheme.bodyText2?.color,
+                color: Theme.of(context).hoverColor,
+                // color: Theme.of(context).textTheme.bodyText2?.color,
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),

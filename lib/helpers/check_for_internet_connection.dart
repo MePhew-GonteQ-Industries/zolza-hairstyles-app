@@ -1,7 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class Connection {
-  late ConnectivityResult result;
+  late List<ConnectivityResult> result;
 
   Connection({
     required this.result,
