@@ -166,52 +166,52 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  buildOuterLoginButton({
-    required String text,
-    required String icon,
-    required Color color,
-    required Color textColor,
-  }) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          elevation: 5,
-          padding: const EdgeInsets.only(
-            right: 13,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          // primary: color,
-          backgroundColor: color,
-          shadowColor: const Color(0xCC007AF3),
-        ),
-        onPressed: () async {
-          // await GoogleSignIn.signIn();
-          signInGoogle();
-        },
-        child: Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: SvgPicture.asset(icon),
-            ),
-            Expanded(
-              flex: 6,
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  text,
-                  style: TextStyle(color: textColor),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // buildOuterLoginButton({
+  //   required String text,
+  //   required String icon,
+  //   required Color color,
+  //   required Color textColor,
+  // }) {
+  //   return SizedBox(
+  //     width: double.infinity,
+  //     child: ElevatedButton(
+  //       style: ElevatedButton.styleFrom(
+  //         elevation: 5,
+  //         padding: const EdgeInsets.only(
+  //           right: 13,
+  //         ),
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(25),
+  //         ),
+  //         // primary: color,
+  //         backgroundColor: color,
+  //         shadowColor: const Color(0xCC007AF3),
+  //       ),
+  //       onPressed: () async {
+  //         // await GoogleSignIn.signIn();
+  //         // signInGoogle();
+  //       },
+  //       child: Row(
+  //         children: [
+  //           Expanded(
+  //             flex: 1,
+  //             child: SvgPicture.asset(icon),
+  //           ),
+  //           Expanded(
+  //             flex: 6,
+  //             child: Align(
+  //               alignment: Alignment.center,
+  //               child: Text(
+  //                 text,
+  //                 style: TextStyle(color: textColor),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   buildSignUpBtn() {
     return GestureDetector(
